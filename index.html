@@ -338,8 +338,8 @@ button,input,select{font:inherit;color:inherit}
 'use strict';
 
 /* ---------- CONFIGURACIÓN (pega aquí tus datos de Supabase) ---------- */
-const SUPABASE_URL = '';        // ejemplo: 'https://abcdxyz.supabase.co'
-const SUPABASE_ANON_KEY = '';   // la clave "anon / public" (esa SÍ es pública por diseño)
+const SUPABASE_URL = 'https://zikwyufkiytnylioeghc.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_hQsNsFqjR9EF6ICknMv0-Q_99gKEBBK';   // clave publishable (pública por diseño)
 /* ---------------------------------------------------------------------- */
 
 const $ = (s, r = document) => r.querySelector(s);
@@ -1303,7 +1303,7 @@ async function main(){
   }
   $('#app').classList.add('locked');
   try {
-    await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js');
+    await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js');
     sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {auth:{persistSession:true, autoRefreshToken:true}});
   } catch(e){
     state = defaultState(); $('#login').classList.remove('hidden'); $('#lgErr').textContent = 'No pude cargar Supabase. Revisa tu conexión.'; return;
