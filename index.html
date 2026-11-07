@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <title>Mi Chiquero</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,13 +12,12 @@
 :root{
   --bg:#fff0f5; --panel:#ffe0ea; --panel2:#fff8fb; --ink:#5a3524; --muted:#a07a6a;
   --accent:#ff8fb0; --hl:#ffe9f1; --line:#5a3524; --shadowc:#5a3524; --on-accent:#4a2030;
-  --green:#bfe8a8; --lav:#e0ccff; --sky:#c9e6ff;
-  --font:'Pixelify Sans','Trebuchet MS',system-ui,sans-serif;
+  --lav:#e0ccff; --font:'Pixelify Sans','Trebuchet MS',system-ui,sans-serif;
 }
 :root[data-theme=night]{
   --bg:#241a3d; --panel:#352757; --panel2:#2d2149; --ink:#f3e6ff; --muted:#b9a5d9;
   --accent:#ff8fb0; --hl:#47356f; --line:#8a6bc2; --shadowc:#120a26; --on-accent:#3a1630;
-  --green:#4c7a5a; --lav:#5b438f; --sky:#35507a;
+  --lav:#5b438f;
 }
 *{box-sizing:border-box}
 html,body{height:100%;margin:0}
@@ -27,17 +26,19 @@ button,input,select{font:inherit;color:inherit}
 .hidden{display:none!important}
 #app{display:flex;height:100vh;height:100dvh}
 #app.locked{filter:blur(6px);pointer-events:none;user-select:none}
+.pxi{height:1.25em;width:auto;vertical-align:-.22em;image-rendering:pixelated}
 
-/* ---------- botones pixel ---------- */
+/* ---------- botones ---------- */
 .btn{font:inherit;color:var(--ink);background:var(--panel2);border:3px solid var(--line);box-shadow:3px 3px 0 var(--shadowc);padding:3px 10px;cursor:pointer;border-radius:6px;white-space:nowrap}
 .btn:hover{background:var(--hl)}
 .btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--shadowc)}
+.btn:disabled{opacity:.55;cursor:default}
 .btn.pink{background:var(--accent);color:var(--on-accent)}
 .btn.sm{padding:1px 8px;font-size:14px}
 .btn.on{background:var(--accent);color:var(--on-accent)}
 .btn.danger{background:#ffb3b3;color:#5a1f1f}
 
-/* ---------- sidebar ---------- */
+/* ---------- barra lateral ---------- */
 #sidebar{width:276px;flex:none;background:var(--panel);border-right:3px solid var(--line);display:flex;flex-direction:column;min-height:0}
 #sidebar.collapsed{display:none}
 .side-head{display:flex;align-items:center;gap:8px;padding:12px 12px 10px;border-bottom:3px dashed var(--line)}
@@ -48,17 +49,17 @@ button,input,select{font:inherit;color:inherit}
 .navitem.active{background:var(--panel2);border-color:var(--line)}
 .sec-title{display:flex;align-items:center;justify-content:space-between;margin:14px 14px 4px;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
 #tree{flex:1;overflow:auto;padding:0 6px 10px;min-height:0}
-.row{display:flex;align-items:center;gap:2px;padding:3px 6px 3px 6px;border-radius:6px;cursor:pointer;border:2px solid transparent;position:relative;user-select:none}
+.row{display:flex;align-items:center;gap:2px;padding:4px 6px;border-radius:6px;cursor:pointer;border:2px solid transparent;position:relative;user-select:none}
 .row:hover{background:var(--hl)}
 .row.active{background:var(--panel2);border-color:var(--line)}
-.row .chev{width:20px;height:20px;border:0;background:transparent;cursor:pointer;color:var(--muted);padding:0;flex:none;font-size:13px}
+.row .chev{width:22px;height:22px;border:0;background:transparent;cursor:pointer;color:var(--muted);padding:0;flex:none;font-size:13px}
 .row .chev.empty{visibility:hidden}
-.row .ico{width:22px;text-align:center;flex:none}
+.row .ico{width:24px;text-align:center;flex:none}
 .row .ttl{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-left:2px}
 .row .ttl-in{flex:1;min-width:0;border:2px solid var(--line);background:var(--panel2);padding:0 4px;border-radius:4px}
 .row .acts{display:none;gap:2px;flex:none}
 .row:hover .acts,.row.active .acts{display:flex}
-.mini{width:22px;height:22px;border:2px solid var(--line);background:var(--panel2);border-radius:5px;cursor:pointer;padding:0;line-height:1;font-size:14px}
+.mini{width:24px;height:24px;border:2px solid var(--line);background:var(--panel2);border-radius:5px;cursor:pointer;padding:0;line-height:1;font-size:14px}
 .mini:hover{background:var(--accent);color:var(--on-accent)}
 .row.drop-in{background:var(--lav);border-color:var(--line)}
 .row.drop-before::before,.row.drop-after::after{content:"";position:absolute;left:6px;right:6px;height:4px;background:var(--accent);border:2px solid var(--line);border-radius:3px}
@@ -67,24 +68,25 @@ button,input,select{font:inherit;color:inherit}
 .empty-tree{padding:14px;color:var(--muted);font-size:14px;text-align:center}
 .side-foot{border-top:3px dashed var(--line);padding:8px 10px;display:flex;align-items:center;gap:8px;font-size:13px}
 .side-foot .sync{flex:1;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#backdrop{position:fixed;inset:0;background:rgba(40,20,40,.45);z-index:35}
 
 /* ---------- principal ---------- */
 #main{flex:1;min-width:0;display:flex;flex-direction:column;min-height:0}
 #topbar{display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:3px solid var(--line);background:var(--panel2);min-height:50px}
 #crumbs{display:flex;align-items:center;gap:6px;flex:1;min-width:0;overflow:hidden;white-space:nowrap}
-#crumbs a{cursor:pointer;color:var(--ink);text-decoration:none;padding:0 4px;border-radius:4px;overflow:hidden;text-overflow:ellipsis;max-width:200px}
+#crumbs a{cursor:pointer;color:var(--ink);padding:0 4px;border-radius:4px;overflow:hidden;text-overflow:ellipsis;max-width:200px}
 #crumbs a:hover{background:var(--hl)}
 #crumbs .sep{color:var(--muted)}
 .view{flex:1;overflow:auto;min-height:0}
 
 /* ---------- entrada ---------- */
-#viewHome{padding:14px 18px 50px}
+#viewHome{padding:14px 18px 60px}
 .homewrap{max-width:1100px;margin:0 auto}
 .homehead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
 .homehead h1{margin:0;font-size:26px}
 .homehead .tools{display:flex;gap:8px;flex-wrap:wrap}
 #world{position:relative;width:100%;aspect-ratio:16/9;border:4px solid var(--line);box-shadow:6px 6px 0 var(--shadowc);background:#c6ebaa;overflow:hidden;border-radius:6px}
-#worldCanvas{width:100%;height:100%;display:block;image-rendering:pixelated;image-rendering:crisp-edges;image-rendering:pixelated}
+#worldCanvas{width:100%;height:100%;display:block;image-rendering:pixelated}
 #labels{position:absolute;inset:0;pointer-events:none}
 .ptag{position:absolute;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;gap:4px;white-space:nowrap}
 .pname{display:none;font-size:clamp(9px,1.25vw,13px);background:#fff;color:#5a3524;border:2px solid #5a3524;padding:0 5px;border-radius:4px;line-height:1.25}
@@ -93,15 +95,8 @@ button,input,select{font:inherit;color:inherit}
 .pbub.on{display:block}
 .pbub::after{content:"";position:absolute;left:50%;bottom:-8px;margin-left:-5px;border:5px solid transparent;border-top-color:#5a3524}
 .pbub::before{content:"";position:absolute;left:50%;bottom:-5px;margin-left:-3px;border:3px solid transparent;border-top-color:#fff;z-index:1}
-.worldbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:16px 0 4px}
-.worldbar .grow{flex:1}
 .hint{color:var(--muted);font-size:14px;margin:6px 2px}
-#suggest{margin-top:12px;display:none}
-#suggest.on{display:flex}
-.sugcard{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--panel2);border:3px solid var(--line);box-shadow:4px 4px 0 var(--shadowc);padding:10px 14px;border-radius:8px;width:100%}
-.sugcard .big{font-size:22px;flex:1;min-width:180px}
-.sugcard small{color:var(--muted);display:block;font-size:13px}
-.grid-title{margin:26px 0 8px;font-size:18px}
+.grid-title{margin:28px 0 8px;font-size:19px}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
 .card-p{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--panel2);border:3px solid var(--line);box-shadow:3px 3px 0 var(--shadowc);border-radius:8px;cursor:pointer;text-align:left;overflow:hidden}
 .card-p:hover{background:var(--hl)}
@@ -109,16 +104,42 @@ button,input,select{font:inherit;color:inherit}
 .card-p .ct{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .card-p small{display:block;color:var(--muted);font-size:12px}
 
+/* ---------- ruleta ---------- */
+.wheelsec{position:relative;display:grid;grid-template-columns:minmax(190px,250px) auto minmax(190px,1fr);gap:22px;align-items:center;background:var(--panel2);border:3px solid var(--line);box-shadow:4px 4px 0 var(--shadowc);border-radius:10px;padding:26px 18px 18px;overflow:hidden}
+.wheelsec::before{content:"";position:absolute;left:0;right:0;top:0;height:12px;background:repeating-linear-gradient(90deg,#ff8fb0 0 18px,#fff 18px 36px);border-bottom:3px solid var(--line)}
+.wh-ctl{display:flex;flex-direction:column;gap:8px}
+.wh-ctl label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.wh-ctl select{width:100%;background:var(--panel);border:3px solid var(--line);border-radius:6px;padding:3px 6px}
+.wh-wrap{--wd:min(330px,74vw);position:relative;width:var(--wd);height:var(--wd);margin:10px auto}
+.wh-rim{position:absolute;inset:-14px;border-radius:50%;border:6px dotted #ffd84d}
+#wheel{position:absolute;inset:0;border-radius:50%;border:5px solid var(--line);box-shadow:4px 4px 0 var(--shadowc);overflow:hidden;background:var(--panel)}
+.seg{position:absolute;left:50%;top:50%;width:50%;height:0;transform-origin:0 0;transform:rotate(var(--a))}
+.seg span{position:absolute;right:12px;top:-.65em;max-width:calc(var(--wd)*.34);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:var(--fs,12px);color:#5a3524;line-height:1.3}
+.wh-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:24%;color:var(--muted)}
+.wh-pointer{position:absolute;left:50%;top:-18px;transform:translateX(-50%);width:0;height:0;border:15px solid transparent;border-top:26px solid #ff5c7a;z-index:3;filter:drop-shadow(0 2px 0 var(--line))}
+.wh-hub{position:absolute;left:50%;top:50%;width:62px;height:62px;transform:translate(-50%,-50%);border-radius:50%;background:#fff;border:4px solid var(--line);z-index:2;display:flex;align-items:center;justify-content:center}
+.wh-hub .pxi{height:34px}
+.wh-side{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+#circusPig{width:150px;height:159px;image-rendering:pixelated}
+#circusPig.spin{animation:hop .45s infinite}
+@keyframes hop{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.wh-res{min-height:84px;width:100%;background:var(--panel);border:3px solid var(--line);border-radius:10px;padding:8px 10px;box-shadow:3px 3px 0 var(--shadowc)}
+.wh-res .t{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.wh-res .x{font-size:20px;margin:2px 0}
+.wh-res small{color:var(--muted)}
+
 /* ---------- editor ---------- */
-#viewPage{padding:0 0 120px}
-.pagewrap{max-width:780px;margin:0 auto;padding:34px 28px}
+#viewPage{padding:0 0 140px}
+.pagewrap{max-width:820px;margin:0 auto;padding:34px 30px}
 .pg-icon{font-size:56px;line-height:1;background:transparent;border:3px solid transparent;border-radius:10px;padding:4px 6px;cursor:pointer}
+.pg-icon .pxi{height:56px}
 .pg-icon:hover{background:var(--hl);border-color:var(--line)}
-.pg-title{display:block;width:100%;font-size:38px;font-weight:600;border:0;background:transparent;outline:none;padding:6px 0;margin:4px 0 6px;color:var(--ink);font-family:var(--font)}
+.pg-title{display:block;width:100%;font-size:38px;font-weight:600;border:0;background:transparent;outline:none;padding:6px 0;margin:4px 0 10px;color:var(--ink);font-family:var(--font)}
 .pg-title::placeholder{color:var(--muted)}
-.pg-meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px;color:var(--muted);font-size:14px}
-.pg-meta select{background:var(--panel2);border:3px solid var(--line);border-radius:6px;padding:1px 6px}
 .block{position:relative;display:flex;align-items:flex-start;gap:8px;margin:2px 0}
+.block>.bh{position:absolute;left:-26px;top:4px;width:22px;height:24px;opacity:0;cursor:grab;border:0;background:transparent;color:var(--muted);padding:0;font-size:13px;letter-spacing:-2px}
+.block:hover>.bh,.bh:focus{opacity:1}
+.block.dragging{opacity:.4}
 .block .bc{flex:1;min-width:0;outline:none;padding:3px 2px;white-space:pre-wrap;word-break:break-word;border-radius:4px;min-height:1.6em}
 .block[data-t=h1] .bc{font-size:28px;font-weight:600;margin-top:12px}
 .block[data-t=h2] .bc{font-size:22px;font-weight:600;margin-top:8px}
@@ -127,31 +148,83 @@ button,input,select{font:inherit;color:inherit}
 .block[data-t=todo] .ck.on{background:var(--accent)}
 .block[data-t=todo] .ck.on::after{content:"";position:absolute;left:4px;top:0;width:5px;height:10px;border:solid var(--on-accent);border-width:0 3px 3px 0;transform:rotate(45deg)}
 .block[data-t=todo].done .bc{text-decoration:line-through;color:var(--muted)}
-.block .bc:empty::before{color:var(--muted);pointer-events:none}
+.bc:empty::before{color:var(--muted);pointer-events:none}
 .block[data-t=h1] .bc:empty::before{content:"Título 1"}
 .block[data-t=h2] .bc:empty::before{content:"Título 2"}
 .block[data-t=ul] .bc:empty::before{content:"Elemento de lista"}
 .block[data-t=todo] .bc:empty::before{content:"Tarea"}
 .block[data-t=p] .bc:empty:focus::before{content:"Escribe '/' para ver las opciones…"}
 .block hr{flex:1;border:0;border-top:4px dotted var(--line);margin:14px 0}
-.block .bx{display:none;position:absolute;right:0;top:4px;width:24px;height:24px;border:2px solid var(--line);background:var(--panel2);border-radius:5px;cursor:pointer;padding:0}
-.block:hover .bx{display:block}
 .tail{height:90px;cursor:text}
 .subs-title{margin:22px 0 8px;font-size:17px;display:flex;align-items:center;gap:10px}
-#slash{position:fixed;z-index:60;width:250px;background:var(--panel2);border:3px solid var(--line);box-shadow:4px 4px 0 var(--shadowc);border-radius:8px;padding:4px;max-height:260px;overflow:auto}
-#slash .si{display:block;width:100%;text-align:left;background:transparent;border:0;padding:6px 8px;border-radius:5px;cursor:pointer}
-#slash .si b{display:inline-block;width:26px}
-#slash .si small{display:block;margin-left:26px;color:var(--muted);font-size:12px}
-#slash .si.on,#slash .si:hover{background:var(--accent);color:var(--on-accent)}
-#slash .si.on small{color:var(--on-accent)}
+#dropline{position:fixed;z-index:75;background:var(--accent);border:2px solid var(--line);pointer-events:none;border-radius:3px}
 
-/* ---------- popovers / modales ---------- */
+/* ---------- columnas ---------- */
+.cols{display:flex;gap:18px;align-items:flex-start;margin:4px 0}
+.col{flex:1;min-width:0;padding-left:24px;position:relative;border-left:2px dashed transparent}
+.cols:hover>.col{border-left-color:var(--hl)}
+.col .block>.bh{left:-24px}
+.coltail{height:22px;cursor:text}
+
+/* ---------- tablas ---------- */
+.tblbox{flex:1;min-width:0}
+.tblwrap{overflow-x:auto;padding:2px 2px 8px}
+table.tbl{border-collapse:separate;border-spacing:0;min-width:100%;border:3px solid var(--line);border-radius:6px;background:var(--panel2)}
+.tbl td,.tbl th{border-right:2px solid var(--line);border-bottom:2px solid var(--line);padding:0;vertical-align:top;min-width:110px;text-align:left;font-weight:400}
+.tbl tr>*:last-child{border-right:0}
+.tbl tr:last-child>*{border-bottom:0}
+.tbl .tc{padding:6px 8px;outline:none;min-height:2.1em;white-space:pre-wrap;word-break:break-word}
+.tbl .tc:focus{background:var(--hl)}
+.tbl tr.hdr .tc{font-weight:600;background:var(--panel)}
+.tbl .gut{min-width:0;width:26px;background:var(--panel);text-align:center;font-size:11px;color:var(--muted);padding:2px 0;position:relative}
+.tbl .cbar .gut,.tbl .cbar th{height:20px}
+.tbl .cb{min-width:110px;font-size:11px;color:var(--muted);background:var(--panel);text-align:center;position:relative}
+.tbl .cb .cl,.tbl .gut .rl{visibility:hidden}
+.tbl.refs .cb .cl,.tbl.refs .gut .rl{visibility:visible}
+.xdel{position:absolute;right:1px;top:0;width:16px;height:16px;line-height:14px;font-size:12px;border:0;background:var(--accent);color:var(--on-accent);border-radius:4px;cursor:pointer;padding:0;opacity:0}
+.gut .xdel{right:auto;left:5px;top:50%;margin-top:-8px}
+.tblbox:hover .xdel{opacity:.85}
+.tbl tr.foot td{background:var(--lav)}
+.fsel{width:100%;border:0;border-bottom:2px dashed var(--line);background:transparent;padding:3px 6px;font-size:12px}
+.ffx{width:100%;border:0;border-bottom:2px dashed var(--line);background:var(--panel2);padding:3px 6px;font-size:13px}
+.fres{padding:4px 8px;font-weight:600;min-height:1.8em}
+.tblbar{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+
+/* ---------- WSP y videos ---------- */
+.wsp{align-items:center;flex-wrap:wrap;gap:10px}
+.wsp .wl{flex:0 1 220px;color:var(--muted)}
+.wsp .wl:empty::before{content:"Nombre (opcional)"}
+.wico{font-size:20px}
+.wlink{color:var(--ink);text-decoration:underline;text-decoration-color:#ff5c9c;text-decoration-thickness:3px;text-underline-offset:5px;font-weight:600;word-break:break-all}
+.wnum-in{border:3px solid var(--line);border-radius:6px;background:var(--panel2);padding:3px 8px;min-width:210px}
+.wedit{border:2px solid var(--line);background:var(--panel2);border-radius:5px;cursor:pointer;padding:0 6px;font-size:13px}
+.wnote{width:100%;font-size:12px;color:var(--muted);margin-left:2px}
+.vidbox{display:flex;flex-direction:column;gap:6px;align-items:flex-start;flex:1;min-width:0}
+.vidframe{width:min(325px,100%);height:590px;border:3px solid var(--line);box-shadow:4px 4px 0 var(--shadowc);border-radius:10px;overflow:hidden;background:#000}
+.vidframe iframe{width:100%;height:100%;border:0;display:block}
+.vidin{display:flex;gap:8px;width:100%;flex-wrap:wrap}
+.vidin input{flex:1;min-width:200px;border:3px solid var(--line);border-radius:6px;background:var(--panel2);padding:4px 8px}
+.vidlink{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--panel2);border:3px solid var(--line);box-shadow:3px 3px 0 var(--shadowc);border-radius:8px;max-width:100%}
+.vidlink a{color:var(--ink);text-decoration:underline;text-decoration-color:#ff5c9c;text-decoration-thickness:3px;text-underline-offset:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ---------- menús emergentes y modales ---------- */
+#slash{position:fixed;z-index:60;width:260px;background:var(--panel2);border:3px solid var(--line);box-shadow:4px 4px 0 var(--shadowc);border-radius:8px;padding:4px;max-height:290px;overflow:auto}
+#slash .si{display:block;width:100%;text-align:left;background:transparent;border:0;padding:6px 8px;border-radius:5px;cursor:pointer}
+#slash .si b{display:inline-block;width:28px}
+#slash .si small{display:block;margin-left:28px;color:var(--muted);font-size:12px}
+#slash .si.on,#slash .si:hover{background:var(--accent);color:var(--on-accent)}
+#slash .si.on small,#slash .si:hover small{color:var(--on-accent)}
 #menu,#emojis{position:fixed;z-index:70;background:var(--panel2);border:3px solid var(--line);box-shadow:4px 4px 0 var(--shadowc);border-radius:8px;padding:4px}
-#menu button{display:block;width:100%;text-align:left;background:transparent;border:0;padding:6px 12px;border-radius:5px;cursor:pointer;white-space:nowrap}
+#menu button{display:block;width:100%;text-align:left;background:transparent;border:0;padding:8px 12px;border-radius:5px;cursor:pointer;white-space:nowrap}
 #menu button:hover{background:var(--accent);color:var(--on-accent)}
-#emojis{display:grid;grid-template-columns:repeat(8,1fr);gap:2px;width:290px;padding:6px}
-#emojis button{font-size:22px;background:transparent;border:2px solid transparent;border-radius:6px;cursor:pointer;padding:2px}
-#emojis button:hover{background:var(--hl);border-color:var(--line)}
+#emojis{width:min(340px,94vw);max-height:370px;overflow:auto;padding:8px}
+#emojis .eg-t{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin:8px 4px 2px}
+#emojis .eg{display:grid;grid-template-columns:repeat(8,1fr);gap:2px}
+#emojis .eg button{font-size:22px;background:transparent;border:2px solid transparent;border-radius:6px;cursor:pointer;padding:3px 0;height:36px}
+#emojis .eg button:hover{background:var(--hl);border-color:var(--line)}
+#emojis .eg .pxi{height:22px}
+#emojis .eput{display:flex;gap:6px}
+#emojis .eput input{flex:1;min-width:0;border:3px solid var(--line);background:var(--panel);border-radius:6px;padding:2px 8px}
 .modal{position:fixed;inset:0;z-index:80;background:rgba(60,30,50,.45);display:flex;align-items:center;justify-content:center;padding:16px}
 .modal .card{position:relative;background:var(--panel);border:4px solid var(--line);box-shadow:6px 6px 0 var(--shadowc);border-radius:10px;padding:18px;max-height:92vh;overflow:auto;max-width:100%}
 .modal .close{position:absolute;right:10px;top:10px}
@@ -159,8 +232,8 @@ button,input,select{font:inherit;color:inherit}
 .closet{display:flex;gap:20px;flex-wrap:wrap;width:min(760px,100%)}
 .cl-left{display:flex;flex-direction:column;align-items:center;gap:10px;width:240px;margin:0 auto}
 #clPreview{width:224px;height:238px;image-rendering:pixelated;background:repeating-conic-gradient(var(--hl) 0 25%,var(--panel2) 0 50%) 0 0/24px 24px;border:3px solid var(--line);border-radius:8px}
-.cl-left input,.fld input[type=text],.fld input[type=email],.fld input[type=password]{width:100%;font-size:18px;text-align:center;border:3px solid var(--line);background:var(--panel2);border-radius:6px;padding:4px 8px}
-.fld input[type=text],.fld input[type=email],.fld input[type=password]{text-align:left}
+.cl-left input,.fld input[type=text],.fld input[type=email],.fld input[type=password],.fld select{width:100%;font-size:18px;border:3px solid var(--line);background:var(--panel2);border-radius:6px;padding:4px 8px}
+.cl-left input{text-align:center}
 .cl-right{flex:1;min-width:260px}
 .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
 .items{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px;margin-bottom:10px}
@@ -176,6 +249,8 @@ button,input,select{font:inherit;color:inherit}
 .sw.on{outline:3px solid var(--accent);outline-offset:2px}
 .fld{margin:10px 0}
 .fld label{display:block;font-size:13px;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:1px}
+.fld .chk{display:flex;align-items:center;gap:8px;text-transform:none;letter-spacing:0;font-size:16px;color:var(--ink)}
+.fld .chk input{width:20px;height:20px}
 .row-btns{display:flex;gap:8px;flex-wrap:wrap}
 #login{background:var(--bg)}
 #login .card{width:min(400px,100%);text-align:center}
@@ -184,13 +259,28 @@ button,input,select{font:inherit;color:inherit}
 #toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:100;background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:8px;border:3px solid var(--line);box-shadow:4px 4px 0 var(--shadowc);pointer-events:none;opacity:0;transition:opacity .2s;max-width:90vw;text-align:center}
 #toast.on{opacity:1}
 
+@media (hover:none){
+  .row .acts{display:flex}
+  .block>.bh{opacity:.55}
+  .xdel{opacity:.8}
+}
+@media (max-width:900px){
+  .wheelsec{grid-template-columns:1fr;justify-items:center;gap:16px}
+  .wh-ctl{width:100%;max-width:340px}
+  .wh-side{width:100%;max-width:340px}
+}
 @media (max-width:800px){
-  #sidebar{position:fixed;inset:0 auto 0 0;z-index:40;transform:translateX(-110%);transition:transform .2s}
+  #sidebar{position:fixed;inset:0 auto 0 0;z-index:40;width:min(300px,86vw);transform:translateX(-110%);transition:transform .2s;padding-top:env(safe-area-inset-top)}
   #sidebar.collapsed{display:flex}
   #sidebar.open{transform:none;box-shadow:6px 0 0 var(--shadowc)}
-  .pagewrap{padding:20px 16px}
+  .pagewrap{padding:20px 14px 20px 34px}
   .pg-title{font-size:30px}
-  #viewHome{padding:12px 12px 40px}
+  #viewHome{padding:12px 12px 60px}
+  .homehead h1{font-size:22px}
+  .cols{flex-direction:column;gap:4px}
+  .col{width:100%;padding-left:26px;border-left:0}
+  .col .block>.bh{left:-24px}
+  .vidframe{height:520px}
 }
 </style>
 </head>
@@ -210,9 +300,10 @@ button,input,select{font:inherit;color:inherit}
       <button class="btn sm" id="btnSettings" title="Ajustes">⚙</button>
     </div>
   </aside>
+  <div id="backdrop" class="hidden"></div>
   <main id="main">
     <div id="topbar">
-      <button class="btn sm" id="btnShowSide" title="Menú">☰</button>
+      <button class="btn sm" id="btnShowSide" title="Menú" aria-label="Menú">☰</button>
       <div id="crumbs"></div>
     </div>
 
@@ -223,7 +314,7 @@ button,input,select{font:inherit;color:inherit}
           <div class="tools">
             <button class="btn" id="btnAddPig">🐷 + Chanchito</button>
             <button class="btn" id="btnNames">🏷 Nombres</button>
-            <button class="btn" id="btnNight">🌙 Noche</button>
+            <button class="btn" id="btnTheme">🌗 Auto</button>
           </div>
         </div>
         <div id="world">
@@ -231,13 +322,32 @@ button,input,select{font:inherit;color:inherit}
           <div id="labels"></div>
         </div>
         <div class="hint">Haz clic en un chanchito para vestirlo 🎀</div>
-        <div class="worldbar">
-          <button class="btn pink" data-sug="">🎲 Sorpréndeme</button>
-          <button class="btn" data-sug="low">🔋 Poca energía</button>
-          <button class="btn" data-sug="mid">⚡ Energía media</button>
-          <button class="btn" data-sug="high">🚀 Mucha energía</button>
+
+        <h3 class="grid-title">🎡 La ruleta de Chanchi</h3>
+        <div class="wheelsec">
+          <div class="wh-ctl">
+            <div><label for="whTime">Tiempo que tengo (opcional)</label><select id="whTime"></select></div>
+            <div><label for="whCat">Tipo de actividad (opcional)</label><select id="whCat"></select></div>
+            <div><label for="whEn">Energía (opcional)</label><select id="whEn"></select></div>
+            <button class="btn pink" id="btnSpin">🎡 ¡Girar!</button>
+          </div>
+          <div class="wh-wrap" id="whWrap">
+            <div class="wh-rim"></div>
+            <div class="wh-pointer"></div>
+            <div id="wheel"></div>
+            <div class="wh-hub" id="whHub"></div>
+          </div>
+          <div class="wh-side">
+            <canvas id="circusPig" width="32" height="34"></canvas>
+            <div class="wh-res" id="whResult"><div class="t">Chanchi dice</div><div class="x">¡Gírame y te digo qué hacer! 🎪</div></div>
+          </div>
         </div>
-        <div id="suggest"></div>
+
+        <h3 class="grid-title">🗓️ ¿Qué hago según mi tiempo?</h3>
+        <div class="hint">🔋 poca energía (se puede hacer sentada o echada en la cama 🛏️) · ⚡ energía media · 🚀 mucha energía. En cada casilla escribe una idea por línea (Shift + Enter para bajar de línea).</div>
+        <div id="boardBox"></div>
+        <div class="row-btns" style="margin-top:8px"><button class="btn sm" id="btnBoardImport">⬆ Importar mi archivo de datos</button></div>
+
         <h3 class="grid-title">Tus páginas</h3>
         <div class="cards" id="homeCards"></div>
       </div>
@@ -252,6 +362,7 @@ button,input,select{font:inherit;color:inherit}
 <div id="slash" class="hidden"></div>
 <div id="menu" class="hidden"></div>
 <div id="emojis" class="hidden"></div>
+<div id="dropline" class="hidden"></div>
 
 <div id="closet" class="modal hidden">
   <div class="card">
@@ -278,10 +389,13 @@ button,input,select{font:inherit;color:inherit}
 </div>
 
 <div id="settings" class="modal hidden">
-  <div class="card" style="width:min(460px,100%)">
+  <div class="card" style="width:min(470px,100%)">
     <button class="btn sm close" data-close="settings">✕</button>
     <h2>Ajustes ⚙</h2>
-    <div class="fld"><label>Tu nombre (para el saludo)</label><input type="text" id="setName" maxlength="24" autocomplete="off"></div>
+    <div class="fld"><label for="setName">Tu nombre (para el saludo)</label><input type="text" id="setName" maxlength="24" autocomplete="off"></div>
+    <div class="fld"><label for="setTheme">Tema</label>
+      <select id="setTheme"><option value="auto">Automático (oscuro de 6 pm a 6 am)</option><option value="day">Siempre claro</option><option value="night">Siempre oscuro</option></select></div>
+    <div class="fld"><label class="chk"><input type="checkbox" id="setWalk"> Chanchitos caminando</label></div>
     <div class="fld"><label>Copia de seguridad</label>
       <div class="row-btns">
         <button class="btn" id="btnExport">⬇ Exportar</button>
@@ -317,8 +431,8 @@ button,input,select{font:inherit;color:inherit}
     <h2>Mi Chiquero</h2>
     <p style="margin:0 0 10px;color:var(--muted)">Entra para ver tus cosas 🔒</p>
     <form id="loginForm">
-      <div class="fld"><label>Correo</label><input type="email" id="lgEmail" required autocomplete="email"></div>
-      <div class="fld"><label>Contraseña</label><input type="password" id="lgPass" required autocomplete="current-password"></div>
+      <div class="fld"><label for="lgEmail">Correo</label><input type="email" id="lgEmail" required autocomplete="email"></div>
+      <div class="fld"><label for="lgPass">Contraseña</label><input type="password" id="lgPass" required autocomplete="current-password"></div>
       <div class="err" id="lgErr"></div>
       <button class="btn pink" type="submit" id="lgBtn">Entrar</button>
     </form>
@@ -331,25 +445,27 @@ button,input,select{font:inherit;color:inherit}
 /* =====================================================================
    MI CHIQUERO — app web estática (HTML + JS) con chanchitos pixel art
    Todo el código está en este archivo.
-   - Sin configurar Supabase: guarda en este navegador (localStorage).
-   - Configurando Supabase (abajo): login + guardado privado en la nube.
+   Tus datos NO están aquí: viven en tu Supabase (tabla "chiquero"),
+   protegidos con login + reglas RLS.
    ===================================================================== */
 (() => {
 'use strict';
 
-/* ---------- CONFIGURACIÓN (pega aquí tus datos de Supabase) ---------- */
+/* ---------- CONFIGURACIÓN ---------- */
 const SUPABASE_URL = 'https://zikwyufkiytnylioeghc.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_hQsNsFqjR9EF6ICknMv0-Q_99gKEBBK';   // clave publishable (pública por diseño)
-/* ---------------------------------------------------------------------- */
+/* ----------------------------------- */
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const uid = () => Math.random().toString(36).slice(2, 9) + Date.now().toString(36).slice(-3);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const nrm = s => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+const clone = o => JSON.parse(JSON.stringify(o));
 
 /* =====================================================================
-   1. PIXEL ART: chanchitos + ropa
+   1. PIXEL ART: chanchitos + ropa + íconos
    ===================================================================== */
 const W = 32, H = 34;
 const OUT = '#5a3524', EYE = '#3b2418';
@@ -379,33 +495,26 @@ function fillR(g,x,y,w,h,col){
 function baseGrid(sk){
   const g = mkGrid();
   const head = (x,y) => inE(16,14.5,11.5,9.5,x,y);
-  // orejas
   fillE(g,7.5,6.5,4,4,sk.b); fillE(g,24.5,6.5,4,4,sk.b);
   const earIn = mix(sk.ch,'#ffffff',.4);
   fillE(g,7.5,6.8,2,2.2,earIn); fillE(g,24.5,6.8,2,2.2,earIn);
-  // cuerpo, patitas, colita
   fillE(g,16,27,7,5,sk.b);
   fillR(g,10,31,3,2,sk.s); fillR(g,19,31,3,2,sk.s);
   [[8,27],[7,27],[6,26],[6,25],[7,24],[8,25]].forEach(([x,y]) => g[y][x] = sk.s);
-  // cabeza
   fillE(g,16,14.5,11.5,9.5,sk.b);
-  // contorno
   const mask = g.map(r => r.map(c => c !== null));
   for(let y=0;y<H;y++) for(let x=0;x<W;x++){
     if(mask[y][x]) continue;
     if((x>0&&mask[y][x-1])||(x<W-1&&mask[y][x+1])||(y>0&&mask[y-1][x])||(y<H-1&&mask[y+1][x])) g[y][x]=OUT;
   }
-  // sombras y brillos
   for(let y=0;y<H;y++) for(let x=0;x<W;x++){
     if(head(x,y) && !inE(16,14.5,11.5,9.5,x,y+2)) g[y][x]=sk.s;
   }
   fillE(g,12.5,8.5,2.6,1.4,sk.l,head);
   fillE(g,16,28.4,3.6,2.2,sk.l);
-  // hocico
   fillE(g,16,18.2,4.6,3.4,mix(sk.nose,OUT,.28));
   fillE(g,16,18.2,3.7,2.6,sk.nose);
   fillR(g,14,17,1,2,OUT); fillR(g,17,17,1,2,OUT);
-  // ojos y mejillas
   fillR(g,9,13,2,3,EYE); fillR(g,21,13,2,3,EYE);
   g[13][9] = '#ffffff'; g[13][21] = '#ffffff';
   fillR(g,5,17,3,2,sk.ch); fillR(g,24,17,3,2,sk.ch);
@@ -425,7 +534,9 @@ const ITEMS = {
     {id:'flower', n:'Florecita', c:'#ff8fb0', x:21, y:3, o:'all', m:[
       '..m..','.mmm.','mmymm','.mmm.','..m..']},
     {id:'party', n:'Gorro de fiesta', c:'#cfa8ff', x:12, y:1, o:'all', m:[
-      '...yy...','..mmmm..','..mhmm..','.mmmmmm.','.mmhmmm.','mmmmmmmm','ssssssss']}
+      '...yy...','..mmmm..','..mhmm..','.mmmmmm.','.mmhmmm.','mmmmmmmm','ssssssss']},
+    {id:'tophat', n:'Sombrero de copa', c:'#ff5c5c', x:11, y:1, o:'all', m:[
+      '..mmmmmm..','..mhmmmm..','..mmmmmm..','..yyyyyy..','mmmmmmmmmm']}
   ],
   face: [
     {id:'round', n:'Lentes redondos', c:'#5a4a6a', x:7, y:12, o:'none', m:GL(
@@ -496,28 +607,73 @@ function paintTo(canvas, pig){
   c.drawImage(spriteFor(pig),0,0);
 }
 const HEART = ['.rr.rr.','rrrrrrr','rrrrrrr','.rrrrr.','..rrr..','...r...'];
+const CIRCUS_PIG = {skin:0, outfit:{head:{i:'tophat',c:'#ff5c5c'}, neck:{i:'bowtie',c:'#ffd84d'}, body:{i:'stripes',c:'#ff5c5c'}}};
+
+/* ---------- íconos pixel para las pestañas ---------- */
+const PXPAL = {r:'#ff5c7a',p:'#ffb3c8',q:'#f58fab',y:'#ffd84d',e:'#ffb27d',g:'#7fcf8a',b:'#8fd3ff',l:'#cfa8ff',L:'#b79cff',w:'#ffffff',n:'#b9805f',k:'#3b2a4a',c:'#fff3dc',m:'#9aa0c0'};
+const PXICONS = {
+  heart:['.rr.rr.','rwrrrrr','rrrrrrr','.rrrrr.','..rrr..','...r...'],
+  star:['....y....','...yyy...','yyyyyyyyy','.yyyyyyy.','..yyyyy..','..yyyyy..','.yyy.yyy.','.yy...yy.'],
+  daisy:['..ppp..','.ppppp.','ppyyypp','ppyyypp','ppyyypp','.ppppp.','..ppp..'],
+  cupcake:['....r....','..ppppp..','.ppppppp.','ppppppppp','lllllllll','.lLlLlLl.','.lLlLlLl.','..lllll..'],
+  note:['..kkkkkkk','..kkkkkkk','..kk...kk','..kk...kk','..kk...kk','kkkk.kkkk','kkkk.kkkk'],
+  cloud:['..www.ww..','.wwwwwwww.','wwwwwwwwww','.bbbbbbbb.'],
+  moon:['..yyyy.','.yyyy..','yyyy...','yyyy...','yyyy...','.yyyy..','..yyyy.'],
+  sparkle:['...y...','...y...','..yyy..','yyyyyyy','..yyy..','...y...','...y...'],
+  pig:['pp.....pp','ppppppppp','ppkpppkpp','ppppppppp','ppqqqqqpp','ppqkqkqpp','.ppqqqpp.','..ppppp..'],
+  gift:['..yy.yy..','..yyyyy..','rrrryrrrr','rrrryrrrr','yyyyyyyyy','rrrryrrrr','rrrryrrrr','rrrryrrrr'],
+  coffee:['..m..m...','...m..m..','wwwwwww..','wnnnnnwww','wwwwwww.w','wwwwwwwww','.wwwww...'],
+  coin:['..yyy..','.yyyyy.','yyyeyyy','yyeeeyy','yyyeyyy','.yyyyy.','..yyy..'],
+  rainbow:['...rrrrr...','..reeeeer..','.reyyyyyer.','reybbbbbyer','reyb...byer','wwwb...bwww','.ww.....ww.'],
+  book:['llllllll','lwwwwwwl','lwbbbbwl','lwwwwwwl','lwbbbbwl','lwwwwwwl','llllllll']
+};
+const pxCache = {};
+function pxURL(name){
+  if(pxCache[name]) return pxCache[name];
+  const m = PXICONS[name]; if(!m) return '';
+  const w = Math.max(...m.map(r => r.length)), h = m.length;
+  const cv = document.createElement('canvas'); cv.width = w+2; cv.height = h+2;
+  const c = cv.getContext('2d');
+  const has = (x,y) => y>=0 && y<h && x>=0 && x<m[y].length && m[y][x] !== '.' && !!PXPAL[m[y][x]];
+  for(let y=-1;y<=h;y++) for(let x=-1;x<=w;x++){
+    if(has(x,y)){ c.fillStyle = PXPAL[m[y][x]]; c.fillRect(x+1,y+1,1,1); }
+    else if(has(x+1,y)||has(x-1,y)||has(x,y+1)||has(x,y-1)){ c.fillStyle = '#5a3524'; c.fillRect(x+1,y+1,1,1); }
+  }
+  return pxCache[name] = cv.toDataURL();
+}
+function iconHTML(ic){
+  if(typeof ic === 'string' && ic.startsWith('px:')){ const u = pxURL(ic.slice(3)); if(u) return '<img class="pxi" alt="" src="' + u + '">'; }
+  return esc(ic || '📄');
+}
 
 /* =====================================================================
    2. ESTADO
    ===================================================================== */
-const LS_THEME = 'chiquero.theme';
+const LS_MODE = 'chiquero.thememode';
 let LS_KEY = 'chiquero.v1';
 let state = null;
 let cur = 'home';
 
+const mkBlock = (t, x = '') => ({id:uid(), t, x, c:false});
+const mkTable = (nr = 3, nc = 3, hdr = true) => ({id:uid(), t:'table', hdr, refs:false, foot:null, rows:Array.from({length:nr+(hdr?1:0)}, () => Array(nc).fill(''))});
+function defaultBoard(){
+  const cats = ['🏃 Movimiento','🎨 Arte','📋 To-dos de siempre','✂️ Con las manos','🎤 Música y canto','💅 Mimos y cuidado','📺 Pantallas y entretenimiento','📖 Leer y aprender','🍪 Cocina y snacks','👯 Con otras personas'];
+  return {id:uid(), t:'table', hdr:true, refs:false, foot:null,
+    rows:[['Categoría','⏱ 5 min','⏱ 15 min','⏱ 1 hora','⏱ 2 horas'], ...cats.map(c => [c,'','','',''])]};
+}
 function defaultState(){
   const welcome = uid();
   return {
-    v: 1, name: '',
+    v: 2, name: '',
     pages: {
-      [welcome]: {id:welcome, title:'Bienvenida', icon:'👋', parent:null, kids:[], open:false, energy:'', blocks:[
-        {id:uid(), t:'p', x:'Este es tu chiquero 🐷. Aquí puedes crear páginas dentro de páginas, como en Notion.', c:false},
-        {id:uid(), t:'h2', x:'Para empezar', c:false},
-        {id:uid(), t:'todo', x:'Crear una página nueva con el + de la barra de la izquierda', c:false},
-        {id:uid(), t:'todo', x:'Hacer clic en un chanchito y vestirlo', c:false},
-        {id:uid(), t:'todo', x:"Escribir '/' en una línea para elegir el tipo de bloque", c:false},
-        {id:uid(), t:'ul', x:'Arrastra las páginas de la barra para ordenarlas o meterlas dentro de otras', c:false},
-        {id:uid(), t:'p', x:'', c:false}
+      [welcome]: {id:welcome, title:'Bienvenida', icon:'👋', parent:null, kids:[], open:false, blocks:[
+        mkBlock('p','Este es tu chiquero 🐷. Aquí guardas todo lo que te gusta y usas, con páginas dentro de páginas como en Notion.'),
+        mkBlock('h2','Para empezar'),
+        mkBlock('todo','Crear una página con el + de la barra de la izquierda'),
+        mkBlock('todo','Cambiar el ícono de una página (hay emojis e íconos pixel)'),
+        mkBlock('todo',"Escribir '/' para insertar tablas, columnas, números de WhatsApp o videos"),
+        mkBlock('ul','Arrastra el asa ⋮⋮ de un bloque para moverlo o ponerlo en columnas'),
+        mkBlock('p','')
       ]}
     },
     root: [welcome],
@@ -526,8 +682,37 @@ function defaultState(){
       {id:uid(), name:'Tocino', skin:1, outfit:{head:{i:'beanie',c:'#8fd3ff'}, neck:{i:'scarf',c:'#ff8fb0'}}},
       {id:uid(), name:'Trufa', skin:2, outfit:{head:{i:'crown',c:'#ffd84d'}, face:{i:'heart',c:'#ff5c7a'}}}
     ],
-    ui: {night:false, names:true}
+    board: defaultBoard(),
+    ui: {theme:'auto', names:true, walk:true}
   };
+}
+
+function normTable(t){
+  t = (t && typeof t === 'object') ? t : mkTable();
+  t.id = t.id || uid(); t.t = 'table';
+  let rows = Array.isArray(t.rows) && t.rows.length ? t.rows : mkTable().rows;
+  rows = rows.map(r => Array.isArray(r) ? r.map(c => String(c ?? '')) : ['']);
+  const nc = Math.max(1, ...rows.map(r => r.length));
+  rows.forEach(r => { while(r.length < nc) r.push(''); });
+  t.rows = rows; t.hdr = t.hdr !== false; t.refs = !!t.refs;
+  if(Array.isArray(t.foot)){
+    t.foot = t.foot.slice(0, nc).map(f => ({op:(f && f.op) || '', f:(f && f.f) || '', x:(f && f.x) || ''}));
+    while(t.foot.length < nc) t.foot.push({op:'', f:'', x:''});
+  } else t.foot = null;
+  return t;
+}
+function normBlocks(arr){
+  const out = [];
+  (Array.isArray(arr) ? arr : []).forEach(b => {
+    if(!b || typeof b !== 'object') return;
+    b.id = b.id || uid(); b.t = b.t || 'p';
+    if(b.t === 'cols'){
+      const cols = (Array.isArray(b.cols) ? b.cols : []).map(c => ({id:(c && c.id) || uid(), blocks:normBlocks(c && c.blocks).filter(x => x.t !== 'cols')}));
+      if(cols.length >= 2){ b.cols = cols; out.push(b); } else cols.forEach(c => out.push(...c.blocks));
+    } else if(b.t === 'table'){ out.push(Object.assign(normTable(b), {id:b.id})); }
+    else { b.x = String(b.x ?? ''); b.c = !!b.c; if(b.t === 'wsp') b.l = String(b.l ?? ''); out.push(b); }
+  });
+  return out.length ? out : [mkBlock('p','')];
 }
 function normalize(s){
   const d = defaultState();
@@ -537,18 +722,23 @@ function normalize(s){
   for(const id in s.pages){
     const p = s.pages[id];
     p.id = id; p.kids = Array.isArray(p.kids) ? p.kids.filter(k => s.pages[k]) : [];
-    p.blocks = Array.isArray(p.blocks) && p.blocks.length ? p.blocks : [{id:uid(), t:'p', x:'', c:false}];
-    p.title = p.title || ''; p.icon = p.icon || '📄'; p.energy = p.energy || ''; p.open = !!p.open;
+    p.blocks = normBlocks(p.blocks);
+    p.title = p.title || ''; p.icon = p.icon || '📄'; p.open = !!p.open;
   }
-  for(const id in s.pages){ // huérfanas a la raíz
+  for(const id in s.pages){
     const p = s.pages[id];
     if(p.parent && !s.pages[p.parent]) p.parent = null;
     if(!p.parent && !s.root.includes(id)) s.root.push(id);
   }
   s.pigs = Array.isArray(s.pigs) && s.pigs.length ? s.pigs : d.pigs;
   s.pigs.forEach(p => { p.id = p.id || uid(); p.name = p.name || 'Chanchito'; p.skin = p.skin | 0; p.outfit = p.outfit || {}; });
-  s.ui = Object.assign({night:false, names:true}, s.ui || {});
+  s.board = normTable(s.board || d.board);
+  const old = s.ui || {};
+  s.ui = Object.assign({theme:'auto', names:true, walk:true}, old);
+  if(!old.theme && old.night === true) s.ui.theme = 'night';
+  delete s.ui.night;
   s.name = s.name || '';
+  s.v = 2;
   return s;
 }
 function loadLocal(){
@@ -559,6 +749,7 @@ function saveLocal(){ try { localStorage.setItem(LS_KEY, JSON.stringify(state));
 
 /* ---------- nube (Supabase) ---------- */
 let sb = null, session = null, pushTimer = null, cloudOn = false;
+let dirty = false, rev = 0, lastCloudTs = null;
 const setSync = m => {
   const t = {local:'💾 Solo en este navegador', cloud:'☁️ Guardado en la nube', saving:'☁️ Guardando…', error:'⚠️ No se pudo guardar'};
   $('#syncLbl').textContent = t[m] || t.local;
@@ -566,22 +757,41 @@ const setSync = m => {
 function save(){
   saveLocal();
   if(cloudOn && session){
+    dirty = true; rev++;
     setSync('saving');
     clearTimeout(pushTimer);
     pushTimer = setTimeout(pushCloud, 900);
   }
 }
 async function pushCloud(){
-  if(!cloudOn || !session) return;
-  const { error } = await sb.from('chiquero').upsert({user_id: session.user.id, data: state, updated_at: new Date().toISOString()});
-  if(error){ setSync('error'); console.warn(error); } else setSync('cloud');
+  if(!cloudOn || !session || !state) return;
+  clearTimeout(pushTimer);
+  const myRev = rev, ts = new Date().toISOString();
+  const { error } = await sb.from('chiquero').upsert({user_id: session.user.id, data: state, updated_at: ts});
+  if(error){ setSync('error'); console.warn(error); return; }
+  lastCloudTs = ts;
+  if(myRev === rev){ dirty = false; setSync('cloud'); }
 }
 async function pullCloud(){
   LS_KEY = 'chiquero.cache.' + session.user.id;
-  const { data, error } = await sb.from('chiquero').select('data').eq('user_id', session.user.id).maybeSingle();
+  const { data, error } = await sb.from('chiquero').select('data,updated_at').eq('user_id', session.user.id).maybeSingle();
   if(error){ toast('No pude leer la nube: ' + error.message); state = loadLocal() || defaultState(); setSync('error'); return; }
-  if(data && data.data && data.data.pages){ state = normalize(data.data); saveLocal(); setSync('cloud'); }
+  if(data && data.data && data.data.pages){ state = normalize(data.data); lastCloudTs = data.updated_at; saveLocal(); setSync('cloud'); }
   else { state = loadLocal() || defaultState(); await pushCloud(); }
+}
+/* si cambiaste algo desde otro aparato, al volver aquí se actualiza solo */
+async function refreshFromCloud(){
+  if(!cloudOn || !session || dirty || !state) return;
+  const a = document.activeElement;
+  if(a && (a.isContentEditable || /^(INPUT|SELECT|TEXTAREA)$/.test(a.tagName))) return;
+  const { data, error } = await sb.from('chiquero').select('data,updated_at').eq('user_id', session.user.id).maybeSingle();
+  if(error || !data || !data.data) return;
+  if(lastCloudTs && new Date(data.updated_at) > new Date(lastCloudTs) && !dirty){
+    state = normalize(data.data); lastCloudTs = data.updated_at; saveLocal();
+    ensureRT(); syncLabels(); applyTheme();
+    if(cur !== 'home' && !state.pages[cur]) cur = 'home';
+    renderAll(); toast('Actualicé tus cosas desde la nube ☁️');
+  }
 }
 const loadScript = url => new Promise((res, rej) => { const s = document.createElement('script'); s.src = url; s.onload = res; s.onerror = rej; document.head.appendChild(s); });
 
@@ -589,7 +799,7 @@ const loadScript = url => new Promise((res, rej) => { const s = document.createE
    3. UTILIDADES UI
    ===================================================================== */
 let toastT;
-function toast(msg){ const t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 2400); }
+function toast(msg){ const t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 2600); }
 function ask(title, msg, yes = 'Sí'){
   return new Promise(res => {
     $('#cfTitle').textContent = title; $('#cfMsg').textContent = msg; $('#cfYes').textContent = yes;
@@ -600,12 +810,21 @@ function ask(title, msg, yes = 'Sí'){
 }
 const pigById = id => state.pigs.find(p => p.id === id);
 const P = id => state.pages[id];
-function applyTheme(){
-  const night = !!(state ? state.ui.night : (() => { try { return localStorage.getItem(LS_THEME) === 'night'; } catch(e){ return false; } })());
-  document.documentElement.dataset.theme = night ? 'night' : 'day';
-  const b = $('#btnNight'); if(b) b.textContent = night ? '☀️ Día' : '🌙 Noche';
-  try { localStorage.setItem(LS_THEME, night ? 'night' : 'day'); } catch(e){}
+
+/* tema: automático = oscuro de 6 pm a 6 am */
+const nightHours = () => { const h = new Date().getHours(); return h >= 18 || h < 6; };
+function themeMode(){
+  if(state) return state.ui.theme || 'auto';
+  try { return localStorage.getItem(LS_MODE) || 'auto'; } catch(e){ return 'auto'; }
 }
+const isNight = () => { const m = themeMode(); return m === 'night' || (m !== 'day' && nightHours()); };
+function applyTheme(){
+  document.documentElement.dataset.theme = isNight() ? 'night' : 'day';
+  const b = $('#btnTheme');
+  if(b){ const m = themeMode(); b.textContent = m === 'auto' ? '🌗 Auto' : m === 'night' ? '🌙 Noche' : '☀️ Día'; }
+  try { localStorage.setItem(LS_MODE, themeMode()); } catch(e){}
+}
+setInterval(() => { if(document.documentElement.dataset.theme !== (isNight() ? 'night' : 'day')) applyTheme(); }, 60000);
 
 /* =====================================================================
    4. MUNDO (entrada con chanchitos)
@@ -719,6 +938,7 @@ function updateWorld(dt){
     if(r.hop > 0) r.hop = Math.max(0, r.hop - dt);
     if(r.bubT > 0){ r.bubT -= dt; if(r.bubT <= 0) r.bub = ''; }
     else { r.next -= dt; if(r.next <= 0){ sayPig(p.id, PHRASES[(Math.random()*PHRASES.length)|0], 2.8); r.next = 9 + Math.random()*14; } }
+    if(state.ui.walk === false){ r.mv = false; return; }
     if(r.wait > 0){ r.wait -= dt; r.mv = false; return; }
     const dx = r.tx - r.x, dy = r.ty - r.y, d = Math.hypot(dx,dy);
     if(d < 1.5){ const t = randTarget(); r.tx = t.x; r.ty = t.y; r.wait = 1.5 + Math.random()*4; r.mv = false; return; }
@@ -746,7 +966,7 @@ function drawWorld(){
     else c.drawImage(sp, bx-16, top);
   });
   parts.forEach(h => { HEART.forEach((row,j) => { for(let i=0;i<row.length;i++) if(row[i]==='r'){ c.fillStyle = '#ff5c7a'; c.fillRect(Math.round(h.x)+i, Math.round(h.y)+j, 1, 1); } }); });
-  if(state.ui.night){
+  if(isNight()){
     c.fillStyle = 'rgba(28,16,78,.46)'; c.fillRect(0,0,WW,WH);
     windows.forEach(([x,y,w,h]) => { c.fillStyle = 'rgba(255,230,120,.28)'; c.fillRect(x-2,y-2,w+4,h+4); c.fillStyle = '#ffe680'; c.fillRect(x,y,w,h); c.fillStyle = '#a86a8a'; c.fillRect(x+(w>>1),y,1,h); });
     if(!flies.length) for(let i=0;i<16;i++) flies.push({x:Math.random()*WW, y:90+Math.random()*130, ph:Math.random()*6, sp:.5+Math.random()});
@@ -785,28 +1005,6 @@ $('#world').addEventListener('click', e => {
   for(let i=0;i<3;i++) parts.push({x:r.x-4+i*5, y:r.y-40-i*3, life:1.1+i*.15, ph:i*2});
   openCloset(p.id);
 });
-
-/* ---------- Sorpréndeme ---------- */
-function suggest(level){
-  const all = Object.values(state.pages).filter(p => p.energy && (!level || p.energy === level));
-  const box = $('#suggest');
-  if(!all.length){
-    box.classList.add('on');
-    box.innerHTML = '<div class="sugcard"><div class="big">Aún no hay actividades con ese nivel de energía 🌱<small>Abre una página y elige "Energía" en su encabezado, o importa tu menú desde Ajustes.</small></div></div>';
-    return;
-  }
-  const pg = all[(Math.random()*all.length)|0];
-  const lbl = {low:'🔋 poca energía', mid:'⚡ energía media', high:'🚀 mucha energía'}[pg.energy];
-  const pig = state.pigs[(Math.random()*state.pigs.length)|0];
-  sayPig(pig.id, pg.icon + ' ' + (pg.title || 'Sin título'), 5);
-  box.classList.add('on');
-  box.innerHTML = '<div class="sugcard"><div class="big">' + esc(pig.name) + ' sugiere: ' + esc(pg.icon) + ' ' + esc(pg.title || 'Sin título') + '<small>' + lbl + '</small></div><button class="btn pink" data-open="' + pg.id + '">Abrir</button><button class="btn" data-again="' + (level||'') + '">Otra</button></div>';
-}
-$('#suggest').addEventListener('click', e => {
-  const o = e.target.closest('[data-open]'); if(o) return go(o.dataset.open);
-  const a = e.target.closest('[data-again]'); if(a) suggest(a.dataset.again);
-});
-$$('[data-sug]').forEach(b => b.addEventListener('click', () => suggest(b.dataset.sug)));
 
 /* =====================================================================
    5. VESTIDOR
@@ -861,14 +1059,53 @@ $('#btnAddPig').addEventListener('click', () => {
   state.pigs.push(pig); save(); ensureRT(); syncLabels(); openCloset(pig.id);
 });
 $('#btnNames').addEventListener('click', () => { state.ui.names = !state.ui.names; $('#world').classList.toggle('names', state.ui.names); save(); });
-$('#btnNight').addEventListener('click', () => { state.ui.night = !state.ui.night; applyTheme(); save(); });
 
 /* =====================================================================
-   6. PÁGINAS: árbol lateral
+   6. SELECTOR DE ÍCONOS (emojis + pixel)
+   ===================================================================== */
+const EMOJI_GROUPS = [
+  ['Pixel ✨', Object.keys(PXICONS).map(k => 'px:' + k)],
+  ['Caritas', '😀 😃 😄 😁 😆 😅 🤣 😂 🙂 😉 😊 😇 🥰 😍 🤩 😘 😋 😛 😜 🤪 🤗 🤭 😎 🤓 🥳 😴 🤤 😌 🥺 😢 😭 😤 😡 🤯 😱 🫠 🫶 😺 🙈 🙉 🙊'.split(' ')],
+  ['Corazones', '💖 💗 💓 💞 💕 💘 💝 ❤️ 🧡 💛 💚 💙 💜 🤍 🖤 🤎 ❤️‍🔥 💌 💋 ✨ 🌟 ⭐ 💫 🎀'.split(' ')],
+  ['Animales', '🐷 🐽 🐖 🐶 🐱 🐭 🐹 🐰 🦊 🐻 🐼 🐨 🐯 🦁 🐮 🐸 🐵 🐔 🐧 🐦 🦆 🦉 🦄 🐝 🦋 🐌 🐞 🐢 🐙 🐬 🐳 🦈 🐠 🦀 🐾 🦔 🦦 🦥'.split(' ')],
+  ['Plantas y clima', '🌸 🌷 🌹 🌺 🌻 🌼 🪻 🌿 🍀 🍃 🌱 🌵 🌴 🌲 🍄 🌈 ☀️ 🌤 ⛅ ☁️ 🌧 ⛈ ❄️ ☃️ 🌙 ⭐ 🌊 🔥 💧 🌎'.split(' ')],
+  ['Comida', '🍓 🍒 🍑 🍎 🍊 🍋 🍉 🍇 🥭 🍍 🥑 🍅 🥕 🌽 🍞 🥐 🧀 🍕 🍔 🍟 🌮 🍣 🍜 🍙 🍰 🧁 🍩 🍪 🍫 🍬 🍭 🍦 🍨 ☕ 🍵 🧋 🥤 🍷 🍹'.split(' ')],
+  ['Actividades', '🎨 🖌 ✏️ 📝 📚 📖 🎧 🎵 🎶 🎤 🎸 🎹 🎮 🕹 🎲 🧩 🎬 📺 📷 🧶 🧵 🪡 ✂️ 💅 💄 🛁 🧖‍♀️ 🧘‍♀️ 🏃‍♀️ 💃 🚴‍♀️ 🏊‍♀️ 🥾 🏐 🎯 🎳'.split(' ')],
+  ['Viajes', '✈️ 🧳 🗺 🧭 🏖 🏝 🏔 ⛰ 🏕 🌆 🌃 🏙 🏰 🗼 🗽 🚗 🚌 🚆 🚢 🛵 🚲 🎡 🎢 🎠 🌅 🌄 🛫 🛬 🏨 ⛩'.split(' ')],
+  ['Casa y cosas', '🏠 🛏 🛋 🪴 🧺 🧼 🧹 🪞 🕯 💡 🔑 🎁 🎈 🎉 🎊 🛍 💳 💰 💎 👑 👗 👚 👠 👜 🧸 📱 💻 ⌚ 📌 📎 🔒 🔔 ⏰ 📅 📦 ✅ ☑️ 💬 📞'.split(' ')],
+  ['Símbolos', '⭕ ✔️ ❌ ❓ ❗ 💯 🔥 ⚡ 🌀 ♻️ 🔰 🔱 ➕ ➖ ➗ ✳️ ❇️ 🔴 🟠 🟡 🟢 🔵 🟣 ⚪ ⚫ 🟥 🟧 🟨 🟩 🟦 🟪'.split(' ')]
+];
+let emojiCb = null;
+function openEmojiPicker(anchor, cb){
+  emojiCb = cb;
+  const box = $('#emojis');
+  let h = '<div class="eput"><input type="text" id="emojiIn" placeholder="Pega cualquier emoji aquí…" maxlength="12" autocomplete="off"><button class="btn sm" id="emojiOk">OK</button></div>';
+  EMOJI_GROUPS.forEach(([t, list]) => {
+    h += '<div class="eg-t">' + t + '</div><div class="eg">' + list.map(e => '<button data-e="' + esc(e) + '">' + iconHTML(e) + '</button>').join('') + '</div>';
+  });
+  box.innerHTML = h; box.classList.remove('hidden');
+  const r = anchor.getBoundingClientRect();
+  const left = clamp(r.left, 8, innerWidth - box.offsetWidth - 8);
+  let top = r.bottom + 6; if(top + box.offsetHeight > innerHeight - 8) top = Math.max(8, innerHeight - box.offsetHeight - 8);
+  box.style.left = left + 'px'; box.style.top = top + 'px';
+}
+function closeEmoji(){ $('#emojis').classList.add('hidden'); emojiCb = null; }
+$('#emojis').addEventListener('click', e => {
+  if(e.target.closest('#emojiOk')){ const v = $('#emojiIn').value.trim(); if(v && emojiCb){ emojiCb(v); } closeEmoji(); return; }
+  const b = e.target.closest('[data-e]'); if(!b) return;
+  if(emojiCb) emojiCb(b.dataset.e); closeEmoji();
+});
+$('#emojis').addEventListener('keydown', e => { if(e.key === 'Enter' && e.target.id === 'emojiIn'){ e.preventDefault(); $('#emojiOk').click(); } });
+function changeIcon(id, anchor){
+  openEmojiPicker(anchor, ic => { P(id).icon = ic; save(); renderTree(); renderCrumbs(); if(cur === id) renderPage(id); else if(cur === 'home') renderHome(); });
+}
+
+/* =====================================================================
+   7. PÁGINAS: árbol lateral
    ===================================================================== */
 function newPage(parent = null, opts = {}){
   const id = uid();
-  const pg = {id, title:opts.title || '', icon:opts.icon || '📄', parent, kids:[], open:false, energy:'', blocks:[{id:uid(), t:'p', x:'', c:false}]};
+  const pg = {id, title:opts.title || '', icon:opts.icon || '📄', parent, kids:[], open:false, blocks:[mkBlock('p','')]};
   state.pages[id] = pg;
   (parent ? P(parent).kids : state.root).push(id);
   if(parent) P(parent).open = true;
@@ -884,11 +1121,12 @@ function deletePage(id){
   save();
   if(cur !== 'home' && !state.pages[cur]){ cur = 'home'; history.replaceState(null, '', '#/home'); }
 }
+function reId(blocks){ blocks.forEach(b => { b.id = uid(); if(b.cols) b.cols.forEach(c => { c.id = uid(); reId(c.blocks); }); }); }
 function duplicatePage(id, parent){
   const src = P(id), nid = uid();
-  const cp = JSON.parse(JSON.stringify(src));
+  const cp = clone(src);
   cp.id = nid; cp.title = (parent === undefined ? (src.title || 'Sin título') + ' (copia)' : src.title);
-  cp.blocks.forEach(b => b.id = uid()); cp.kids = []; cp.open = false;
+  reId(cp.blocks); cp.kids = []; cp.open = false;
   const par = parent === undefined ? src.parent : parent;
   cp.parent = par; state.pages[nid] = cp;
   if(parent === undefined){ const arr = par ? P(par).kids : state.root; arr.splice(arr.indexOf(id)+1, 0, nid); }
@@ -909,6 +1147,22 @@ function movePage(id, targetId, zone){
   }
   save(); renderTree(); renderCrumbs();
 }
+/* mover con botones (para el celular) */
+function siblingsOf(id){ const p = P(id); return p.parent ? P(p.parent).kids : state.root; }
+function shiftPage(id, d){
+  const arr = siblingsOf(id), i = arr.indexOf(id), j = i + d;
+  if(j < 0 || j >= arr.length) return toast(d < 0 ? 'Ya está arriba del todo' : 'Ya está abajo del todo');
+  arr.splice(i,1); arr.splice(j,0,id); save(); renderTree();
+}
+function indentPage(id){
+  const arr = siblingsOf(id), i = arr.indexOf(id);
+  if(i <= 0) return toast('No hay una página arriba donde meterla');
+  movePage(id, arr[i-1], 'in');
+}
+function outdentPage(id){
+  const p = P(id); if(!p.parent) return;
+  movePage(id, p.parent, 'after');
+}
 function renderTree(){
   const t = $('#tree'); t.innerHTML = '';
   const walk = (ids, depth) => ids.forEach(id => {
@@ -916,7 +1170,7 @@ function renderTree(){
     const row = document.createElement('div');
     row.className = 'row' + (cur === id ? ' active' : ''); row.dataset.id = id; row.draggable = true;
     row.style.paddingLeft = (6 + depth*14) + 'px';
-    row.innerHTML = '<button class="chev ' + (p.kids.length ? '' : 'empty') + '" tabindex="-1">' + (p.open ? '▾' : '▸') + '</button><span class="ico">' + esc(p.icon) + '</span><span class="ttl">' + esc(p.title || 'Sin título') + '</span><span class="acts"><button class="mini add" title="Nueva subpágina">+</button><button class="mini more" title="Más opciones">⋯</button></span>';
+    row.innerHTML = '<button class="chev ' + (p.kids.length ? '' : 'empty') + '" tabindex="-1">' + (p.open ? '▾' : '▸') + '</button><span class="ico">' + iconHTML(p.icon) + '</span><span class="ttl">' + esc(p.title || 'Sin título') + '</span><span class="acts"><button class="mini add" title="Nueva subpágina">+</button><button class="mini more" title="Más opciones">⋯</button></span>';
     t.append(row);
     if(p.open && p.kids.length) walk(p.kids, depth+1);
   });
@@ -936,12 +1190,12 @@ function showMenu(items, x, y){
   const m = $('#menu'); m.innerHTML = '';
   items.forEach(([label, fn, danger]) => { const b = document.createElement('button'); b.textContent = label; if(danger) b.style.color = '#d23a5a'; b.onclick = () => { hideMenu(); fn(); }; m.append(b); });
   m.classList.remove('hidden');
-  m.style.left = Math.min(x, innerWidth - m.offsetWidth - 8) + 'px'; m.style.top = Math.min(y, innerHeight - m.offsetHeight - 8) + 'px';
+  m.style.left = Math.max(8, Math.min(x, innerWidth - m.offsetWidth - 8)) + 'px'; m.style.top = Math.max(8, Math.min(y, innerHeight - m.offsetHeight - 8)) + 'px';
 }
 const hideMenu = () => $('#menu').classList.add('hidden');
 document.addEventListener('mousedown', e => {
-  if(!e.target.closest('#menu') && !e.target.closest('.more')) hideMenu();
-  if(!e.target.closest('#emojis') && !e.target.closest('.pg-icon')) $('#emojis').classList.add('hidden');
+  if(!e.target.closest('#menu') && !e.target.closest('.more') && !e.target.closest('.bh')) hideMenu();
+  if(!e.target.closest('#emojis') && !e.target.closest('.pg-icon') && !e.target.closest('.row')) closeEmoji();
 });
 $('#tree').addEventListener('click', e => {
   const row = e.target.closest('.row'); if(!row) return;
@@ -952,9 +1206,13 @@ $('#tree').addEventListener('click', e => {
     const r = e.target.closest('.more').getBoundingClientRect();
     showMenu([
       ['✏️ Renombrar', () => startRename(id)],
+      ['🎀 Cambiar ícono', () => changeIcon(id, row)],
       ['➕ Nueva subpágina', () => { const np = newPage(id); renderTree(); go(np.id); }],
+      ['⬆ Subir', () => shiftPage(id, -1)],
+      ['⬇ Bajar', () => shiftPage(id, 1)],
+      ['➡ Meter en la de arriba', () => indentPage(id)],
+      ...(P(id).parent ? [['⬅ Sacar un nivel', () => outdentPage(id)]] : []),
       ['📄 Duplicar', () => { duplicatePage(id); save(); renderTree(); toast('Página duplicada'); }],
-      ...(P(id).parent ? [['⬆ Sacar a la raíz', () => { removeFromParent(id); P(id).parent = null; state.root.push(id); save(); renderTree(); renderCrumbs(); }]] : []),
       ['🗑 Eliminar', async () => { const n = descendants(id).length; if(await ask('¿Eliminar "' + (P(id).title || 'Sin título') + '"?', n ? 'Se eliminarán también sus ' + n + ' subpáginas.' : 'Esta acción no se puede deshacer.', 'Eliminar')){ deletePage(id); renderTree(); renderAll(); } }, true]
     ], r.left, r.bottom + 4);
     return;
@@ -963,15 +1221,15 @@ $('#tree').addEventListener('click', e => {
 });
 $('#tree').addEventListener('dblclick', e => { const row = e.target.closest('.row'); if(row && e.target.closest('.ttl')) startRename(row.dataset.id); });
 let dragId = null;
+const clearDrop = () => $$('#tree .row').forEach(r => r.classList.remove('drop-in','drop-before','drop-after'));
 $('#tree').addEventListener('dragstart', e => { const row = e.target.closest('.row'); if(!row) return; dragId = row.dataset.id; e.dataTransfer.effectAllowed = 'move'; try { e.dataTransfer.setData('text/plain', dragId); } catch(_){} });
 $('#tree').addEventListener('dragover', e => {
-  if(!dragId) return; e.preventDefault();
-  $$('#tree .row').forEach(r => r.classList.remove('drop-in','drop-before','drop-after'));
+  if(!dragId) return; e.preventDefault(); clearDrop();
   const row = e.target.closest('.row'); if(!row || row.dataset.id === dragId) return;
   const rect = row.getBoundingClientRect(), y = (e.clientY - rect.top)/rect.height;
   row.classList.add(y < .27 ? 'drop-before' : y > .73 ? 'drop-after' : 'drop-in');
 });
-$('#tree').addEventListener('dragleave', e => { if(!e.relatedTarget || !e.relatedTarget.closest || !e.relatedTarget.closest('#tree')) $$('#tree .row').forEach(r => r.classList.remove('drop-in','drop-before','drop-after')); });
+$('#tree').addEventListener('dragleave', e => { if(!e.relatedTarget || !e.relatedTarget.closest || !e.relatedTarget.closest('#tree')) clearDrop(); });
 $('#tree').addEventListener('drop', e => {
   if(!dragId) return; e.preventDefault();
   const row = e.target.closest('.row');
@@ -979,14 +1237,26 @@ $('#tree').addEventListener('drop', e => {
     const rect = row.getBoundingClientRect(), y = (e.clientY - rect.top)/rect.height;
     movePage(dragId, row.dataset.id, y < .27 ? 'before' : y > .73 ? 'after' : 'in');
   } else if(!row){ removeFromParent(dragId); P(dragId).parent = null; state.root.push(dragId); save(); renderTree(); renderCrumbs(); }
-  dragId = null; $$('#tree .row').forEach(r => r.classList.remove('drop-in','drop-before','drop-after'));
+  dragId = null; clearDrop();
 });
-$('#tree').addEventListener('dragend', () => { dragId = null; $$('#tree .row').forEach(r => r.classList.remove('drop-in','drop-before','drop-after')); });
+$('#tree').addEventListener('dragend', () => { dragId = null; clearDrop(); });
 $('#btnAddRoot').addEventListener('click', () => { const np = newPage(null); renderTree(); go(np.id); setTimeout(() => { const t = $('#pgTitle'); if(t) t.focus(); }, 30); });
 
 /* =====================================================================
-   7. NAVEGACIÓN
+   8. NAVEGACIÓN + barra lateral (con menú hamburguesa en el celular)
    ===================================================================== */
+const isMobile = () => innerWidth <= 800;
+function openSide(v){
+  const s = $('#sidebar');
+  if(isMobile()){ s.classList.toggle('open', v); $('#backdrop').classList.toggle('hidden', !v); }
+  else s.classList.toggle('collapsed', !v);
+}
+const sideOpen = () => isMobile() ? $('#sidebar').classList.contains('open') : !$('#sidebar').classList.contains('collapsed');
+$('#btnShowSide').addEventListener('click', () => openSide(!sideOpen()));
+$('#btnHideSide').addEventListener('click', () => openSide(false));
+$('#backdrop').addEventListener('click', () => openSide(false));
+addEventListener('resize', () => { if(!isMobile()){ $('#sidebar').classList.remove('open'); $('#backdrop').classList.add('hidden'); } });
+
 function go(id){
   const h = '#/' + id;
   if(location.hash === h) route(); else location.hash = h;
@@ -995,7 +1265,7 @@ function route(){
   const h = location.hash.replace(/^#\/?/, '');
   cur = (h && h !== 'home' && state.pages[h]) ? h : 'home';
   renderAll();
-  if(innerWidth <= 800) $('#sidebar').classList.remove('open');
+  if(isMobile()) openSide(false);
 }
 window.addEventListener('hashchange', () => { if(state) route(); });
 function renderCrumbs(){
@@ -1003,9 +1273,9 @@ function renderCrumbs(){
   const parts = [['home', '🏠 Entrada']];
   if(cur !== 'home'){
     const chain = []; let p = P(cur); while(p){ chain.unshift(p); p = p.parent ? P(p.parent) : null; }
-    chain.forEach(q => parts.push([q.id, q.icon + ' ' + (q.title || 'Sin título')]));
+    chain.forEach(q => parts.push([q.id, iconHTML(q.icon) + ' ' + esc(q.title || 'Sin título'), true]));
   }
-  c.innerHTML = parts.map(([id,l],i) => (i ? '<span class="sep">›</span>' : '') + '<a data-go="' + id + '">' + esc(l) + '</a>').join('');
+  c.innerHTML = parts.map(([id,l,raw],i) => (i ? '<span class="sep">›</span>' : '') + '<a data-go="' + id + '">' + (raw ? l : esc(l)) + '</a>').join('');
 }
 $('#crumbs').addEventListener('click', e => { const a = e.target.closest('[data-go]'); if(a) go(a.dataset.go); });
 $('#navHome').addEventListener('click', () => go('home'));
@@ -1019,39 +1289,233 @@ function renderAll(){
   if(home){ renderHome(); startWorld(); }
   else { stopWorld(); renderPage(cur); }
 }
-function renderHome(){
-  $('#hello').textContent = state.name ? '¡Hola, ' + state.name + '! 🐷' : '¡Hola! 🐷';
-  $('#suggest').classList.remove('on');
+function renderCards(){
   const box = $('#homeCards'); box.innerHTML = '';
   state.root.forEach(id => {
     const p = P(id); const b = document.createElement('button'); b.className = 'card-p'; b.dataset.go = id;
-    b.innerHTML = '<span class="ci">' + esc(p.icon) + '</span><span class="ct">' + esc(p.title || 'Sin título') + '<small>' + (p.kids.length ? p.kids.length + ' subpágina' + (p.kids.length > 1 ? 's' : '') : 'página') + '</small></span>';
+    b.innerHTML = '<span class="ci">' + iconHTML(p.icon) + '</span><span class="ct">' + esc(p.title || 'Sin título') + '<small>' + (p.kids.length ? p.kids.length + ' subpágina' + (p.kids.length > 1 ? 's' : '') : 'página') + '</small></span>';
     box.append(b);
   });
   const add = document.createElement('button'); add.className = 'card-p'; add.innerHTML = '<span class="ci">＋</span><span class="ct">Nueva página</span>'; add.onclick = () => $('#btnAddRoot').click(); box.append(add);
 }
 $('#homeCards').addEventListener('click', e => { const b = e.target.closest('[data-go]'); if(b) go(b.dataset.go); });
-$('#btnShowSide').addEventListener('click', () => {
-  const s = $('#sidebar');
-  if(innerWidth <= 800) s.classList.toggle('open'); else s.classList.toggle('collapsed');
-});
-$('#btnHideSide').addEventListener('click', () => { const s = $('#sidebar'); if(innerWidth <= 800) s.classList.remove('open'); else s.classList.add('collapsed'); });
 
 /* =====================================================================
-   8. EDITOR DE PÁGINAS (bloques)
+   9. TABLAS (con footer y fórmulas)
    ===================================================================== */
-const EMOJIS = ['📄','📝','📚','🍽️','🥗','🍲','🍰','✨','🧼','🧘','🎨','🎮','🎧','🎬','📖','🛁','💅','☕','🍪','🧵','📿','🖌️','🌸','🌈','⭐','💖','🏃','💃','🚶','🌙','☀️','🐷','🎀','👑','🧸','🍓','🍑','🌿','📅','✅','🎯','💡','🔋','⚡','🚀','🛏️','👕','🧺'];
+const colName = i => { let s = '', n = i + 1; while(n > 0){ const m = (n-1) % 26; s = String.fromCharCode(65+m) + s; n = Math.floor((n-1)/26); } return s; };
+const colIdx = s => { let n = 0; for(const ch of s.toUpperCase()) n = n*26 + ch.charCodeAt(0) - 64; return n - 1; };
+function parseNum(s){
+  s = String(s ?? '').trim(); if(!s) return NaN;
+  let neg = false; if(/^\(.*\)$/.test(s)){ neg = true; s = s.slice(1,-1); }
+  s = s.replace(/[^\d.,\-+]/g, '');
+  const lc = s.lastIndexOf(','), ld = s.lastIndexOf('.');
+  if(lc > -1 && ld > -1){ s = lc > ld ? s.replace(/\./g,'').replace(',','.') : s.replace(/,/g,''); }
+  else if(lc > -1){ const pp = s.split(','); s = (pp.length === 2 && pp[1].length !== 3) ? pp[0] + '.' + pp[1] : s.replace(/,/g,''); }
+  const n = parseFloat(s); return isNaN(n) ? NaN : (neg ? -n : n);
+}
+const fmtN = n => (Math.round(n*100)/100).toLocaleString('en-US', {maximumFractionDigits:2});
+const SUMF = a => a.reduce((x,y) => x+y, 0);
+const FNS = {
+  SUM:SUMF, SUMA:SUMF, SUMAR:SUMF,
+  AVG:a => a.length ? SUMF(a)/a.length : 0, AVERAGE:a => a.length ? SUMF(a)/a.length : 0, PROMEDIO:a => a.length ? SUMF(a)/a.length : 0,
+  MIN:a => a.length ? Math.min(...a) : 0, MAX:a => a.length ? Math.max(...a) : 0,
+  COUNT:a => a.length, CONTAR:a => a.length,
+  SUB:a => a.length ? a[0] - SUMF(a.slice(1)) : 0, RESTA:a => a.length ? a[0] - SUMF(a.slice(1)) : 0,
+  PROD:a => a.reduce((x,y) => x*y, 1), PRODUCTO:a => a.reduce((x,y) => x*y, 1)
+};
+function evalFormula(src, t){
+  src = String(src || '').trim().replace(/^=/, '');
+  if(!src) return '';
+  const b0 = t.hdr ? 1 : 0;
+  const cellRaw = (c, r) => { const row = t.rows[b0 + r - 1]; if(!row || c < 0 || c >= row.length || r < 1) throw new Error('ref'); return row[c]; };
+  const cellNum = (c, r) => { const n = parseNum(cellRaw(c, r)); return isNaN(n) ? 0 : n; };
+  const toks = []; const re = /\s*(?:(\d+(?:\.\d+)?)|([A-Za-z]+)(\d+)|([A-Za-zÀ-ÿ_]+)|(.))/gy;
+  let m; re.lastIndex = 0;
+  while(re.lastIndex < src.length && (m = re.exec(src))){
+    if(m[1] !== undefined) toks.push({k:'n', v:parseFloat(m[1])});
+    else if(m[2] !== undefined) toks.push({k:'ref', c:colIdx(m[2]), r:parseInt(m[3],10)});
+    else if(m[4] !== undefined) toks.push({k:'id', v:m[4].toUpperCase()});
+    else if(m[5] !== undefined && m[5].trim()) toks.push({k:'op', v:m[5]});
+  }
+  let p = 0;
+  const peek = () => toks[p], isOp = v => toks[p] && toks[p].k === 'op' && toks[p].v === v;
+  const sc = x => { if(Array.isArray(x)) throw new Error('rango'); return x; };
+  function expr(){ let v = term(); while(isOp('+') || isOp('-')){ const o = toks[p++].v; const w = term(); v = o === '+' ? sc(v) + sc(w) : sc(v) - sc(w); } return v; }
+  function term(){ let v = unary(); while(isOp('*') || isOp('/')){ const o = toks[p++].v; const w = unary(); if(o === '/' && sc(w) === 0) throw new Error('div0'); v = o === '*' ? sc(v) * sc(w) : sc(v) / sc(w); } return v; }
+  function unary(){ if(isOp('-')){ p++; return -sc(unary()); } if(isOp('+')){ p++; return sc(unary()); } return primary(); }
+  function primary(){
+    const k = toks[p++]; if(!k) throw new Error('fin');
+    if(k.k === 'n') return k.v;
+    if(k.k === 'ref'){
+      if(isOp(':')){
+        p++; const k2 = toks[p++]; if(!k2 || k2.k !== 'ref') throw new Error('rango');
+        const out = [];
+        for(let r = Math.min(k.r,k2.r); r <= Math.max(k.r,k2.r); r++) for(let c = Math.min(k.c,k2.c); c <= Math.max(k.c,k2.c); c++){
+          const row = t.rows[b0 + r - 1]; if(!row || c >= row.length) throw new Error('ref');
+          const n = parseNum(row[c]); if(!isNaN(n)) out.push(n);
+        }
+        return out;
+      }
+      return cellNum(k.c, k.r);
+    }
+    if(k.k === 'id'){
+      const fn = FNS[k.v]; if(!fn || !isOp('(')) throw new Error('fn');
+      p++; const args = [];
+      if(!isOp(')')){ for(;;){ args.push(expr()); if(isOp(',') || isOp(';')){ p++; continue; } break; } }
+      if(!isOp(')')) throw new Error('par'); p++;
+      return fn(args.flat());
+    }
+    if(k.k === 'op' && k.v === '('){ const v = expr(); if(!isOp(')')) throw new Error('par'); p++; return v; }
+    throw new Error('sintaxis');
+  }
+  const v = expr(); if(p < toks.length) throw new Error('sobra');
+  if(Array.isArray(v)) throw new Error('rango');
+  if(!isFinite(v)) throw new Error('div0');
+  return v;
+}
+const FOOT_OPS = [['', '— nada —'], ['sum', 'Σ Sumar columna'], ['sub', '− Restar (1ª − resto)'], ['avg', 'Promedio'], ['min', 'Mínimo'], ['max', 'Máximo'], ['count', 'Contar'], ['fx', '𝑓 Fórmula (celdas que elijo)'], ['text', 'Texto']];
+function footValue(t, i){
+  const f = t.foot && t.foot[i]; if(!f || !f.op) return '';
+  if(f.op === 'text') return f.x || '';
+  if(f.op === 'fx'){ try { const v = evalFormula(f.f, t); return v === '' ? '' : fmtN(v); } catch(e){ return e.message === 'div0' ? '⚠ ÷0' : '⚠ revisa'; } }
+  const vals = []; let filled = 0;
+  for(let r = t.hdr ? 1 : 0; r < t.rows.length; r++){ const s = t.rows[r][i]; if(String(s).trim()) filled++; const n = parseNum(s); if(!isNaN(n)) vals.push(n); }
+  switch(f.op){
+    case 'sum': return fmtN(SUMF(vals));
+    case 'sub': return fmtN(vals.length ? vals[0] - SUMF(vals.slice(1)) : 0);
+    case 'avg': return fmtN(FNS.AVG(vals));
+    case 'min': return fmtN(FNS.MIN(vals));
+    case 'max': return fmtN(FNS.MAX(vals));
+    case 'count': return String(filled);
+  }
+  return '';
+}
+
+function tableEl(t, onSave){
+  onSave = onSave || save;
+  const box = document.createElement('div'); box.className = 'tblbox';
+  const ncols = () => t.rows[0].length;
+  const showRefs = () => t.refs || (t.foot && t.foot.some(f => f.op === 'fx'));
+  function render(focus){
+    const nc = ncols(), b0 = t.hdr ? 1 : 0;
+    let h = '<div class="tblwrap"><table class="tbl' + (showRefs() ? ' refs' : '') + '">';
+    h += '<tr class="cbar"><th class="gut"></th>';
+    for(let c = 0; c < nc; c++) h += '<th class="cb"><span class="cl">' + colName(c) + '</span>' + (nc > 1 ? '<button class="xdel" data-delc="' + c + '" title="Quitar columna">×</button>' : '') + '</th>';
+    h += '</tr>';
+    t.rows.forEach((row, r) => {
+      const isH = t.hdr && r === 0;
+      h += '<tr' + (isH ? ' class="hdr"' : '') + '><td class="gut">' + (isH ? '' : '<span class="rl">' + (r - b0 + 1) + '</span>') + ((!isH && t.rows.length > 1) ? '<button class="xdel" data-delr="' + r + '" title="Quitar fila">×</button>' : '') + '</td>';
+      for(let c = 0; c < nc; c++) h += '<td><div class="tc" data-r="' + r + '" data-c="' + c + '"></div></td>';
+      h += '</tr>';
+    });
+    if(t.foot){
+      h += '<tr class="foot"><td class="gut">Σ</td>';
+      for(let c = 0; c < nc; c++){
+        const f = t.foot[c] || (t.foot[c] = {op:'', f:'', x:''});
+        h += '<td><select class="fsel" data-c="' + c + '">' + FOOT_OPS.map(([v, l]) => '<option value="' + v + '"' + (f.op === v ? ' selected' : '') + '>' + l + '</option>').join('') + '</select>';
+        if(f.op === 'fx') h += '<input class="ffx" data-c="' + c + '" placeholder="=A1+A3-B2" value="' + esc(f.f) + '" autocomplete="off" spellcheck="false">';
+        if(f.op === 'text') h += '<input class="ffx ftx" data-c="' + c + '" placeholder="Total" value="' + esc(f.x) + '" autocomplete="off">';
+        h += '<div class="fres" data-c="' + c + '"></div></td>';
+      }
+      h += '</tr>';
+    }
+    h += '</table></div><div class="tblbar">' +
+      '<button class="btn sm" data-a="row">＋ Fila</button><button class="btn sm" data-a="col">＋ Columna</button>' +
+      '<button class="btn sm' + (t.hdr ? ' on' : '') + '" data-a="hdr">Encabezado</button>' +
+      '<button class="btn sm' + (t.refs ? ' on' : '') + '" data-a="refs">Ver A1, B2…</button>' +
+      '<button class="btn sm' + (t.foot ? ' on' : '') + '" data-a="foot">' + (t.foot ? 'Quitar footer' : 'Añadir footer') + '</button></div>' +
+      ((t.foot && t.foot.some(f => f.op === 'fx')) ? '<div class="hint">Fórmulas: =A1+A3-B2 · =SUMA(A1:A4) · =PROMEDIO(B1:B3) · =RESTA(A1;A2;A3). Las filas se cuentan sin el encabezado.</div>' : '');
+    box.innerHTML = h;
+    $$('.tc', box).forEach(tc => {
+      tc.textContent = t.rows[+tc.dataset.r][+tc.dataset.c];
+      try { tc.contentEditable = 'plaintext-only'; } catch(e){ tc.contentEditable = 'true'; }
+      if(tc.contentEditable !== 'plaintext-only') tc.contentEditable = 'true';
+    });
+    updateFoot();
+    if(focus) focusCell(focus.r, focus.c);
+  }
+  function updateFoot(){ $$('.fres', box).forEach(el => { el.textContent = footValue(t, +el.dataset.c); }); }
+  function focusCell(r, c){ const tc = $('.tc[data-r="' + r + '"][data-c="' + c + '"]', box); if(tc) setCaret(tc, 1e9); }
+  const addRow = at => { t.rows.splice(at, 0, Array(ncols()).fill('')); };
+  const addCol = () => { t.rows.forEach(r => r.push('')); if(t.foot) t.foot.push({op:'', f:'', x:''}); };
+
+  box.addEventListener('click', e => {
+    const dr = e.target.closest('[data-delr]'), dc = e.target.closest('[data-delc]'), a = e.target.closest('[data-a]');
+    if(dr){ t.rows.splice(+dr.dataset.delr, 1); render(); onSave(); return; }
+    if(dc){ const c = +dc.dataset.delc; t.rows.forEach(r => r.splice(c, 1)); if(t.foot) t.foot.splice(c, 1); render(); onSave(); return; }
+    if(!a) return;
+    const k = a.dataset.a;
+    if(k === 'row'){ addRow(t.rows.length); render({r:t.rows.length-1, c:0}); }
+    else if(k === 'col'){ addCol(); render({r:0, c:ncols()-1}); }
+    else if(k === 'hdr'){ t.hdr = !t.hdr; if(!t.rows.length) addRow(0); render(); }
+    else if(k === 'refs'){ t.refs = !t.refs; render(); }
+    else if(k === 'foot'){ t.foot = t.foot ? null : Array.from({length:ncols()}, () => ({op:'', f:'', x:''})); render(); }
+    onSave();
+  });
+  box.addEventListener('input', e => {
+    const tc = e.target.closest('.tc');
+    if(tc){ t.rows[+tc.dataset.r][+tc.dataset.c] = tc.textContent; updateFoot(); onSave(); return; }
+    const fx = e.target.closest('.ffx');
+    if(fx){ const f = t.foot[+fx.dataset.c]; if(fx.classList.contains('ftx')) f.x = fx.value; else f.f = fx.value; updateFoot(); onSave(); }
+  });
+  box.addEventListener('change', e => {
+    const s = e.target.closest('.fsel'); if(!s) return;
+    t.foot[+s.dataset.c].op = s.value; render(); onSave();
+    if(s.value === 'fx'){ const i = $('.ffx[data-c="' + s.dataset.c + '"]', box); if(i) i.focus(); }
+  });
+  box.addEventListener('keydown', e => {
+    const tc = e.target.closest('.tc'); if(!tc) return;
+    const r = +tc.dataset.r, c = +tc.dataset.c, nc = ncols();
+    if(e.key === 'Tab'){
+      e.preventDefault();
+      let nr = r, ncc = c + (e.shiftKey ? -1 : 1);
+      if(ncc >= nc){ ncc = 0; nr++; } if(ncc < 0){ ncc = nc - 1; nr--; }
+      if(nr < 0) return;
+      if(nr >= t.rows.length){ addRow(t.rows.length); render({r:nr, c:ncc}); onSave(); } else focusCell(nr, ncc);
+    } else if(e.key === 'Enter' && !e.shiftKey){
+      e.preventDefault();
+      if(r + 1 >= t.rows.length){ addRow(t.rows.length); render({r:r+1, c}); onSave(); } else focusCell(r + 1, c);
+    } else if(e.key === 'Escape'){ tc.blur(); }
+  });
+  box.addEventListener('paste', e => {
+    const tc = e.target.closest('.tc'); if(!tc) return;
+    e.preventDefault();
+    const txt = (e.clipboardData || window.clipboardData).getData('text/plain').replace(/\r/g, '');
+    if(!/\t|\n./.test(txt)){ document.execCommand('insertText', false, txt.replace(/\n$/, '')); return; }
+    const grid = txt.replace(/\n$/, '').split('\n').map(l => l.split('\t'));
+    const r0 = +tc.dataset.r, c0 = +tc.dataset.c;
+    grid.forEach((line, i) => line.forEach((val, j) => {
+      while(r0 + i >= t.rows.length) addRow(t.rows.length);
+      while(c0 + j >= ncols()) addCol();
+      t.rows[r0 + i][c0 + j] = val;
+    }));
+    render({r:r0, c:c0}); onSave();
+  });
+  render();
+  return box;
+}
+
+/* =====================================================================
+   10. EDITOR DE PÁGINAS (bloques, columnas, WhatsApp, videos)
+   ===================================================================== */
+const TXT = new Set(['p','h1','h2','ul','todo']);
 const SLASH = [
-  {k:'p', ic:'¶', n:'Texto', d:'Párrafo simple'},
-  {k:'h1', ic:'H1', n:'Título 1', d:'Encabezado grande'},
-  {k:'h2', ic:'H2', n:'Título 2', d:'Encabezado mediano'},
-  {k:'ul', ic:'•', n:'Lista', d:'Lista con viñetas'},
-  {k:'todo', ic:'☑', n:'Tareas', d:'Lista con casillas'},
-  {k:'hr', ic:'―', n:'Separador', d:'Línea divisoria'},
-  {k:'sub', ic:'📄', n:'Subpágina', d:'Crear una página dentro de esta'}
+  {k:'p', ic:'¶', n:'Texto', d:'Párrafo simple', kw:'parrafo text'},
+  {k:'h1', ic:'H1', n:'Título 1', d:'Encabezado grande', kw:'titulo heading h1'},
+  {k:'h2', ic:'H2', n:'Título 2', d:'Encabezado mediano', kw:'titulo heading h2'},
+  {k:'ul', ic:'•', n:'Lista', d:'Lista con viñetas', kw:'viñetas bullets'},
+  {k:'todo', ic:'☑', n:'Tareas', d:'Lista con casillas', kw:'checklist todo'},
+  {k:'table', ic:'▦', n:'Tabla', d:'Con footer de sumas y restas', kw:'tablita sumas footer'},
+  {k:'cols2', ic:'◫', n:'2 columnas', d:'Dos columnas lado a lado', kw:'columnas'},
+  {k:'cols3', ic:'☷', n:'3 columnas', d:'Tres columnas lado a lado', kw:'columnas'},
+  {k:'wsp', ic:'💬', n:'Num-WSP', d:'Número que abre WhatsApp', kw:'whatsapp wsp numero telefono'},
+  {k:'video', ic:'🎬', n:'Short-video', d:'Reel, TikTok o Short', kw:'reel tiktok short youtube instagram video'},
+  {k:'hr', ic:'―', n:'Separador', d:'Línea divisoria', kw:'linea divisor'},
+  {k:'sub', ic:'📄', n:'Subpágina', d:'Crear una página dentro de esta', kw:'pagina'}
 ];
 const slash = {open:false, i:0, items:[], blk:null, el:null};
-let pageEl = null;
+let pageEl = $('#pageWrap');
 
 function caretOffset(el){
   const sel = getSelection(); if(!sel.rangeCount) return 0;
@@ -1060,15 +1524,145 @@ function caretOffset(el){
 }
 function setCaret(el, pos){
   el.focus(); const r = document.createRange(), sel = getSelection(), tn = el.firstChild;
-  if(!tn) r.setStart(el, 0); else r.setStart(tn, Math.min(pos, tn.length));
+  if(!tn) r.setStart(el, 0); else if(tn.nodeType === 3) r.setStart(tn, Math.min(pos, tn.length)); else r.setStart(el, 0);
   r.collapse(true); sel.removeAllRanges(); sel.addRange(r);
+}
+
+/* ---------- estructura: localizar / limpiar / mover ---------- */
+function locate(id, arr, parent){
+  arr = arr || P(cur).blocks; parent = parent || null;
+  for(let i = 0; i < arr.length; i++){
+    const b = arr[i];
+    if(b.id === id) return {arr, idx:i, b, parent};
+    if(b.t === 'cols') for(const c of b.cols){ const r = locate(id, c.blocks, {blk:b, col:c}); if(r) return r; }
+  }
+  return null;
+}
+function cleanupCols(arr){
+  for(let i = 0; i < arr.length; i++){
+    const b = arr[i]; if(b.t !== 'cols') continue;
+    b.cols = b.cols.filter(c => c.blocks.length);
+    if(!b.cols.length){ arr.splice(i,1); i--; }
+    else if(b.cols.length === 1){ const bl = b.cols[0].blocks; arr.splice(i,1,...bl); i += bl.length - 1; }
+  }
+}
+function cleanPage(){ const pg = P(cur); cleanupCols(pg.blocks); if(!pg.blocks.length) pg.blocks.push(mkBlock('p','')); }
+function renderBlocks(fid, pos){
+  const box = $('#blocks'); box.innerHTML = '';
+  P(cur).blocks.forEach(b => box.append(blockEl(b)));
+  if(fid) focusBlock(fid, pos === undefined ? 0 : pos);
+}
+function focusBlock(id, pos){
+  const el = $('.block[data-id="' + id + '"]', pageEl); if(!el) return;
+  const c = el.querySelector(':scope > .bc') || el.querySelector('.bc, .tc, input');
+  if(!c) return;
+  if(c.matches('input')) c.focus(); else setCaret(c, pos === 'end' ? 1e9 : pos);
+}
+function moveBlock(id, tid, zone){
+  const src = locate(id), tgt0 = locate(tid);
+  if(!src || !tgt0 || id === tid) return;
+  if(src.b.t === 'cols'){
+    if(locate(tid, src.b.cols.flatMap(c => c.blocks))) return;
+    if(zone === 'left' || zone === 'right') zone = 'after';
+    if(tgt0.parent){ tid = tgt0.parent.blk.id; }
+  }
+  if((zone === 'left' || zone === 'right') && tgt0.parent && tgt0.parent.blk.cols.length >= 4) zone = 'after';
+  src.arr.splice(src.idx, 1);
+  const t2 = locate(tid); if(!t2){ src.arr.splice(src.idx, 0, src.b); return; }
+  if(zone === 'before') t2.arr.splice(t2.idx, 0, src.b);
+  else if(zone === 'after') t2.arr.splice(t2.idx + 1, 0, src.b);
+  else if(t2.parent){
+    const cb = t2.parent.blk, ci = cb.cols.indexOf(t2.parent.col);
+    cb.cols.splice(ci + (zone === 'right' ? 1 : 0), 0, {id:uid(), blocks:[src.b]});
+  } else {
+    const c1 = {id:uid(), blocks:[t2.b]}, c2 = {id:uid(), blocks:[src.b]};
+    t2.arr.splice(t2.idx, 1, {id:uid(), t:'cols', cols: zone === 'left' ? [c2, c1] : [c1, c2]});
+  }
+  cleanPage(); save(); renderBlocks(id, 0);
+}
+function joinPrev(id){
+  const loc = locate(id); if(!loc || loc.parent) return toast('Este bloque ya está en una columna');
+  if(loc.b.t === 'cols') return toast('Las columnas no se pueden meter dentro de otras');
+  const prev = loc.arr[loc.idx - 1]; if(!prev) return toast('No hay un bloque arriba');
+  if(prev.t === 'cols'){
+    if(prev.cols.length >= 4) return toast('Máximo 4 columnas');
+    loc.arr.splice(loc.idx, 1); prev.cols.push({id:uid(), blocks:[loc.b]});
+  } else loc.arr.splice(loc.idx - 1, 2, {id:uid(), t:'cols', cols:[{id:uid(), blocks:[prev]}, {id:uid(), blocks:[loc.b]}]});
+  save(); renderBlocks(id, 0);
+}
+function splitCols(id, n){
+  const loc = locate(id); if(!loc || loc.parent || loc.b.t === 'cols') return toast('Ya está dentro de columnas');
+  const cols = [{id:uid(), blocks:[loc.b]}];
+  for(let i = 1; i < n; i++) cols.push({id:uid(), blocks:[mkBlock('p','')]});
+  loc.arr.splice(loc.idx, 1, {id:uid(), t:'cols', cols}); save(); renderBlocks(id, 0);
+}
+function unstack(id){
+  const loc = locate(id); if(!loc || loc.b.t !== 'cols') return;
+  loc.arr.splice(loc.idx, 1, ...loc.b.cols.flatMap(c => c.blocks)); save(); renderBlocks();
+}
+function dupBlock(id){
+  const loc = locate(id); if(!loc) return;
+  const cp = clone(loc.b); reId([cp]); loc.arr.splice(loc.idx + 1, 0, cp); save(); renderBlocks(cp.id, 0);
+}
+function shiftBlock(id, d){
+  const loc = locate(id); if(!loc) return;
+  const j = loc.idx + d; if(j < 0 || j >= loc.arr.length) return toast(d < 0 ? 'Ya es el primero' : 'Ya es el último');
+  loc.arr.splice(loc.idx, 1); loc.arr.splice(j, 0, loc.b); save(); renderBlocks(id, 0);
+}
+function removeBlock(id, skipFocus){
+  const loc = locate(id); if(!loc) return;
+  loc.arr.splice(loc.idx, 1);
+  const wasEmpty = !loc.arr.length;
+  cleanPage();
+  if(wasEmpty){ renderBlocks(); }
+  else { const el = $('.block[data-id="' + id + '"]', pageEl); if(el) el.remove(); }
+  if(!skipFocus){ const f = loc.arr[Math.max(0, loc.idx - 1)]; if(f) focusBlock(f.id, 'end'); else { const q = $('#blocks .bc'); if(q) setCaret(q, 0); } }
+  save();
+}
+function blockMenu(id, anchor){
+  const loc = locate(id); if(!loc) return;
+  const r = anchor.getBoundingClientRect(), b = loc.b;
+  const items = [['⬆ Subir', () => shiftBlock(id, -1)], ['⬇ Bajar', () => shiftBlock(id, 1)], ['📄 Duplicar', () => dupBlock(id)]];
+  if(b.t === 'cols'){
+    items.push(['➕ Añadir columna', () => { if(b.cols.length >= 4) return toast('Máximo 4 columnas'); b.cols.push({id:uid(), blocks:[mkBlock('p','')]}); save(); renderBlocks(); }]);
+    items.push(['☰ Apilar (quitar columnas)', () => unstack(id)]);
+  } else if(!loc.parent){
+    items.push(['↔ Poner al lado del de arriba', () => joinPrev(id)]);
+    items.push(['◫ Dividir en 2 columnas', () => splitCols(id, 2)]);
+  } else {
+    items.push(['⬅ Sacar de la columna', () => moveBlock(id, loc.parent.blk.id, 'after')]);
+  }
+  items.push(['🗑 Borrar', () => removeBlock(id), true]);
+  showMenu(items, r.left, r.bottom + 4);
+}
+
+/* ---------- elementos de bloque ---------- */
+function mkHandle(){
+  const h = document.createElement('button'); h.className = 'bh'; h.textContent = '⋮⋮'; h.draggable = true; h.tabIndex = -1;
+  h.title = 'Arrastra para mover · clic para opciones'; return h;
 }
 function blockEl(b){
   const d = document.createElement('div'); d.className = 'block' + (b.t === 'todo' && b.c ? ' done' : ''); d.dataset.id = b.id; d.dataset.t = b.t;
-  if(b.t === 'hr'){
-    d.append(document.createElement('hr'));
-    const x = document.createElement('button'); x.className = 'bx'; x.textContent = '×'; x.title = 'Borrar'; x.onclick = () => removeBlock(b.id); d.append(x);
-    return d;
+  d.append(mkHandle());
+  if(b.t === 'hr'){ d.append(document.createElement('hr')); return d; }
+  if(b.t === 'table'){ d.append(tableEl(b, save)); return d; }
+  if(b.t === 'wsp'){ d.classList.add('wsp'); wspView(d, b, !b.x); return d; }
+  if(b.t === 'video'){ videoView(d, b, !b.x); return d; }
+  if(b.t === 'cols'){
+    const wrap = document.createElement('div'); wrap.className = 'cols'; wrap.style.cssText = 'flex:1;min-width:0';
+    b.cols.forEach(c => {
+      const col = document.createElement('div'); col.className = 'col'; col.dataset.cid = c.id;
+      const cb = document.createElement('div'); cb.className = 'colblocks';
+      c.blocks.forEach(x => cb.append(blockEl(x)));
+      const tail = document.createElement('div'); tail.className = 'coltail';
+      tail.onclick = () => {
+        const last = c.blocks[c.blocks.length - 1];
+        if(last && last.t === 'p' && !last.x) return focusBlock(last.id, 0);
+        const nb = mkBlock('p',''); c.blocks.push(nb); cb.append(blockEl(nb)); focusBlock(nb.id, 0); save();
+      };
+      col.append(cb, tail); wrap.append(col);
+    });
+    d.append(wrap); return d;
   }
   if(b.t === 'todo'){
     const ck = document.createElement('button'); ck.className = 'ck' + (b.c ? ' on' : ''); ck.setAttribute('aria-label', 'Marcar');
@@ -1081,192 +1675,425 @@ function blockEl(b){
     if(!text && c.innerHTML) c.innerHTML = '';
     b.x = text;
     if(b.t === 'p'){
-      const mm = /^(##|#|-|\*|\[\s?\])[  ]/.exec(text);
+      const mm = /^(##|#|-|\*|\[\s?\])[  ]/.exec(text);
       if(mm){
         const rest = text.slice(mm[0].length), k = mm[1];
         b.x = rest; retype(b, k === '#' ? 'h1' : k === '##' ? 'h2' : (k === '-' || k === '*') ? 'ul' : 'todo', rest.length); save(); return;
       }
     }
-    if(text.startsWith('/') && b.t !== 'hr') slashUpdate(b, c, text); else slashClose();
+    if(text.startsWith('/')) slashUpdate(b, c, text); else slashClose();
     save();
   });
   c.addEventListener('keydown', e => blockKey(e, b, c));
+  c.addEventListener('blur', () => setTimeout(() => { if(slash.open && slash.el === c && document.activeElement !== c) slashClose(); }, 150));
   c.addEventListener('paste', e => {
     e.preventDefault();
     const txt = (e.clipboardData || window.clipboardData).getData('text/plain');
     const lines = txt.split(/\r?\n/);
     if(lines.length === 1){ document.execCommand('insertText', false, txt); return; }
     document.execCommand('insertText', false, lines[0]);
-    const pg = P(cur); let idx = pg.blocks.findIndex(x => x.id === b.id), anchor = d, last = null;
+    const loc = locate(b.id); if(!loc) return;
+    let idx = loc.idx, anchor = d, last = null;
     lines.slice(1).forEach(l => {
       if(!l.trim()) return;
       const li = /^\s*[-*]\s+(.*)$/.exec(l);
-      const nb = {id:uid(), t: li ? 'ul' : 'p', x: li ? li[1] : l, c:false};
-      pg.blocks.splice(++idx, 0, nb); const el = blockEl(nb); anchor.after(el); anchor = el; last = nb;
+      const nb = mkBlock(li ? 'ul' : 'p', li ? li[1] : l);
+      loc.arr.splice(++idx, 0, nb); const el = blockEl(nb); anchor.after(el); anchor = el; last = nb;
     });
     if(last) focusBlock(last.id, 'end'); save();
   });
   return d;
 }
-function focusBlock(id, pos){
-  const c = $('.block[data-id="' + id + '"] .bc', pageEl); if(!c) return;
-  setCaret(c, pos === 'end' ? c.textContent.length : pos);
-}
 function retype(b, t, pos){
   const old = $('.block[data-id="' + b.id + '"]', pageEl);
   b.t = t; if(t !== 'todo') b.c = false;
   const ne = blockEl(b); old.replaceWith(ne);
-  const c = $('.bc', ne); if(c) setCaret(c, pos === undefined ? c.textContent.length : pos);
+  const c = ne.querySelector('.bc'); if(c) setCaret(c, pos === undefined ? 1e9 : pos);
 }
-function removeBlock(id, skipFocus){
-  const pg = P(cur), i = pg.blocks.findIndex(x => x.id === id); if(i < 0) return;
-  pg.blocks.splice(i,1);
-  const el = $('.block[data-id="' + id + '"]', pageEl); if(el) el.remove();
-  if(!pg.blocks.length){ const nb = {id:uid(), t:'p', x:'', c:false}; pg.blocks.push(nb); $('#blocks').append(blockEl(nb)); if(!skipFocus) focusBlock(nb.id, 0); }
-  else if(!skipFocus){ const f = pg.blocks[Math.max(0, i-1)]; if(f.t !== 'hr') focusBlock(f.id, 'end'); }
-  save();
-}
+function editables(){ return $$('.block .bc', pageEl); }
 function blockKey(e, b, c){
   if(slash.open && slashKey(e)) return;
-  const pg = P(cur), idx = pg.blocks.findIndex(x => x.id === b.id), d = c.closest('.block');
+  const loc = locate(b.id); if(!loc) return;
+  const {arr, idx} = loc, d = c.closest('.block');
   if(e.key === 'Enter' && !e.isComposing){
     e.preventDefault();
     const text = c.textContent, off = caretOffset(c);
     if(!text && b.t !== 'p'){ retype(b, 'p'); save(); return; }
-    const before = text.slice(0,off), after = text.slice(off);
+    const before = text.slice(0, off), after = text.slice(off);
     b.x = before; c.textContent = before;
-    const nb = {id:uid(), t:(b.t === 'ul' || b.t === 'todo') ? b.t : 'p', x:after, c:false};
-    pg.blocks.splice(idx+1, 0, nb); const el = blockEl(nb); d.after(el); setCaret($('.bc', el), 0); save(); return;
+    const nb = mkBlock((b.t === 'ul' || b.t === 'todo') ? b.t : 'p', after);
+    arr.splice(idx + 1, 0, nb); const el = blockEl(nb); d.after(el); setCaret(el.querySelector('.bc'), 0); save(); return;
   }
   if(e.key === 'Backspace' && getSelection().isCollapsed && caretOffset(c) === 0){
     if(b.t !== 'p'){ e.preventDefault(); retype(b, 'p', 0); save(); return; }
-    if(idx > 0){
+    const prev = arr[idx - 1];
+    if(prev){
       e.preventDefault();
-      const prev = pg.blocks[idx-1];
       if(prev.t === 'hr'){ removeBlock(prev.id, true); return; }
-      const pe = $('.block[data-id="' + prev.id + '"] .bc', pageEl), pl = prev.x.length;
-      prev.x = prev.x + b.x; pe.textContent = prev.x; removeBlock(b.id, true); setCaret(pe, pl); save();
+      if(TXT.has(prev.t)){
+        const pe = $('.block[data-id="' + prev.id + '"] .bc', pageEl), pl = prev.x.length;
+        prev.x = prev.x + b.x; pe.textContent = prev.x; removeBlock(b.id, true); setCaret(pe, pl); save();
+      } else if(!b.x) removeBlock(b.id);
     }
     return;
   }
-  if(e.key === 'ArrowUp' && caretOffset(c) === 0 && idx > 0){
-    let j = idx-1; while(j > 0 && pg.blocks[j].t === 'hr') j--;
-    if(pg.blocks[j].t !== 'hr'){ e.preventDefault(); focusBlock(pg.blocks[j].id, 'end'); }
-  }
-  if(e.key === 'ArrowDown' && caretOffset(c) === c.textContent.length && idx < pg.blocks.length-1){
-    let j = idx+1; while(j < pg.blocks.length-1 && pg.blocks[j].t === 'hr') j++;
-    if(pg.blocks[j].t !== 'hr'){ e.preventDefault(); focusBlock(pg.blocks[j].id, 0); }
+  if(e.key === 'ArrowUp' || e.key === 'ArrowDown'){
+    const L = editables(), i = L.indexOf(c);
+    if(e.key === 'ArrowUp' && caretOffset(c) === 0 && i > 0){ e.preventDefault(); setCaret(L[i-1], 1e9); }
+    if(e.key === 'ArrowDown' && caretOffset(c) === c.textContent.length && i < L.length - 1){ e.preventDefault(); setCaret(L[i+1], 0); }
   }
 }
+
+/* ---------- Num-WSP ---------- */
+function wspView(d, b, editing){
+  [...d.children].forEach(ch => { if(!ch.classList.contains('bh')) ch.remove(); });
+  const ico = document.createElement('span'); ico.className = 'wico'; ico.textContent = '💬'; d.append(ico);
+  if(editing){
+    const inp = document.createElement('input'); inp.type = 'tel'; inp.className = 'wnum-in'; inp.placeholder = '+51987654321'; inp.value = b.x ? '+' + b.x : ''; inp.autocomplete = 'off';
+    let fin = false;
+    const commit = () => {
+      if(fin) return;
+      const dg = inp.value.replace(/\D/g, '');
+      if(!dg){ if(b.x){ fin = true; wspView(d, b, false); } return; }
+      if(dg.length < 8 || dg.length > 15){ toast('Ese número no parece válido: usa de 8 a 15 dígitos con código de país'); return; }
+      fin = true; b.x = dg; save(); wspView(d, b, false);
+      if(dg.length === 9 && dg[0] === '9') toast('Ojo: falta el código de país (ej. +51) para que abra WhatsApp bien');
+    };
+    inp.addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); commit(); } else if(e.key === 'Escape' && b.x){ fin = true; wspView(d, b, false); } });
+    inp.addEventListener('blur', () => { if(inp.isConnected && inp.value.replace(/\D/g, '')) commit(); });
+    d.append(inp);
+    const n = document.createElement('div'); n.className = 'wnote'; n.textContent = 'Escribe el número con código de país y pulsa Enter. Se guarda como link wa.me, pero solo verás el número.'; d.append(n);
+    setTimeout(() => inp.focus(), 0);
+    return;
+  }
+  const a = document.createElement('a'); a.className = 'wlink'; a.href = 'https://wa.me/' + b.x; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = '+' + b.x; d.append(a);
+  const l = document.createElement('div'); l.className = 'wl'; l.contentEditable = 'true'; l.textContent = b.l || '';
+  l.addEventListener('input', () => { b.l = l.textContent; save(); });
+  l.addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); l.blur(); } });
+  d.append(l);
+  const ed = document.createElement('button'); ed.className = 'wedit'; ed.title = 'Cambiar número'; ed.textContent = '✎'; ed.onclick = () => wspView(d, b, true); d.append(ed);
+}
+
+/* ---------- Short-video ---------- */
+function parseVideo(u){
+  u = String(u || '').trim(); if(!u) return null;
+  if(!/^https?:\/\//i.test(u)) u = 'https://' + u;
+  let m;
+  if((m = /(?:youtube\.com\/(?:shorts|embed|live)\/|youtu\.be\/)([\w-]{6,15})/i.exec(u)) || (m = /youtube\.com\/watch\?(?:[^#]*&)?v=([\w-]{6,15})/i.exec(u)))
+    return {kind:'embed', src:'https://www.youtube.com/embed/' + m[1], url:u};
+  if((m = /tiktok\.com\/@[^/]+\/video\/(\d+)/i.exec(u)) || (m = /tiktok\.com\/embed(?:\/v2)?\/(\d+)/i.exec(u)))
+    return {kind:'embed', src:'https://www.tiktok.com/embed/v2/' + m[1], url:u};
+  if((m = /instagram\.com\/(?:[\w.]+\/)?(reels?|p|tv)\/([\w-]+)/i.exec(u)))
+    return {kind:'embed', src:'https://www.instagram.com/' + (m[1].toLowerCase().startsWith('reel') ? 'reel' : m[1].toLowerCase()) + '/' + m[2] + '/embed', url:u};
+  try { new URL(u); return {kind:'link', url:u}; } catch(e){ return null; }
+}
+function videoView(d, b, editing){
+  [...d.children].forEach(ch => { if(!ch.classList.contains('bh')) ch.remove(); });
+  const box = document.createElement('div'); box.className = 'vidbox'; d.append(box);
+  const info = editing ? null : parseVideo(b.x);
+  if(editing || !info){
+    const row = document.createElement('div'); row.className = 'vidin';
+    row.innerHTML = '<input type="text" placeholder="Pega el link del reel, TikTok o Short…" autocomplete="off"><button class="btn pink">Insertar</button>';
+    const inp = row.firstChild; inp.value = b.x || '';
+    const go2 = () => { const i = parseVideo(inp.value); if(!i){ toast('Ese link no parece válido'); return; } b.x = inp.value.trim(); save(); videoView(d, b, false); };
+    row.lastChild.onclick = go2; inp.addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); go2(); } });
+    box.append(row); setTimeout(() => inp.focus(), 0); return;
+  }
+  if(info.kind === 'embed'){
+    const fr = document.createElement('div'); fr.className = 'vidframe';
+    const ifr = document.createElement('iframe'); ifr.src = info.src; ifr.loading = 'lazy'; ifr.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen'; ifr.allowFullscreen = true; ifr.referrerPolicy = 'strict-origin-when-cross-origin';
+    fr.append(ifr); box.append(fr);
+  } else {
+    const lk = document.createElement('div'); lk.className = 'vidlink'; lk.innerHTML = '<span>🎬</span>'; const a = document.createElement('a'); a.href = info.url; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = info.url; lk.append(a); box.append(lk);
+  }
+  const act = document.createElement('div'); act.className = 'row-btns';
+  const op = document.createElement('a'); op.className = 'btn sm'; op.href = info.url; op.target = '_blank'; op.rel = 'noopener noreferrer'; op.textContent = '↗ Abrir original'; op.style.textDecoration = 'none';
+  const ch = document.createElement('button'); ch.className = 'btn sm'; ch.textContent = '✎ Cambiar link'; ch.onclick = () => videoView(d, b, true);
+  act.append(op, ch); box.append(act);
+}
+
+/* ---------- menú "/" ---------- */
 function slashUpdate(b, c, text){
-  const q = text.slice(1).toLowerCase();
-  slash.items = SLASH.filter(s => s.n.toLowerCase().includes(q) || s.k.includes(q));
+  const q = nrm(text.slice(1));
+  slash.items = SLASH.filter(s => nrm(s.n + ' ' + s.k + ' ' + s.kw).includes(q));
   if(!slash.items.length){ slashClose(); return; }
-  slash.open = true; slash.i = Math.min(slash.i, slash.items.length-1); slash.blk = b; slash.el = c; renderSlash();
+  slash.open = true; slash.i = Math.min(slash.i, slash.items.length - 1); slash.blk = b; slash.el = c; renderSlash();
 }
 function renderSlash(){
   const m = $('#slash');
-  m.innerHTML = slash.items.map((s,i) => '<button class="si ' + (i === slash.i ? 'on' : '') + '" data-k="' + s.k + '"><b>' + s.ic + '</b>' + s.n + '<small>' + s.d + '</small></button>').join('');
+  m.innerHTML = slash.items.map((s, i) => '<button class="si ' + (i === slash.i ? 'on' : '') + '" data-k="' + s.k + '"><b>' + s.ic + '</b>' + esc(s.n) + '<small>' + esc(s.d) + '</small></button>').join('');
   const r = slash.el.getBoundingClientRect();
-  m.style.left = Math.max(8, Math.min(r.left, innerWidth - 262)) + 'px';
-  m.style.top = Math.max(8, Math.min(r.bottom + 4, innerHeight - 270)) + 'px';
+  m.style.left = Math.max(8, Math.min(r.left, innerWidth - 270)) + 'px';
+  m.style.top = Math.max(8, Math.min(r.bottom + 4, innerHeight - 300)) + 'px';
   m.classList.remove('hidden');
+  const on = $('.si.on', m); if(on) on.scrollIntoView({block:'nearest'});
 }
 function slashClose(){ slash.open = false; $('#slash').classList.add('hidden'); }
 function slashKey(e){
-  if(e.key === 'ArrowDown'){ e.preventDefault(); slash.i = (slash.i+1) % slash.items.length; renderSlash(); return true; }
-  if(e.key === 'ArrowUp'){ e.preventDefault(); slash.i = (slash.i-1+slash.items.length) % slash.items.length; renderSlash(); return true; }
+  if(e.key === 'ArrowDown'){ e.preventDefault(); slash.i = (slash.i + 1) % slash.items.length; renderSlash(); return true; }
+  if(e.key === 'ArrowUp'){ e.preventDefault(); slash.i = (slash.i - 1 + slash.items.length) % slash.items.length; renderSlash(); return true; }
   if(e.key === 'Enter' || e.key === 'Tab'){ e.preventDefault(); slashPick(slash.items[slash.i].k); return true; }
   if(e.key === 'Escape'){ e.preventDefault(); slashClose(); return true; }
   return false;
 }
 function slashPick(k){
   const b = slash.blk, c = slash.el; slashClose(); b.x = ''; c.textContent = '';
-  if(k === 'hr'){
-    const pg = P(cur), idx = pg.blocks.findIndex(x => x.id === b.id);
-    retype(b, 'hr'); b.x = '';
-    const nb = {id:uid(), t:'p', x:'', c:false}; pg.blocks.splice(idx+1, 0, nb);
-    $('.block[data-id="' + b.id + '"]', pageEl).after(blockEl(nb)); focusBlock(nb.id, 0);
+  const loc = locate(b.id); if(!loc) return;
+  if(TXT.has(k)){ retype(b, k, 0); save(); return; }
+  if(k === 'sub'){ newPage(cur, {title:'Nueva subpágina'}); renderTree(); renderSubs(); toast('Subpágina creada abajo ⬇'); focusBlock(b.id, 0); return; }
+  if(k === 'cols2' || k === 'cols3'){
+    if(loc.parent) return toast('Las columnas no se pueden meter dentro de otras columnas');
+    const n = k === 'cols2' ? 2 : 3;
+    const cols = Array.from({length:n}, () => ({id:uid(), blocks:[mkBlock('p','')]}));
+    loc.arr.splice(loc.idx, 1, {id:b.id, t:'cols', cols}); save(); renderBlocks(cols[0].blocks[0].id, 0); return;
   }
-  else if(k === 'sub'){ newPage(cur, {title:'Nueva subpágina'}); renderTree(); renderSubs(); toast('Subpágina creada abajo ⬇'); focusBlock(b.id, 0); }
-  else retype(b, k, 0);
+  if(k === 'table'){ const tb = mkTable(3, 3, true); delete b.x; delete b.c; Object.assign(b, tb, {id:b.id}); }
+  else if(k === 'wsp'){ b.t = 'wsp'; b.x = ''; b.l = ''; }
+  else if(k === 'video'){ b.t = 'video'; b.x = ''; }
+  else if(k === 'hr'){ b.t = 'hr'; b.x = ''; }
+  const old = $('.block[data-id="' + b.id + '"]', pageEl); const ne = blockEl(b); old.replaceWith(ne);
+  const nxt = loc.arr[loc.idx + 1];
+  if(!nxt || !TXT.has(nxt.t)){ const nb = mkBlock('p',''); loc.arr.splice(loc.idx + 1, 0, nb); ne.after(blockEl(nb)); if(k === 'hr') focusBlock(nb.id, 0); }
+  if(k === 'table') focusBlock(b.id, 0);
   save();
 }
 $('#slash').addEventListener('mousedown', e => { e.preventDefault(); const bt = e.target.closest('.si'); if(bt) slashPick(bt.dataset.k); });
 
+/* ---------- arrastrar bloques ---------- */
+let dragBlk = null, dropInfo = null;
+function hideDrop(){ $('#dropline').classList.add('hidden'); dropInfo = null; }
+function dropTarget(e){
+  const dragEl = $('.block[data-id="' + dragBlk + '"]', pageEl); if(!dragEl) return null;
+  const dragCols = dragEl.dataset.t === 'cols';
+  let tgt = null, force = false;
+  const tail = e.target.closest && e.target.closest('.coltail');
+  if(tail){ const cb = tail.parentElement.querySelector('.colblocks'); tgt = cb && cb.lastElementChild; force = true; }
+  else if(e.target.closest && e.target.closest('.tail')){ tgt = $('#blocks').lastElementChild; force = true; }
+  else tgt = e.target.closest && e.target.closest('.block');
+  if(!tgt || !pageEl.contains(tgt)) return null;
+  if(dragCols && tgt.parentElement){ const outer = tgt.parentElement.closest('.block[data-t=cols]'); if(outer) tgt = outer; }
+  if(dragEl === tgt || dragEl.contains(tgt)) return null;
+  const rect = tgt.getBoundingClientRect();
+  const fx = (e.clientX - rect.left) / rect.width, fy = (e.clientY - rect.top) / rect.height;
+  let zone = force ? 'after' : null;
+  if(!zone && !dragCols && tgt.dataset.t !== 'cols'){
+    const l = locate(tgt.dataset.id);
+    if(!(l && l.parent && l.parent.blk.cols.length >= 4)){ if(fx < .16) zone = 'left'; else if(fx > .84) zone = 'right'; }
+  }
+  if(!zone) zone = fy < .5 ? 'before' : 'after';
+  return {id:tgt.dataset.id, zone, rect};
+}
+function showDrop(di){
+  const l = $('#dropline'), r = di.rect;
+  const s = l.style;
+  if(di.zone === 'before'){ s.left = r.left + 'px'; s.width = r.width + 'px'; s.top = (r.top - 3) + 'px'; s.height = '5px'; }
+  else if(di.zone === 'after'){ s.left = r.left + 'px'; s.width = r.width + 'px'; s.top = (r.bottom - 2) + 'px'; s.height = '5px'; }
+  else if(di.zone === 'left'){ s.left = (r.left - 5) + 'px'; s.width = '5px'; s.top = r.top + 'px'; s.height = r.height + 'px'; }
+  else { s.left = (r.right) + 'px'; s.width = '5px'; s.top = r.top + 'px'; s.height = r.height + 'px'; }
+  l.classList.remove('hidden');
+}
+pageEl.addEventListener('dragstart', e => {
+  const h = e.target.closest && e.target.closest('.bh'); if(!h) return;
+  const bl = h.closest('.block'); dragBlk = bl.dataset.id; slashClose();
+  e.dataTransfer.effectAllowed = 'move';
+  try { e.dataTransfer.setData('text/plain', 'blk:' + dragBlk); e.dataTransfer.setDragImage(bl, 12, 12); } catch(_){}
+  setTimeout(() => bl.classList.add('dragging'), 0);
+});
+pageEl.addEventListener('dragover', e => {
+  if(!dragBlk) return;
+  const di = dropTarget(e); if(!di){ hideDrop(); return; }
+  e.preventDefault(); e.dataTransfer.dropEffect = 'move'; dropInfo = di; showDrop(di);
+});
+pageEl.addEventListener('drop', e => {
+  if(!dragBlk) return; e.preventDefault();
+  const di = dropInfo || dropTarget(e), id = dragBlk; dragBlk = null; hideDrop();
+  if(di) moveBlock(id, di.id, di.zone);
+});
+pageEl.addEventListener('dragend', () => { dragBlk = null; hideDrop(); $$('.block.dragging', pageEl).forEach(x => x.classList.remove('dragging')); });
+pageEl.addEventListener('click', e => { const h = e.target.closest('.bh'); if(h) blockMenu(h.closest('.block').dataset.id, h); });
+
+/* ---------- página ---------- */
 function renderPage(id){
-  const pg = P(id); const wrap = $('#pageWrap'); pageEl = wrap;
+  const pg = P(id); const wrap = pageEl;
   wrap.innerHTML =
-    '<button class="pg-icon" id="pgIcon" title="Cambiar ícono">' + esc(pg.icon) + '</button>' +
+    '<button class="pg-icon" id="pgIcon" title="Cambiar ícono">' + iconHTML(pg.icon) + '</button>' +
     '<input class="pg-title" id="pgTitle" placeholder="Sin título" maxlength="120" autocomplete="off">' +
-    '<div class="pg-meta"><span>Energía:</span><select id="pgEnergy"><option value="">— ninguna —</option><option value="low">🔋 Poca</option><option value="mid">⚡ Media</option><option value="high">🚀 Mucha</option></select><span>(para el botón "Sorpréndeme")</span></div>' +
     '<div id="blocks"></div><div class="tail" id="tail"></div>' +
     '<div id="subsBox"></div>';
-  const ti = $('#pgTitle'); ti.value = pg.title; $('#pgEnergy').value = pg.energy;
+  const ti = $('#pgTitle'); ti.value = pg.title;
   ti.addEventListener('input', () => {
     pg.title = ti.value; save();
     const t = $('.row[data-id="' + id + '"] .ttl'); if(t) t.textContent = pg.title || 'Sin título';
     renderCrumbs();
   });
   ti.addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); focusBlock(pg.blocks[0].id, 0); } });
-  $('#pgEnergy').addEventListener('change', e => { pg.energy = e.target.value; save(); });
-  $('#pgIcon').addEventListener('click', e => {
-    const m = $('#emojis'); m.innerHTML = EMOJIS.map(x => '<button>' + x + '</button>').join('');
-    const r = e.currentTarget.getBoundingClientRect(); m.classList.remove('hidden');
-    m.style.left = Math.min(r.left, innerWidth - 306) + 'px'; m.style.top = (r.bottom + 6) + 'px';
-    m.onclick = ev => { const b = ev.target.closest('button'); if(!b) return; pg.icon = b.textContent; save(); m.classList.add('hidden'); $('#pgIcon').textContent = pg.icon; renderTree(); renderCrumbs(); };
-  });
-  const box = $('#blocks'); pg.blocks.forEach(b => box.append(blockEl(b)));
+  $('#pgIcon').addEventListener('click', e => changeIcon(id, e.currentTarget));
+  renderBlocks();
   $('#tail').addEventListener('click', () => {
-    const last = pg.blocks[pg.blocks.length-1];
+    const last = pg.blocks[pg.blocks.length - 1];
     if(last.t === 'p' && !last.x){ focusBlock(last.id, 0); return; }
-    const nb = {id:uid(), t:'p', x:'', c:false}; pg.blocks.push(nb); box.append(blockEl(nb)); focusBlock(nb.id, 0); save();
+    const nb = mkBlock('p',''); pg.blocks.push(nb); $('#blocks').append(blockEl(nb)); focusBlock(nb.id, 0); save();
   });
   renderSubs();
   $('#viewPage').scrollTop = 0;
 }
 function renderSubs(){
   const pg = P(cur); const box = $('#subsBox'); if(!box) return;
-  const cards = pg.kids.map(k => { const q = P(k); return '<button class="card-p" data-go="' + k + '"><span class="ci">' + esc(q.icon) + '</span><span class="ct">' + esc(q.title || 'Sin título') + '<small>' + (q.kids.length ? q.kids.length + ' subpágina' + (q.kids.length > 1 ? 's' : '') : 'página') + '</small></span></button>'; }).join('');
+  const cards = pg.kids.map(k => { const q = P(k); return '<button class="card-p" data-go="' + k + '"><span class="ci">' + iconHTML(q.icon) + '</span><span class="ct">' + esc(q.title || 'Sin título') + '<small>' + (q.kids.length ? q.kids.length + ' subpágina' + (q.kids.length > 1 ? 's' : '') : 'página') + '</small></span></button>'; }).join('');
   box.innerHTML = '<div class="subs-title">Subpáginas <button class="btn sm" id="btnSub">+ Nueva</button></div>' + (cards ? '<div class="cards">' + cards + '</div>' : '<div class="hint">Aún no hay subpáginas aquí.</div>');
   $('#btnSub').onclick = () => { const np = newPage(cur); renderTree(); go(np.id); setTimeout(() => { const t = $('#pgTitle'); if(t) t.focus(); }, 30); };
   $$('[data-go]', box).forEach(b => b.onclick = () => go(b.dataset.go));
 }
 
 /* =====================================================================
-   9. AJUSTES, IMPORTAR/EXPORTAR
+   11. ENTRADA: tabla de actividades + ruleta
+   ===================================================================== */
+const EN_LBL = {low:'🔋 poca energía', mid:'⚡ energía media', high:'🚀 mucha energía'};
+const detectEn = s => s.includes('🔋') ? 'low' : s.includes('⚡') ? 'mid' : s.includes('🚀') ? 'high' : '';
+const stripEn = s => s.replace(/[🔋⚡🚀]️?/gu, '').replace(/\s+/g, ' ').trim();
+const FALLBACK_IDEAS = ['💧 Tomar agüita','🎶 Bailar una canción','🧘 Estirarme un ratito','🎨 Dibujar un poquito','📖 Leer un capítulo','💅 Pintarme las uñas','🫖 Hacer un té rico','🛏 Tender la cama','🐷 Abrazar a un chanchito','🚶 Caminar 5 minutos'];
+const WH_COLORS = ['#ffd1e1','#fff0a0','#d9c3ff','#c9f2d9','#ffe0b8','#cfe9ff'];
+const wh = {segs:[], rot:0, spinning:false};
+
+function boardItems(){
+  const t = state.board, out = [];
+  if(!t || !t.rows.length) return out;
+  const hdr = t.rows[0];
+  for(let r = 1; r < t.rows.length; r++) for(let c = 1; c < hdr.length; c++){
+    String(t.rows[r][c] || '').split(/\n|·|•|\|/).map(s => s.trim()).filter(Boolean).forEach(raw => {
+      out.push({text:stripEn(raw) || raw, en:detectEn(raw), time:String(hdr[c] || '').replace('⏱','').trim(), tc:c, cat:String(t.rows[r][0] || '').trim(), cr:r});
+    });
+  }
+  return out;
+}
+function fillWheelSelects(){
+  const t = state.board, sT = $('#whTime'), sC = $('#whCat'), sE = $('#whEn');
+  const vT = sT.value, vC = sC.value, vE = sE.value;
+  const hdr = t.rows[0] || [];
+  sT.innerHTML = '<option value="">Cualquier tiempo</option>' + hdr.map((h, c) => c ? '<option value="' + c + '">⏱ ' + esc(String(h).replace('⏱', '').trim() || 'Columna ' + c) + '</option>' : '').join('');
+  sC.innerHTML = '<option value="">Cualquier tipo</option>' + t.rows.map((r, i) => i ? '<option value="' + i + '">' + esc(r[0] || 'Fila ' + i) + '</option>' : '').join('');
+  sE.innerHTML = '<option value="">Cualquier energía</option><option value="low">🔋 Poca (sentada o echada)</option><option value="mid">⚡ Media</option><option value="high">🚀 Mucha</option>';
+  sT.value = vT; sC.value = vC; sE.value = vE;
+  if(sT.value !== vT) sT.value = ''; if(sC.value !== vC) sC.value = '';
+}
+function wheelPool(){
+  const all = boardItems();
+  if(!all.length) return FALLBACK_IDEAS.map(x => ({text:x, en:'', time:'', cat:'', fb:true}));
+  const t = $('#whTime').value, c = $('#whCat').value, e = $('#whEn').value;
+  return all.filter(i => (!t || i.tc === +t) && (!c || i.cr === +c) && (!e || i.en === e));
+}
+function buildWheel(){
+  let pool = wheelPool();
+  if(pool.length > 14){ pool = pool.map(x => [Math.random(), x]).sort((a, b) => a[0] - b[0]).slice(0, 14).map(x => x[1]); }
+  wh.segs = pool;
+  const w = $('#wheel'), n = pool.length;
+  w.style.transition = 'none'; w.style.transform = 'rotate(0deg)'; wh.rot = 0;
+  if(!n){ w.style.background = 'var(--panel)'; w.innerHTML = '<div class="wh-empty">No hay ideas con esos filtros 🌱<br>Prueba quitando uno o llena la tabla de abajo.</div>'; return; }
+  const a = 360 / n, fs = n <= 6 ? 15 : n <= 10 ? 13 : 11;
+  const col = i => { let k = i % WH_COLORS.length; if(n > 1 && i === n - 1 && k === 0) k = 2; return WH_COLORS[k]; };
+  w.style.background = 'conic-gradient(from 0deg,' + pool.map((_, i) => col(i) + ' ' + (i * a) + 'deg ' + ((i + 1) * a) + 'deg').join(',') + ')';
+  w.style.setProperty('--fs', fs + 'px');
+  let h = '';
+  pool.forEach((p, i) => { h += '<div class="seg" style="--a:' + ((i + .5) * a - 90) + 'deg"><span>' + esc(p.text) + '</span></div>'; });
+  if(n > 1) pool.forEach((_, i) => { h += '<div class="seg" style="--a:' + (i * a - 90) + 'deg;border-top:2px solid rgba(90,53,36,.3)"></div>'; });
+  w.innerHTML = h;
+}
+function confetti(){
+  const host = $('.wheelsec'), hr = host.getBoundingClientRect(), wr = $('#whWrap').getBoundingClientRect();
+  const cx = wr.left - hr.left + wr.width / 2, cy = wr.top - hr.top + wr.height / 2;
+  const cols = ['#ff5c7a','#ffd84d','#8fd3ff','#b9e89a','#cfa8ff','#ff8fb0'];
+  for(let i = 0; i < 28; i++){
+    const d = document.createElement('i'); d.style.cssText = 'position:absolute;z-index:5;pointer-events:none;width:8px;height:8px;left:' + cx + 'px;top:' + cy + 'px;background:' + cols[i % cols.length] + ';border:1px solid #5a3524';
+    host.append(d);
+    const ang = Math.random() * Math.PI * 2, dist = 90 + Math.random() * 130;
+    d.animate([{transform:'translate(0,0) rotate(0)', opacity:1}, {transform:'translate(' + Math.cos(ang) * dist + 'px,' + (Math.sin(ang) * dist - 40) + 'px) rotate(' + (Math.random() * 720 - 360) + 'deg)', opacity:0}], {duration:1100 + Math.random() * 500, easing:'cubic-bezier(.2,.7,.3,1)'}).onfinish = () => d.remove();
+  }
+}
+function spin(){
+  if(wh.spinning) return;
+  if(!wh.segs.length || wheelPool().length > 14) buildWheel();
+  if(!wh.segs.length){ toast('No hay ideas con esos filtros'); return; }
+  wh.spinning = true; $('#btnSpin').disabled = true; $('#circusPig').classList.add('spin');
+  const w = $('#wheel'), n = wh.segs.length, a = 360 / n, idx = (Math.random() * n) | 0;
+  const jit = (Math.random() - .5) * a * .7, mid = (idx + .5) * a + jit;
+  const target = wh.rot + 360 * 5 + ((((-mid - wh.rot) % 360) + 360) % 360);
+  void w.offsetWidth;
+  w.style.transition = 'transform 4.8s cubic-bezier(.12,.65,.08,1)'; w.style.transform = 'rotate(' + target + 'deg)'; wh.rot = target;
+  $('#whResult').innerHTML = '<div class="t">Girando…</div><div class="x">🎪 🎪 🎪</div>';
+  setTimeout(() => {
+    wh.spinning = false; $('#btnSpin').disabled = false; $('#circusPig').classList.remove('spin');
+    const p = wh.segs[idx];
+    const meta = [p.en ? EN_LBL[p.en] : '', p.time ? '⏱ ' + p.time : '', p.cat].filter(Boolean).join(' · ');
+    $('#whResult').innerHTML = '<div class="t">Chanchi dice</div><div class="x">' + esc(p.text) + '</div>' + (meta ? '<small>' + esc(meta) + '</small>' : '');
+    confetti();
+    if(state.pigs.length && rt[state.pigs[0].id]){ const pg = state.pigs[(Math.random() * state.pigs.length) | 0]; sayPig(pg.id, p.text, 5); const r = rt[pg.id]; if(r) r.hop = .5; }
+  }, 4900);
+}
+$('#btnSpin').addEventListener('click', spin);
+['whTime','whCat','whEn'].forEach(id => $('#' + id).addEventListener('change', () => { if(!wh.spinning){ buildWheel(); $('#whResult').innerHTML = '<div class="t">Chanchi dice</div><div class="x">¡Gírame y te digo qué hacer! 🎪</div>'; } }));
+let boardT = null;
+function boardChanged(){ save(); clearTimeout(boardT); boardT = setTimeout(() => { if(wh.spinning) return; fillWheelSelects(); buildWheel(); }, 500); }
+function renderBoard(){ const box = $('#boardBox'); box.innerHTML = ''; box.append(tableEl(state.board, boardChanged)); }
+function renderHome(){
+  $('#hello').textContent = state.name ? '¡Hola, ' + state.name + '! 🐷' : '¡Hola! 🐷';
+  renderCards(); renderBoard(); fillWheelSelects(); buildWheel();
+  paintTo($('#circusPig'), CIRCUS_PIG);
+  $('#whHub').innerHTML = iconHTML('px:pig');
+}
+$('#btnBoardImport').addEventListener('click', () => $('#fileImport').click());
+$('#btnTheme').addEventListener('click', () => {
+  const m = themeMode(); state.ui.theme = m === 'auto' ? 'day' : m === 'day' ? 'night' : 'auto';
+  applyTheme(); save();
+});
+
+/* =====================================================================
+   12. AJUSTES, IMPORTAR/EXPORTAR
    ===================================================================== */
 $('#btnSettings').addEventListener('click', () => {
   $('#setName').value = state.name;
-  $('#cloudInfo').textContent = cloudOn ? 'Sesión: ' + (session ? session.user.email : '') : 'Modo local: tus datos viven solo en este navegador. Para guardarlos en la nube privada, configura Supabase en el archivo.';
+  $('#setTheme').value = state.ui.theme || 'auto';
+  $('#setWalk').checked = state.ui.walk !== false;
+  $('#cloudInfo').textContent = cloudOn ? 'Sesión: ' + (session ? session.user.email : '') : 'Modo local: tus datos viven solo en este navegador.';
   $('#btnSignOut').classList.toggle('hidden', !cloudOn);
   $('#settings').classList.remove('hidden');
+  if(isMobile()) openSide(false);
 });
 $('#setName').addEventListener('input', e => { state.name = e.target.value.trim(); save(); if(cur === 'home') $('#hello').textContent = state.name ? '¡Hola, ' + state.name + '! 🐷' : '¡Hola! 🐷'; });
+$('#setTheme').addEventListener('change', e => { state.ui.theme = e.target.value; applyTheme(); save(); });
+$('#setWalk').addEventListener('change', e => { state.ui.walk = e.target.checked; state.ui.walkPref = true; save(); });
 $$('[data-close]').forEach(b => b.addEventListener('click', () => $('#' + b.dataset.close).classList.add('hidden')));
 $$('.modal').forEach(m => m.addEventListener('mousedown', e => { if(e.target === m && m.id !== 'login' && m.id !== 'confirm') m.classList.add('hidden'); }));
-document.addEventListener('keydown', e => { if(e.key === 'Escape'){ ['closet','settings'].forEach(i => $('#' + i).classList.add('hidden')); hideMenu(); $('#emojis').classList.add('hidden'); } });
+document.addEventListener('keydown', e => { if(e.key === 'Escape'){ ['closet','settings'].forEach(i => $('#' + i).classList.add('hidden')); hideMenu(); closeEmoji(); slashClose(); } });
 $('#btnExport').addEventListener('click', () => {
-  const blob = new Blob([JSON.stringify({app:'chiquero', v:1, state}, null, 2)], {type:'application/json'});
+  const blob = new Blob([JSON.stringify({app:'chiquero', v:2, state}, null, 2)], {type:'application/json'});
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'mi-chiquero-' + new Date().toISOString().slice(0,10) + '.json'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 });
 $('#btnImport').addEventListener('click', () => $('#fileImport').click());
+const boardHasContent = t => t && t.rows.slice(1).some(r => r.slice(1).some(c => String(c).trim()));
+async function importData(obj){
+  const src = obj.state || obj;
+  if(!src.pages || typeof src.pages !== 'object') throw new Error('el archivo no tiene páginas');
+  const map = {}; Object.keys(src.pages).forEach(id => map[id] = uid());
+  const roots = Array.isArray(src.root) ? src.root.filter(id => src.pages[id]) : Object.keys(src.pages).filter(id => !src.pages[id].parent);
+  Object.entries(src.pages).forEach(([id, p]) => {
+    const blocks = normBlocks(clone(p.blocks || [])); reId(blocks);
+    state.pages[map[id]] = {id:map[id], title:p.title || '', icon:p.icon || '📄', open:false,
+      parent:(p.parent && map[p.parent]) ? map[p.parent] : null,
+      kids:(p.kids || []).filter(k => map[k]).map(k => map[k]), blocks};
+  });
+  roots.forEach(id => state.root.push(map[id]));
+  let boardMsg = '';
+  if(src.board && Array.isArray(src.board.rows) && src.board.rows.length){
+    const nb = normTable(clone(src.board)); nb.id = uid();
+    if(!boardHasContent(state.board) || await ask('¿Reemplazar tu tabla de la entrada?', 'El archivo trae una tabla de actividades. Si aceptas, reemplaza la que tienes ahora.', 'Reemplazar')){ state.board = nb; boardMsg = ' + tabla de actividades'; }
+  }
+  save(); $('#settings').classList.add('hidden'); renderAll();
+  toast('Importado: ' + Object.keys(map).length + ' páginas' + boardMsg + ' ✨');
+}
 $('#fileImport').addEventListener('change', async e => {
   const f = e.target.files[0]; e.target.value = ''; if(!f) return;
-  try {
-    const obj = JSON.parse(await f.text()); const src = obj.state || obj;
-    if(!src.pages) throw new Error('Archivo sin páginas');
-    const map = {}; Object.keys(src.pages).forEach(id => map[id] = uid());
-    const roots = Array.isArray(src.root) ? src.root.filter(id => src.pages[id]) : Object.keys(src.pages).filter(id => !src.pages[id].parent);
-    Object.entries(src.pages).forEach(([id, p]) => {
-      state.pages[map[id]] = {id:map[id], title:p.title || '', icon:p.icon || '📄', energy:p.energy || '', open:false,
-        parent:(p.parent && map[p.parent]) ? map[p.parent] : null,
-        kids:(p.kids || []).filter(k => map[k]).map(k => map[k]),
-        blocks:(p.blocks && p.blocks.length ? p.blocks : [{t:'p', x:''}]).map(b => ({id:uid(), t:b.t || 'p', x:b.x || '', c:!!b.c}))};
-    });
-    roots.forEach(id => state.root.push(map[id]));
-    save(); $('#settings').classList.add('hidden'); renderAll(); toast('Importado: ' + Object.keys(map).length + ' páginas ✨');
-  } catch(err){ toast('No pude importar: ' + err.message); }
+  try { await importData(JSON.parse(await f.text())); }
+  catch(err){ toast('No pude importar: ' + err.message); }
 });
 $('#btnReset').addEventListener('click', async () => {
   if(!await ask('¿Borrar todo?', 'Se borrarán todas tus páginas y chanchitos. No se puede deshacer.', 'Borrar todo')) return;
@@ -1279,7 +2106,7 @@ $('#btnSignOut').addEventListener('click', async () => {
 });
 
 /* =====================================================================
-   10. ARRANQUE (con login opcional)
+   13. ARRANQUE (login + nube)
    ===================================================================== */
 function drawLogos(){
   const pig = {skin:0, outfit:{head:{i:'bow', c:'#ff8fb0'}}};
@@ -1289,12 +2116,19 @@ function drawLogos(){
   l.href = fav.toDataURL('image/png');
 }
 function boot(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches && !state.ui.walkPref) state.ui.walk = false;
   applyTheme();
   ensureRT();
   if(!location.hash) history.replaceState(null, '', '#/home');
   route();
   $('#app').classList.remove('locked');
 }
+document.addEventListener('visibilitychange', () => {
+  if(!state) return;
+  if(document.hidden){ if(cloudOn && session && dirty) pushCloud(); }
+  else refreshFromCloud();
+});
+window.addEventListener('pagehide', () => { if(state){ saveLocal(); if(cloudOn && session && dirty) pushCloud(); } });
 async function main(){
   drawLogos();
   applyTheme();
@@ -1325,7 +2159,6 @@ $('#loginForm').addEventListener('submit', async e => {
   session = data.session; $('#login').classList.add('hidden'); $('#lgPass').value = '';
   await pullCloud(); boot();
 });
-window.addEventListener('beforeunload', () => { if(state){ saveLocal(); if(cloudOn && session) pushCloud(); } });
 main();
 })();
 </script>
