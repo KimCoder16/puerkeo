@@ -827,7 +827,7 @@ function normalize(s){
   for(const wk in (gg.weeks || {})){
     if(!dre.test(wk)) continue;
     const its = (gg.weeks[wk] && Array.isArray(gg.weeks[wk].items)) ? gg.weeks[wk].items : [];
-    gweeks[wk] = {items: its.map(x => { const k = x && x.kind === 'max' ? 'max' : 'n', t = Math.max(k === 'max' ? 0 : 1, Math.round(+(x && x.target) || 0)); return {id:(x && x.id) || uid(), name:String((x && x.name) || '').slice(0, 80), icon:String((x && x.icon) || '🎯'), kind:k, target:t, unit:String((x && x.unit) || '').slice(0, 20)}; })};
+    gweeks[wk] = {items: its.map(x => { const k = x && x.kind === 'max' ? 'max' : (x && x.kind === 'day' ? 'day' : 'n'), t = Math.max(k === 'max' ? 0 : 1, Math.round(+(x && x.target) || 0)); return {id:(x && x.id) || uid(), name:String((x && x.name) || '').slice(0, 80), icon:String((x && x.icon) || '🎯'), kind:k, target:t, unit:String((x && x.unit) || '').slice(0, 20)}; })};
   }
   for(const dk in (gg.log || {})){
     if(!dre.test(dk) || !gg.log[dk] || typeof gg.log[dk] !== 'object') continue;
@@ -2350,16 +2350,19 @@ const wkRange = wk => fmtD(wk) + ' – ' + fmtD(addDays(wk, 6));
 const goalItems = wk => (state.goals.weeks[wk] && state.goals.weeks[wk].items) || [];
 function goalTotal(wk, id){ let t = 0; for(let i = 0; i < 7; i++){ const l = state.goals.log[addDays(wk, i)]; if(l && l[id]) t += l[id]; } return t; }
 /* avance 0..1 y "ritmo" 0..1 (di = día de la semana en curso, 0=lunes) */
-function goalProg(g, total){ return g.kind === 'max' ? (total <= g.target ? 1 : 0) : Math.min(1, total / g.target); }
-function goalPace(g, total, di){
+function daysMet(wk, g, upto = 7){ let n = 0; for(let i = 0; i < upto; i++){ const l = state.goals.log[addDays(wk, i)]; if(l && (l[g.id] || 0) >= g.target) n++; } return n; }
+const goalOK = (wk, g, total) => g.kind === 'max' ? total <= g.target : g.kind === 'day' ? daysMet(wk, g) >= 7 : total >= g.target;
+function goalProg(g, total, wk){ return g.kind === 'max' ? (total <= g.target ? 1 : 0) : g.kind === 'day' ? daysMet(wk, g) / 7 : Math.min(1, total / g.target); }
+function goalPace(g, total, di, wk){
   if(g.kind === 'max') return total <= g.target ? 1 : 0;
+  if(g.kind === 'day') return di <= 0 ? 1 : Math.min(1, daysMet(wk, g, di) / di);
   const exp = Math.floor(g.target * di / 7);
   return exp <= 0 ? 1 : Math.min(1, total / exp);
 }
 function weekStats(wk, di){
   const its = goalItems(wk); if(!its.length) return {n:0, prog:0, pace:1, done:0};
   let prog = 0, pace = 0, done = 0;
-  its.forEach(g => { const t = goalTotal(wk, g.id); prog += goalProg(g, t); pace += goalPace(g, t, di); if(g.kind !== 'max' && t >= g.target) done++; });
+  its.forEach(g => { const t = goalTotal(wk, g.id); prog += goalProg(g, t, wk); pace += goalPace(g, t, di, wk); if(g.kind !== 'max' && goalOK(wk, g, t)) done++; });
   return {n:its.length, prog:prog/its.length, pace:pace/its.length, done};
 }
 const curDI = () => (new Date().getDay() + 6) % 7;
@@ -2380,7 +2383,7 @@ function renderGoalsMini(){
 }
 
 let gView = {wk:null, day:null, tab:'week', draft:{icon:'🎯', kind:'times'}};
-const kindLabel = {once:'Una vez en la semana', times:'Varias veces', qty:'Cantidad', avoid:'No hacer (máx. recaídas)'};
+const kindLabel = {once:'Una vez en la semana', times:'Varias veces en la semana', day:'Todos los días (veces al día)', qty:'Cantidad en la semana', avoid:'No hacer (máx. recaídas)'};
 
 function logAdd(day, id, delta){
   const l = state.goals.log[day] || (state.goals.log[day] = {});
@@ -2426,18 +2429,21 @@ function renderGoals(){
     h += '<small>Registrando: ' + DAYL[(dparse(gView.day).getDay()+6)%7].toLowerCase() + (gView.day === td ? ' (hoy)' : '') + '</small></div>';
   }
   its.forEach(g => {
-    const t = goalTotal(wk, g.id), dayN = (state.goals.log[gView.day] || {})[g.id] || 0, ok = g.kind === 'max' ? t <= g.target : t >= g.target;
+    const t = goalTotal(wk, g.id), dayN = (state.goals.log[gView.day] || {})[g.id] || 0, ok = goalOK(wk, g, t);
     const unit = g.unit ? ' ' + esc(g.unit) : '';
     let sub, dots = '';
     if(g.kind === 'max'){
       sub = (ok ? 'Aguantando ✓ ' : 'Se pasó ') + '· ' + t + ' recaída' + (t === 1 ? '' : 's') + ' (máx. ' + g.target + ')';
+    } else if(g.kind === 'day'){
+      const dm = daysMet(wk, g); sub = 'Hoy/ese día: ' + dayN + ' / ' + g.target + ' · días cumplidos: ' + dm + ' / 7';
+      dots = '<div class="gl-dots">'; for(let i = 0; i < 7; i++){ const k = addDays(wk, i), c = (state.goals.log[k] || {})[g.id] || 0; dots += '<i class="' + (c >= g.target ? 'on' : '') + (k === gView.day ? ' sel' : '') + '" title="' + c + '/' + g.target + '">' + (c >= g.target ? '✓' : DAYN[i]) + '</i>'; } dots += '</div>';
     } else {
       sub = t + ' / ' + g.target + unit + (g.target === 1 ? ' · una vez' : '');
       if(g.target <= 12){ dots = '<div class="gl-dots">'; for(let i = 0; i < g.target; i++) dots += '<i class="' + (i < t ? 'on' : '') + '">' + (i < t ? '✓' : '') + '</i>'; dots += '</div>'; }
       else dots = '<div class="gl-bar"><i class="' + (ok ? 'ok' : '') + '" style="width:' + Math.round(Math.min(1, t/g.target)*100) + '%"></i></div>';
     }
     h += '<div class="gl-card' + (ok && g.kind !== 'max' ? ' done' : '') + '" data-g="' + g.id + '"><div class="gl-ic">' + iconHTML(g.icon) + '</div><div class="gl-main"><div class="gl-name">' + esc(g.name || 'Sin nombre') + (ok && g.kind !== 'max' ? ' ✅' : '') + '</div><div class="gl-sub">' + sub + '</div>' + dots + '</div>';
-    h += '<div class="gl-ctl"><div class="row-btns"><button class="btn sm" data-a="dec" data-g="' + g.id + '"' + (dayN ? '' : ' disabled style="opacity:.4"') + '>−</button> <button class="btn sm" data-a="inc" data-g="' + g.id + '">' + (g.kind === 'max' ? '+ recaída' : (g.kind === 'times' || g.target === 1) && g.kind !== 'qty' ? '✓ hecho' : '+1') + '</button> <button class="btn sm more" data-a="more" data-g="' + g.id + '">⋯</button></div><small>ese día: ' + dayN + '</small></div></div>';
+    h += '<div class="gl-ctl"><div class="row-btns"><button class="btn sm" data-a="dec" data-g="' + g.id + '"' + (dayN ? '' : ' disabled style="opacity:.4"') + '>−</button> <button class="btn sm" data-a="inc" data-g="' + g.id + '">' + (g.kind === 'max' ? '+ recaída' : g.kind === 'day' && g.target > 1 ? '+1' : (g.kind === 'times' || g.kind === 'day' || g.target === 1) && g.kind !== 'qty' ? '✓ hecho' : '+1') + '</button> <button class="btn sm more" data-a="more" data-g="' + g.id + '">⋯</button></div><small>ese día: ' + dayN + '</small></div></div>';
   });
   if(!its.length){
     const src = prevWeekWithItems(wk);
@@ -2447,7 +2453,7 @@ function renderGoals(){
   const d = gView.draft;
   h += '<h3 style="margin:18px 0 4px">➕ Agregar objetivo</h3><div class="gl-add"><button class="btn" id="glIcon" title="Ícono">' + iconHTML(d.icon) + '</button><input type="text" id="glName" placeholder="Ej: paquetes de sentadillas" maxlength="80" class="lg-in" style="width:100%">';
   h += '<select id="glKind" class="lg-in">' + Object.keys(kindLabel).map(k => '<option value="' + k + '"' + (d.kind === k ? ' selected' : '') + '>' + kindLabel[k] + '</option>').join('') + '</select>';
-  h += '<input type="number" id="glTarget" min="' + (d.kind === 'avoid' ? 0 : 1) + '" value="' + (d.kind === 'once' ? 1 : d.kind === 'avoid' ? 0 : (d.target || 3)) + '" class="lg-in"' + (d.kind === 'once' ? ' disabled' : '') + ' title="' + (d.kind === 'avoid' ? 'Máx. recaídas' : 'Meta de la semana') + '">';
+  h += '<input type="number" id="glTarget" min="' + (d.kind === 'avoid' ? 0 : 1) + '" value="' + (d.kind === 'once' ? 1 : d.kind === 'avoid' ? 0 : (d.kind === 'day' ? 1 : (d.target || 3))) + '" class="lg-in"' + (d.kind === 'once' ? ' disabled' : '') + ' title="' + (d.kind === 'avoid' ? 'Máx. recaídas' : d.kind === 'day' ? 'Veces por día' : 'Meta de la semana') + '">';
   h += '<input type="text" id="glUnit" placeholder="unidad (opcional)" maxlength="20" class="lg-in" style="width:100%"' + (d.kind === 'qty' ? '' : ' disabled') + '><button class="btn" id="glAdd">Agregar</button></div>';
   h += '<small style="color:var(--muted)">La semana va de lunes a domingo. Cada semana puedes cambiar tus objetivos; lo anterior se queda en el historial.</small>';
   box.innerHTML = h;
@@ -2464,7 +2470,7 @@ function histHTML(){
   list.forEach(k => {
     const its = goalItems(k), s = weekStats(k, 6);
     h += '<button class="gl-wcard" data-a="open" data-v="' + k + '"><b>' + (k === tw ? 'Esta semana' : wkRange(k)) + '</b>' + (k === tw ? ' <small>' + wkRange(k) + '</small>' : '') + '<div>' + (its.length ? Math.round(s.prog*100) + '% · ' + s.done + '/' + its.filter(g => g.kind !== 'max').length + ' metas' : 'sin objetivos') + '</div>';
-    its.forEach(g => { const t = goalTotal(k, g.id), ok = g.kind === 'max' ? t <= g.target : t >= g.target; h += '<span class="gl-chip' + (ok ? ' ok' : '') + '">' + (ok ? '✓ ' : '') + esc(g.name) + ' ' + (g.kind === 'max' ? t + ' recaídas' : t + '/' + g.target) + '</span>'; });
+    its.forEach(g => { const t = goalTotal(k, g.id), ok = goalOK(k, g, t); h += '<span class="gl-chip' + (ok ? ' ok' : '') + '">' + (ok ? '✓ ' : '') + esc(g.name) + ' ' + (g.kind === 'max' ? t + ' recaídas' : g.kind === 'day' ? daysMet(k, g) + '/7 días' : t + '/' + g.target) + '</span>'; });
     h += '</button>';
   });
   return h + '</div>';
@@ -2495,12 +2501,12 @@ function bindGoals(box){
   const k = $('#glKind'); if(!k) return;
   const d = gView.draft;
   const keep = () => { d.name = $('#glName').value; d.unit = $('#glUnit').value; d.target = +$('#glTarget').value; };
-  k.onchange = () => { keep(); d.kind = k.value; d.target = d.kind === 'avoid' ? 0 : d.kind === 'once' ? 1 : (d.target > 1 ? d.target : 3); renderGoals(); $('#glName').value = d.name || ''; $('#glUnit').value = d.unit || ''; };
+  k.onchange = () => { keep(); d.kind = k.value; d.target = d.kind === 'avoid' ? 0 : d.kind === 'once' || d.kind === 'day' ? 1 : (d.target > 1 ? d.target : 3); renderGoals(); $('#glName').value = d.name || ''; $('#glUnit').value = d.unit || ''; };
   $('#glName').value = d.name || ''; $('#glUnit').value = d.unit || '';
   $('#glIcon').onclick = ev => openEmojiPicker(ev.currentTarget, ic => { keep(); d.icon = ic; renderGoals(); $('#glName').value = d.name || ''; $('#glUnit').value = d.unit || ''; });
   const add = () => {
     const name = $('#glName').value.trim(); if(!name){ toast('Ponle un nombre al objetivo 🐷'); $('#glName').focus(); return; }
-    const kd = d.kind, kind = kd === 'avoid' ? 'max' : 'n';
+    const kd = d.kind, kind = kd === 'avoid' ? 'max' : kd === 'day' ? 'day' : 'n';
     const target = kd === 'once' ? 1 : Math.max(kind === 'max' ? 0 : 1, Math.round(+$('#glTarget').value) || (kind === 'max' ? 0 : 1));
     ensureWeek(gView.wk).items.push({id:uid(), name, icon:d.icon || '🎯', kind, target, unit:kd === 'qty' ? $('#glUnit').value.trim().slice(0, 20) : ''});
     gView.draft = {icon:'🎯', kind:kd}; save(); refreshMood(); renderGoals(); renderGoalsMini(); $('#glName').focus();
