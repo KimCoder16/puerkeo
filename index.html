@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<title>Mi Chiquero</title>
+<title>Mi Puerkeo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600&display=swap">
@@ -235,6 +235,60 @@ table.lg-t{border-collapse:collapse;width:100%;min-width:560px}
 .lg-note{font-size:13px;color:var(--muted);margin:6px 0}
 @media (max-width:800px){.lg-add{grid-template-columns:1fr 1fr}}
 
+@media (max-width:800px){
+  table.lg-t.cards{min-width:0}
+  .lg-t.cards tr:first-child{display:none}
+  .lg-t.cards tr{display:grid;grid-template-columns:1fr 1fr;gap:4px 8px;border:2px dashed var(--line);border-radius:8px;padding:6px;margin-bottom:8px}
+  .lg-t.cards td{display:block;border:0;padding:0;text-align:left}
+  .lg-t.cards td.r{text-align:left}
+  .lg-t.cards td::before{content:attr(data-l);display:block;font-size:11px;color:var(--muted);text-transform:uppercase}
+  .lg-t.cards td:not([data-l]){grid-column:1/-1;text-align:right}
+  .lg-t.cards td[data-l=Concepto],.lg-t.cards td[data-l="Qué pasó"],.lg-t.cards td[data-l=Nombre]{grid-column:1/-1}
+}
+.lkbox{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;padding:3px 2px}
+.lkname{align-self:flex-start;max-width:100%;color:var(--ink);font-weight:600;text-decoration:underline;text-decoration-color:#ff5c9c;text-decoration-thickness:3px;text-underline-offset:5px;overflow-wrap:anywhere}
+.lkdom{font-size:12px;color:var(--muted)}
+
+/* ---------- objetivos ---------- */
+.gl-top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin:8px 0 12px}
+.gl-wk{display:flex;align-items:center;gap:8px;font-size:18px}
+.gl-mood{display:flex;gap:14px;align-items:center;background:var(--panel2);border:3px solid var(--line);box-shadow:4px 4px 0 var(--shadowc);border-radius:10px;padding:10px 14px;margin-bottom:12px}
+.gl-mood canvas{width:64px;height:68px;image-rendering:pixelated;flex:none}
+.gl-mood .gm{flex:1;min-width:0}
+.gl-bar{height:14px;background:var(--panel);border:3px solid var(--line);border-radius:8px;overflow:hidden;margin-top:6px}
+.gl-bar i{display:block;height:100%;background:var(--accent);transition:width .3s}
+.gl-bar i.ok{background:#7fcf8a}
+.gl-bar i.over{background:var(--bad)}
+.gl-days{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 10px;align-items:center}
+.gl-days small{color:var(--muted);margin-left:4px}
+.gl-card{display:flex;gap:12px;align-items:center;background:var(--panel2);border:3px solid var(--line);box-shadow:3px 3px 0 var(--shadowc);border-radius:10px;padding:10px 12px;margin-bottom:10px}
+.gl-card.done{background:var(--hl)}
+.gl-ic{font-size:30px;width:42px;text-align:center;flex:none}
+.gl-ic .pxi{height:34px}
+.gl-main{flex:1;min-width:0}
+.gl-name{font-weight:600;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.gl-sub{font-size:13px;color:var(--muted)}
+.gl-dots{display:flex;gap:4px;margin-top:6px}
+.gl-dots i{width:24px;height:24px;border:2px solid var(--line);border-radius:5px;background:var(--panel);font-style:normal;font-size:12px;text-align:center;line-height:20px;color:var(--on-accent)}
+.gl-dots i.on{background:var(--accent)}
+.gl-dots i.sel{outline:3px solid var(--ink);outline-offset:1px}
+.gl-ctl{display:flex;flex-direction:column;align-items:center;gap:4px;flex:none}
+.gl-ctl .row-btns{flex-wrap:nowrap}
+.gl-ctl small{color:var(--muted)}
+.gl-add{display:grid;grid-template-columns:auto 1fr 170px 90px 1fr auto;gap:6px;align-items:center;margin:8px 0}
+.gl-chips{display:flex;gap:6px;flex-wrap:wrap;margin:4px 0 10px}
+.gl-hist{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.gl-wcard{background:var(--panel2);border:3px solid var(--line);border-radius:10px;padding:8px 12px;cursor:pointer;text-align:left}
+.gl-wcard:hover{background:var(--hl)}
+.gl-wcard b{font-size:18px}
+.gl-chip{display:inline-block;font-size:12px;border:2px solid var(--line);border-radius:12px;padding:0 6px;margin:2px 3px 0 0;background:var(--panel)}
+.gl-chip.ok{background:#bdebc8;color:#27553a}
+@media (max-width:800px){
+  .gl-add{grid-template-columns:auto 1fr}
+  .gl-card{flex-wrap:wrap}
+  .gl-ctl{width:100%;flex-direction:row;justify-content:space-between}
+}
+
 /* ---------- menús emergentes y modales ---------- */
 #slash{position:fixed;z-index:60;width:260px;background:var(--panel2);border:3px solid var(--line);box-shadow:4px 4px 0 var(--shadowc);border-radius:8px;padding:4px;max-height:290px;overflow:auto}
 #slash .si{display:block;width:100%;text-align:left;background:transparent;border:0;padding:6px 8px;border-radius:5px;cursor:pointer}
@@ -317,10 +371,11 @@ table.lg-t{border-collapse:collapse;width:100%;min-width:560px}
   <aside id="sidebar">
     <div class="side-head">
       <canvas id="logoPig" width="32" height="34"></canvas>
-      <b>Mi Chiquero</b>
+      <b>Mi Puerkeo</b>
       <button class="btn sm" id="btnHideSide" title="Ocultar barra">«</button>
     </div>
     <button class="navitem" id="navHome">🏠 <span>Entrada</span></button>
+    <button class="navitem" id="navGoals" style="margin-top:2px">🎯 <span>Objetivos</span></button>
     <div class="sec-title"><span>Páginas</span><button class="mini" id="btnAddRoot" title="Nueva página">+</button></div>
     <div id="tree"></div>
     <div class="side-foot">
@@ -350,6 +405,7 @@ table.lg-t{border-collapse:collapse;width:100%;min-width:560px}
           <div id="labels"></div>
         </div>
         <div class="hint">Haz clic en un chanchito para vestirlo 🎀</div>
+        <button class="card-p" id="goalsMini" style="width:100%;margin-top:12px"></button>
 
         <h3 class="grid-title">🎡 La ruleta de Chanchi</h3>
         <div class="wheelsec">
@@ -379,6 +435,10 @@ table.lg-t{border-collapse:collapse;width:100%;min-width:560px}
         <h3 class="grid-title">Tus páginas</h3>
         <div class="cards" id="homeCards"></div>
       </div>
+    </section>
+
+    <section class="view hidden" id="viewGoals">
+      <div class="pagewrap" id="goalsWrap" style="max-width:900px"></div>
     </section>
 
     <section class="view hidden" id="viewPage">
@@ -456,7 +516,7 @@ table.lg-t{border-collapse:collapse;width:100%;min-width:560px}
 <div id="login" class="modal hidden" style="z-index:95">
   <div class="card">
     <canvas id="loginPig" width="32" height="34"></canvas>
-    <h2>Mi Chiquero</h2>
+    <h2>Mi Puerkeo</h2>
     <p style="margin:0 0 10px;color:var(--muted)">Entra para ver tus cosas 🔒</p>
     <form id="loginForm">
       <div class="fld"><label for="lgEmail">Correo</label><input type="email" id="lgEmail" required autocomplete="email"></div>
@@ -471,7 +531,7 @@ table.lg-t{border-collapse:collapse;width:100%;min-width:560px}
 
 <script>
 /* =====================================================================
-   MI CHIQUERO — app web estática (HTML + JS) con chanchitos pixel art
+   MI PUERKEO — app web estática (HTML + JS) con chanchitos pixel art
    Todo el código está en este archivo.
    Tus datos NO están aquí: viven en tu Supabase (tabla "chiquero"),
    protegidos con login + reglas RLS.
@@ -695,7 +755,7 @@ function defaultState(){
     v: 2, name: '',
     pages: {
       [welcome]: {id:welcome, title:'Bienvenida', icon:'👋', parent:null, kids:[], open:false, blocks:[
-        mkBlock('p','Este es tu chiquero 🐷. Aquí guardas todo lo que te gusta y usas, con páginas dentro de páginas como en Notion.'),
+        mkBlock('p','Este es tu puerkeo 🐷. Aquí guardas todo lo que te gusta y usas, con páginas dentro de páginas como en Notion.'),
         mkBlock('h2','Para empezar'),
         mkBlock('todo','Crear una página con el + de la barra de la izquierda'),
         mkBlock('todo','Cambiar el ícono de una página (hay emojis e íconos pixel)'),
@@ -711,6 +771,7 @@ function defaultState(){
       {id:uid(), name:'Trufa', skin:2, outfit:{head:{i:'crown',c:'#ffd84d'}, face:{i:'heart',c:'#ff5c7a'}}}
     ],
     board: defaultBoard(),
+    goals: {weeks:{}, log:{}},
     ui: {theme:'auto', names:true, walk:true}
   };
 }
@@ -739,7 +800,7 @@ function normBlocks(arr){
       if(cols.length >= 2){ b.cols = cols; out.push(b); } else cols.forEach(c => out.push(...c.blocks));
     } else if(b.t === 'table'){ out.push(Object.assign(normTable(b), {id:b.id})); }
     else if(b.t === 'ledger'){ out.push(normLedger(b)); }
-    else { b.x = String(b.x ?? ''); b.c = !!b.c; if(b.t === 'wsp') b.l = String(b.l ?? ''); out.push(b); }
+    else { b.x = String(b.x ?? ''); b.c = !!b.c; if(b.t === 'wsp' || b.t === 'link') b.l = String(b.l ?? ''); out.push(b); }
   });
   return out.length ? out : [mkBlock('p','')];
 }
@@ -762,6 +823,18 @@ function normalize(s){
   s.pigs = Array.isArray(s.pigs) && s.pigs.length ? s.pigs : d.pigs;
   s.pigs.forEach(p => { p.id = p.id || uid(); p.name = p.name || 'Chanchito'; p.skin = p.skin | 0; p.outfit = p.outfit || {}; });
   s.board = normTable(s.board || d.board);
+  const gg = (s.goals && typeof s.goals === 'object') ? s.goals : {}, gweeks = {}, glog = {}, dre = /^\d{4}-\d{2}-\d{2}$/;
+  for(const wk in (gg.weeks || {})){
+    if(!dre.test(wk)) continue;
+    const its = (gg.weeks[wk] && Array.isArray(gg.weeks[wk].items)) ? gg.weeks[wk].items : [];
+    gweeks[wk] = {items: its.map(x => { const k = x && x.kind === 'max' ? 'max' : 'n', t = Math.max(k === 'max' ? 0 : 1, Math.round(+(x && x.target) || 0)); return {id:(x && x.id) || uid(), name:String((x && x.name) || '').slice(0, 80), icon:String((x && x.icon) || '🎯'), kind:k, target:t, unit:String((x && x.unit) || '').slice(0, 20)}; })};
+  }
+  for(const dk in (gg.log || {})){
+    if(!dre.test(dk) || !gg.log[dk] || typeof gg.log[dk] !== 'object') continue;
+    const o = {}; for(const id in gg.log[dk]){ const n = Math.round(+gg.log[dk][id]); if(n > 0) o[id] = n; }
+    if(Object.keys(o).length) glog[dk] = o;
+  }
+  s.goals = {weeks:gweeks, log:glog};
   const old = s.ui || {};
   s.ui = Object.assign({theme:'auto', names:true, walk:true}, old);
   if(!old.theme && old.night === true) s.ui.theme = 'night';
@@ -818,7 +891,7 @@ async function refreshFromCloud(){
   if(lastCloudTs && new Date(data.updated_at) > new Date(lastCloudTs) && !dirty){
     state = normalize(data.data); lastCloudTs = data.updated_at; saveLocal();
     ensureRT(); syncLabels(); applyTheme();
-    if(cur !== 'home' && !state.pages[cur]) cur = 'home';
+    if(cur !== 'home' && cur !== 'goals' && !state.pages[cur]) cur = 'home';
     renderAll(); toast('Actualicé tus cosas desde la nube ☁️');
   }
 }
@@ -966,14 +1039,15 @@ function updateWorld(dt){
     const r = rt[p.id]; if(!r) return;
     if(r.hop > 0) r.hop = Math.max(0, r.hop - dt);
     if(r.bubT > 0){ r.bubT -= dt; if(r.bubT <= 0) r.bub = ''; }
-    else { r.next -= dt; if(r.next <= 0){ sayPig(p.id, PHRASES[(Math.random()*PHRASES.length)|0], 2.8); r.next = 9 + Math.random()*14; } }
+    else { r.next -= dt; if(r.next <= 0){ sayPig(p.id, pickPhrase(), 2.8); r.next = (worldMood === 'happy' ? 5 : 9) + Math.random()*14; } }
     if(state.ui.walk === false){ r.mv = false; return; }
     if(r.wait > 0){ r.wait -= dt; r.mv = false; return; }
     const dx = r.tx - r.x, dy = r.ty - r.y, d = Math.hypot(dx,dy);
-    if(d < 1.5){ const t = randTarget(); r.tx = t.x; r.ty = t.y; r.wait = 1.5 + Math.random()*4; r.mv = false; return; }
-    const sp = 24 * dt; r.x += dx/d*sp; r.y += dy/d*sp; r.mv = true;
+    if(d < 1.5){ const t = nextTarget(p, r); r.tx = t.x; r.ty = t.y; r.wait = (t.pair ? .6 + Math.random()*2 : 1.5 + Math.random()*4) * (worldMood === 'sleepy' ? 1.7 : 1); r.mv = false; return; }
+    const sp = 24 * dt * (worldMood === 'happy' ? 1.2 : worldMood === 'sleepy' ? .55 : 1); r.x += dx/d*sp; r.y += dy/d*sp; r.mv = true;
     if(Math.abs(dx) > 1) r.face = dx > 0 ? -1 : 1;
   });
+  if(worldMood === 'happy') hugs(dt);
   parts = parts.filter(h => (h.life -= dt) > 0);
   parts.forEach(h => { h.y -= 14*dt; h.x += Math.sin(h.life*6+h.ph)*6*dt; });
 }
@@ -1148,7 +1222,7 @@ function deletePage(id){
   removeFromParent(id);
   ids.forEach(i => delete state.pages[i]);
   save();
-  if(cur !== 'home' && !state.pages[cur]){ cur = 'home'; history.replaceState(null, '', '#/home'); }
+  if(cur !== 'home' && cur !== 'goals' && !state.pages[cur]){ cur = 'home'; history.replaceState(null, '', '#/home'); }
 }
 function reId(blocks){ blocks.forEach(b => { b.id = uid(); if(b.cols) b.cols.forEach(c => { c.id = uid(); reId(c.blocks); }); }); }
 function duplicatePage(id, parent){
@@ -1160,7 +1234,8 @@ function duplicatePage(id, parent){
   cp.parent = par; state.pages[nid] = cp;
   if(parent === undefined){ const arr = par ? P(par).kids : state.root; arr.splice(arr.indexOf(id)+1, 0, nid); }
   else P(par).kids.push(nid);
-  src.kids.forEach(k => duplicatePage(k, nid));
+  const km = {}; src.kids.forEach(k => { km[k] = duplicatePage(k, nid); });
+  eachBlock(cp.blocks, b => { if(b.t === 'sub') b.x = km[b.x] || b.x; });
   return nid;
 }
 function movePage(id, targetId, zone){
@@ -1292,7 +1367,7 @@ function go(id){
 }
 function route(){
   const h = location.hash.replace(/^#\/?/, '');
-  cur = (h && h !== 'home' && state.pages[h]) ? h : 'home';
+  cur = h === 'goals' ? 'goals' : (h && h !== 'home' && state.pages[h]) ? h : 'home';
   renderAll();
   if(isMobile()) openSide(false);
 }
@@ -1300,7 +1375,8 @@ window.addEventListener('hashchange', () => { if(state) route(); });
 function renderCrumbs(){
   const c = $('#crumbs');
   const parts = [['home', '🏠 Entrada']];
-  if(cur !== 'home'){
+  if(cur === 'goals') parts.push(['goals', '🎯 Objetivos']);
+  else if(cur !== 'home'){
     const chain = []; let p = P(cur); while(p){ chain.unshift(p); p = p.parent ? P(p.parent) : null; }
     chain.forEach(q => parts.push([q.id, iconHTML(q.icon) + ' ' + esc(q.title || 'Sin título'), true]));
   }
@@ -1308,14 +1384,18 @@ function renderCrumbs(){
 }
 $('#crumbs').addEventListener('click', e => { const a = e.target.closest('[data-go]'); if(a) go(a.dataset.go); });
 $('#navHome').addEventListener('click', () => go('home'));
+$('#navGoals').addEventListener('click', () => go('goals'));
 function renderAll(){
-  if(cur !== 'home' && !state.pages[cur]) cur = 'home';
+  if(cur !== 'home' && cur !== 'goals' && !state.pages[cur]) cur = 'home';
   renderTree(); renderCrumbs();
   $('#navHome').classList.toggle('active', cur === 'home');
-  const home = cur === 'home';
+  $('#navGoals').classList.toggle('active', cur === 'goals');
+  const home = cur === 'home', goals = cur === 'goals';
   $('#viewHome').classList.toggle('hidden', !home);
-  $('#viewPage').classList.toggle('hidden', home);
+  $('#viewGoals').classList.toggle('hidden', !goals);
+  $('#viewPage').classList.toggle('hidden', home || goals);
   if(home){ renderHome(); startWorld(); }
+  else if(goals){ stopWorld(); renderGoals(); }
   else { stopWorld(); renderPage(cur); }
 }
 function renderCards(){
@@ -1538,9 +1618,9 @@ const SLASH = [
   {k:'table', ic:'▦', n:'Tabla', d:'Con footer de sumas y restas', kw:'tablita sumas footer'},
   {k:'cols2', ic:'◫', n:'2 columnas', d:'Dos columnas lado a lado', kw:'columnas'},
   {k:'cols3', ic:'☷', n:'3 columnas', d:'Tres columnas lado a lado', kw:'columnas'},
-  {k:'ledger', ic:'💸', n:'Movimientos', d:'Gastos, ingresos, fijos, tarjetas y deudas', kw:'gastos finanzas dinero ingresos presupuesto tarjetas deudas sueldo'},
   {k:'wsp', ic:'💬', n:'Num-WSP', d:'Número que abre WhatsApp', kw:'whatsapp wsp numero telefono'},
   {k:'video', ic:'🎬', n:'Short-video', d:'Reel, TikTok o Short', kw:'reel tiktok short youtube instagram video'},
+  {k:'link', ic:'🔗', n:'Link', d:'Un nombre bonito con un link largo detrás', kw:'enlace url aliexpress pagina web'},
   {k:'hr', ic:'―', n:'Separador', d:'Línea divisoria', kw:'linea divisor'},
   {k:'sub', ic:'📄', n:'Subpágina', d:'Crear una página dentro de esta', kw:'pagina'}
 ];
@@ -1679,6 +1759,13 @@ function blockEl(b){
   if(b.t === 'wsp'){ d.classList.add('wsp'); wspView(d, b, !b.x); return d; }
   if(b.t === 'video'){ videoView(d, b, !b.x); return d; }
   if(b.t === 'ledger'){ ledgerView(d, b); return d; }
+  if(b.t === 'link'){ d.classList.add('lk'); linkView(d, b, !b.x); return d; }
+  if(b.t === 'sub'){
+    const q = P(b.x), bt = document.createElement('button'); bt.className = 'card-p'; bt.style.cssText = 'flex:1;max-width:440px';
+    if(q){ bt.innerHTML = '<span class="ci">' + iconHTML(q.icon) + '</span><span class="ct">' + esc(q.title || 'Sin título') + '<small>subpágina</small></span>'; bt.onclick = () => go(q.id); }
+    else { bt.innerHTML = '<span class="ci">📄</span><span class="ct">(subpágina eliminada)</span>'; bt.disabled = true; }
+    d.append(bt); return d;
+  }
   if(b.t === 'cols'){
     const wrap = document.createElement('div'); wrap.className = 'cols'; wrap.style.cssText = 'flex:1;min-width:0';
     b.cols.forEach(c => {
@@ -1871,7 +1958,6 @@ function slashPick(k){
   const b = slash.blk, c = slash.el; slashClose(); b.x = ''; c.textContent = '';
   const loc = locate(b.id); if(!loc) return;
   if(TXT.has(k)){ retype(b, k, 0); save(); return; }
-  if(k === 'sub'){ newPage(cur, {title:'Nueva subpágina'}); renderTree(); renderSubs(); toast('Subpágina creada abajo ⬇'); focusBlock(b.id, 0); return; }
   if(k === 'cols2' || k === 'cols3'){
     if(loc.parent) return toast('Las columnas no se pueden meter dentro de otras columnas');
     const n = k === 'cols2' ? 2 : 3;
@@ -1879,7 +1965,8 @@ function slashPick(k){
     loc.arr.splice(loc.idx, 1, {id:b.id, t:'cols', cols}); save(); renderBlocks(cols[0].blocks[0].id, 0); return;
   }
   if(k === 'table'){ const tb = mkTable(3, 3, true); delete b.x; delete b.c; Object.assign(b, tb, {id:b.id}); }
-  else if(k === 'ledger'){ delete b.x; delete b.c; Object.assign(b, mkLedger(), {id:b.id}); }
+  else if(k === 'sub'){ const np = newPage(cur, {title:'Nueva subpágina'}); renderTree(); b.t = 'sub'; b.x = np.id; }
+  else if(k === 'link'){ b.t = 'link'; b.x = ''; b.l = ''; }
   else if(k === 'wsp'){ b.t = 'wsp'; b.x = ''; b.l = ''; }
   else if(k === 'video'){ b.t = 'video'; b.x = ''; }
   else if(k === 'hr'){ b.t = 'hr'; b.x = ''; }
@@ -1950,8 +2037,7 @@ function renderPage(id){
   wrap.innerHTML =
     '<button class="pg-icon" id="pgIcon" title="Cambiar ícono">' + iconHTML(pg.icon) + '</button>' +
     '<input class="pg-title" id="pgTitle" placeholder="Sin título" maxlength="120" autocomplete="off">' +
-    '<div id="blocks"></div><div class="tail" id="tail"></div>' +
-    '<div id="subsBox"></div>';
+    '<div id="blocks"></div><div class="tail" id="tail"></div>';
   const ti = $('#pgTitle'); ti.value = pg.title;
   ti.addEventListener('input', () => {
     pg.title = ti.value; save();
@@ -1966,15 +2052,38 @@ function renderPage(id){
     if(last.t === 'p' && !last.x){ focusBlock(last.id, 0); return; }
     const nb = mkBlock('p',''); pg.blocks.push(nb); $('#blocks').append(blockEl(nb)); focusBlock(nb.id, 0); save();
   });
-  renderSubs();
   $('#viewPage').scrollTop = 0;
 }
-function renderSubs(){
-  const pg = P(cur); const box = $('#subsBox'); if(!box) return;
-  const cards = pg.kids.map(k => { const q = P(k); return '<button class="card-p" data-go="' + k + '"><span class="ci">' + iconHTML(q.icon) + '</span><span class="ct">' + esc(q.title || 'Sin título') + '<small>' + (q.kids.length ? q.kids.length + ' subpágina' + (q.kids.length > 1 ? 's' : '') : 'página') + '</small></span></button>'; }).join('');
-  box.innerHTML = '<div class="subs-title">Subpáginas <button class="btn sm" id="btnSub">+ Nueva</button></div>' + (cards ? '<div class="cards">' + cards + '</div>' : '<div class="hint">Aún no hay subpáginas aquí.</div>');
-  $('#btnSub').onclick = () => { const np = newPage(cur); renderTree(); go(np.id); setTimeout(() => { const t = $('#pgTitle'); if(t) t.focus(); }, 30); };
-  $$('[data-go]', box).forEach(b => b.onclick = () => go(b.dataset.go));
+function renderSubs(){}
+
+function eachBlock(arr, fn){ (arr || []).forEach(b => { fn(b); if(b.t === 'cols') b.cols.forEach(c => eachBlock(c.blocks, fn)); }); }
+
+/* ---------- Link con nombre ---------- */
+function cleanUrl(u){
+  u = String(u || '').trim(); if(!u) return null;
+  if(!/^https?:\/\//i.test(u)) u = 'https://' + u;
+  try { const x = new URL(u); return /^https?:$/.test(x.protocol) ? x : null; } catch(e){ return null; }
+}
+function linkView(d, b, editing){
+  [...d.children].forEach(ch => { if(!ch.classList.contains('bh')) ch.remove(); });
+  const box = document.createElement('div'); box.className = 'lkbox'; d.append(box);
+  if(editing){
+    const row = document.createElement('div'); row.className = 'vidin';
+    row.innerHTML = '<input type="text" data-n placeholder="Nombre (ej. Carter)" autocomplete="off"><input type="text" data-u placeholder="Pega aquí el link" autocomplete="off"><button class="btn pink">Guardar</button>';
+    const [n, u, bt] = row.children; n.value = b.l || ''; u.value = b.x || '';
+    const done = () => {
+      const x = cleanUrl(u.value); if(!x){ toast('Pega un link válido'); u.focus(); return; }
+      b.x = x.href; b.l = n.value.trim() || x.hostname.replace(/^www\./, ''); save(); linkView(d, b, false);
+    };
+    bt.onclick = done; [n, u].forEach(i => i.addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); done(); } else if(e.key === 'Escape' && b.x){ linkView(d, b, false); } }));
+    box.append(row); setTimeout(() => (b.l ? u : n).focus(), 0); return;
+  }
+  const x = cleanUrl(b.x);
+  const a = document.createElement('a'); a.className = 'lkname'; a.textContent = b.l || (x ? x.hostname : 'Link');
+  if(x){ a.href = x.href; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.title = x.href; }
+  const dom = document.createElement('div'); dom.className = 'lkdom'; dom.textContent = x ? x.hostname.replace(/^www\./, '') : '';
+  const ed = document.createElement('button'); ed.className = 'wedit'; ed.textContent = '✎'; ed.title = 'Editar nombre o link'; ed.style.cssText = 'align-self:flex-start;margin-top:4px'; ed.onclick = () => linkView(d, b, true);
+  box.append(a, dom); d.append(ed);
 }
 
 /* =====================================================================
@@ -1986,16 +2095,17 @@ const LG_T = {g:'Gasto', i:'Ingreso', a:'Ahorro'};
 const pad2 = n => String(n).padStart(2, '0');
 const todayStr = () => { const d = new Date(); return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()); };
 const monOf = s => String(s).slice(0, 7);
-function mkLedger(){ return {id:uid(), t:'ledger', mon:monOf(todayStr()), rate:3.4, tab:'res', tx:[], fixed:[], debts:[], bud:{tot:0, cats:{}}}; }
+function mkLedger(){ return {id:uid(), t:'ledger', mon:monOf(todayStr()), rate:3.4, tab:'res', tx:[], fixed:[], debts:[], log:[], bud:{tot:0, cats:{}}}; }
 function normLedger(b){
   const num = v => { const n = parseFloat(v); return isFinite(n) ? n : 0; };
   const arr = v => Array.isArray(v) ? v : [];
   b.t = 'ledger'; b.mon = /^\d{4}-\d{2}$/.test(b.mon) ? b.mon : monOf(todayStr());
   b.rate = +b.rate > 0 ? +b.rate : 3.4;
-  b.tab = ['res','mov','fij','deu'].includes(b.tab) ? b.tab : 'res';
+  b.tab = ['res','mov','fij','deu','aud'].includes(b.tab) ? b.tab : 'res';
   b.tx = arr(b.tx).map(x => ({id:x.id || uid(), d:/^\d{4}-\d{2}-\d{2}$/.test(x.d) ? x.d : todayStr(), c:String(x.c || ''), k:String(x.k || ''), t:['i','g','a'].includes(x.t) ? x.t : 'g', u:x.u === 'D' ? 'D' : 'S', m:num(x.m), f:x.f || ''}));
   b.fixed = arr(b.fixed).map(x => ({id:x.id || uid(), c:String(x.c || ''), k:String(x.k || ''), u:x.u === 'D' ? 'D' : 'S', m:num(x.m)}));
   b.debts = arr(b.debts).map(x => ({id:x.id || uid(), n:String(x.n || ''), kd:x.kd === 'p' ? 'p' : 't', u:x.u === 'D' ? 'D' : 'S', m:num(x.m), due:/^\d{4}-\d{2}-\d{2}$/.test(x.due) ? x.due : ''}));
+  b.log = arr(b.log).slice(-500).map(x => ({ts:String(x.ts || ''), t:String(x.t || '')}));
   const cats = {}; if(b.bud && b.bud.cats && typeof b.bud.cats === 'object') for(const k in b.bud.cats){ const n = num(b.bud.cats[k]); if(n > 0) cats[k] = n; }
   b.bud = {tot:num(b.bud && b.bud.tot), cats};
   delete b.x; delete b.c; return b;
@@ -2011,6 +2121,7 @@ function ledgerView(d, b){
   const sg = n => n < 0 ? 'lg-neg' : 'lg-pos';
   const monLabel = m => MESES[+m.slice(5, 7) - 1] + ' ' + m.slice(0, 4);
   const shiftMon = k => { let y = +b.mon.slice(0, 4), m = +b.mon.slice(5, 7) + k; while(m > 12){ m -= 12; y++; } while(m < 1){ m += 12; y--; } b.mon = y + '-' + pad2(m); };
+  const logA = t => { b.log.push({ts:new Date().toISOString(), t}); if(b.log.length > 500) b.log.splice(0, b.log.length - 500); };
   const cats = () => [...new Set([...LG_CATS, ...b.tx.map(x => x.k), ...b.fixed.map(x => x.k)].filter(Boolean))];
   const defDate = () => monOf(todayStr()) === b.mon ? todayStr() : b.mon + '-01';
   function calc(mon){
@@ -2065,9 +2176,9 @@ function ledgerView(d, b){
     h += '<div class="lg-sub">Movimientos de ' + monLabel(b.mon) + ' (' + list.length + ')' + (b.fixed.length ? ' <button class="btn sm" data-a="loadfix">↻ Cargar gastos fijos</button>' : '') + '</div>';
     if(!list.length) h += '<div class="lg-note">Nada anotado este mes todavía.</div>';
     else {
-      h += '<div class="lg-scroll"><table class="lg-t"><tr><th>Fecha</th><th>Concepto</th><th>Categoría</th><th>Tipo</th><th></th><th>Monto</th><th></th></tr>';
+      h += '<div class="lg-scroll"><table class="lg-t cards"><tr><th>Fecha</th><th>Concepto</th><th>Categoría</th><th>Tipo</th><th></th><th>Monto</th><th></th></tr>';
       list.forEach(x => {
-        h += '<tr><td><input type="date" class="lg-in" data-tx="' + x.id + '" data-k="d" value="' + x.d + '"></td><td><input class="lg-in" data-tx="' + x.id + '" data-k="c" value="' + esc(x.c) + '"></td><td>' + catIn(x.k, 'data-tx="' + x.id + '" data-k="k"') + '</td><td>' + sel(TY, x.t, 'data-tx="' + x.id + '" data-k="t"') + '</td><td>' + sel(CU, x.u, 'data-tx="' + x.id + '" data-k="u"') + '</td><td><input class="lg-in" style="width:90px" inputmode="decimal" data-tx="' + x.id + '" data-k="m" value="' + x.m + '"></td><td><button class="mini" data-a="deltx" data-id="' + x.id + '" title="Borrar">×</button></td></tr>';
+        h += '<tr><td data-l="Fecha"><input type="date" class="lg-in" data-tx="' + x.id + '" data-k="d" value="' + x.d + '"></td><td data-l="Concepto"><input class="lg-in" data-tx="' + x.id + '" data-k="c" value="' + esc(x.c) + '"></td><td data-l="Categoría">' + catIn(x.k, 'data-tx="' + x.id + '" data-k="k"') + '</td><td data-l="Tipo">' + sel(TY, x.t, 'data-tx="' + x.id + '" data-k="t"') + '</td><td data-l="Moneda">' + sel(CU, x.u, 'data-tx="' + x.id + '" data-k="u"') + '</td><td data-l="Monto"><input class="lg-in" style="width:90px" inputmode="decimal" data-tx="' + x.id + '" data-k="m" value="' + x.m + '"></td><td><button class="mini" data-a="deltx" data-id="' + x.id + '" title="Borrar">×</button></td></tr>';
       });
       h += '</table></div>';
     }
@@ -2077,8 +2188,8 @@ function ledgerView(d, b){
     let h = '<div class="lg-note">Gastos que se repiten cada mes (luz, internet, celular, suscripciones…). Con un clic los cargas al mes que estás viendo (' + monLabel(b.mon) + '), sin duplicarlos.</div>';
     h += '<div class="lg-add" style="grid-template-columns:1fr 1fr 70px 100px auto"><input class="lg-in" data-qf="c" placeholder="Concepto (ej. internet)">' + catIn('', 'data-qf="k"') + sel(CU, 'S', 'data-qf="u"') + '<input class="lg-in" inputmode="decimal" data-qf="m" placeholder="Monto"><button class="btn pink sm" data-a="addfix">＋ Añadir</button></div>';
     if(b.fixed.length){
-      h += '<div class="lg-scroll"><table class="lg-t"><tr><th>Concepto</th><th>Categoría</th><th></th><th>Monto</th><th></th></tr>';
-      b.fixed.forEach(x => { h += '<tr><td><input class="lg-in" data-fx="' + x.id + '" data-k="c" value="' + esc(x.c) + '"></td><td>' + catIn(x.k, 'data-fx="' + x.id + '" data-k="k"') + '</td><td>' + sel(CU, x.u, 'data-fx="' + x.id + '" data-k="u"') + '</td><td><input class="lg-in" style="width:90px" inputmode="decimal" data-fx="' + x.id + '" data-k="m" value="' + x.m + '"></td><td><button class="mini" data-a="delfix" data-id="' + x.id + '">×</button></td></tr>'; });
+      h += '<div class="lg-scroll"><table class="lg-t cards"><tr><th>Concepto</th><th>Categoría</th><th></th><th>Monto</th><th></th></tr>';
+      b.fixed.forEach(x => { h += '<tr><td data-l="Concepto"><input class="lg-in" data-fx="' + x.id + '" data-k="c" value="' + esc(x.c) + '"></td><td data-l="Categoría">' + catIn(x.k, 'data-fx="' + x.id + '" data-k="k"') + '</td><td data-l="Moneda">' + sel(CU, x.u, 'data-fx="' + x.id + '" data-k="u"') + '</td><td data-l="Monto"><input class="lg-in" style="width:90px" inputmode="decimal" data-fx="' + x.id + '" data-k="m" value="' + x.m + '"></td><td><button class="mini" data-a="delfix" data-id="' + x.id + '">×</button></td></tr>'; });
       const totS = b.fixed.reduce((s, x) => s + toS(x.u, x.m), 0);
       h += '</table></div><div class="lg-note">Total fijo al mes: <b>' + M('S', totS) + '</b> <button class="btn pink sm" data-a="loadfix">↻ Cargar a ' + monLabel(b.mon) + '</button></div>';
     }
@@ -2089,31 +2200,46 @@ function ledgerView(d, b){
     h += '<div class="lg-add" style="grid-template-columns:1fr 110px 70px 100px 140px auto"><input class="lg-in" data-qd="n" placeholder="Nombre (ej. tarjeta, un amigo)">' + sel([['t', '💳 Tarjeta'], ['p', '🙋 Persona']], 't', 'data-qd="kd"') + sel(CU, 'S', 'data-qd="u"') + '<input class="lg-in" inputmode="decimal" data-qd="m" placeholder="Saldo"><input type="date" class="lg-in" data-qd="due" title="Fecha límite de pago"><button class="btn pink sm" data-a="adddeu">＋ Añadir</button></div>';
     if(!b.debts.length) return h + '<div class="lg-note">Sin deudas anotadas. 🎉</div>';
     const days = s => Math.ceil((new Date(s + 'T00:00:00') - new Date(todayStr() + 'T00:00:00')) / 864e5);
-    h += '<div class="lg-scroll"><table class="lg-t"><tr><th></th><th>Nombre</th><th class="r">Saldo</th><th>Vence</th><th></th><th></th></tr>';
+    h += '<div class="lg-scroll"><table class="lg-t cards"><tr><th></th><th>Nombre</th><th class="r">Saldo</th><th>Vence</th><th></th><th></th></tr>';
     b.debts.slice().sort((x, y) => (x.due || '9').localeCompare(y.due || '9')).forEach(x => {
       let due = '<small>—</small>';
       if(x.due){ const n = days(x.due); due = '<span class="lg-due ' + (n < 0 ? 'bad' : n <= 7 ? 'warn' : '') + '">' + x.due.split('-').reverse().join('/') + (n < 0 ? ' (vencida)' : n === 0 ? ' (hoy)' : n <= 7 ? ' (' + n + ' d)' : '') + '</span>'; }
       const act = abono === x.id ? '<input class="lg-in" style="width:90px" inputmode="decimal" data-ab placeholder="Monto"> <button class="btn pink sm" data-a="okab" data-id="' + x.id + '">OK</button> <button class="btn sm" data-a="noab">✕</button>' : '<button class="btn sm" data-a="ab" data-id="' + x.id + '">Abonar</button>';
-      h += '<tr><td>' + (x.kd === 'p' ? '🙋' : '💳') + '</td><td><input class="lg-in" data-db="' + x.id + '" data-k="n" value="' + esc(x.n) + '"></td><td class="r"><b>' + M(x.u, x.m) + '</b></td><td>' + due + '</td><td style="white-space:nowrap">' + act + '</td><td><button class="mini" data-a="deldeu" data-id="' + x.id + '">×</button></td></tr>';
+      h += '<tr><td data-l="Tipo">' + (x.kd === 'p' ? '🙋 Persona' : '💳 Tarjeta') + '</td><td data-l="Nombre"><input class="lg-in" data-db="' + x.id + '" data-k="n" value="' + esc(x.n) + '"></td><td class="r" data-l="Saldo"><b>' + M(x.u, x.m) + '</b></td><td data-l="Vence">' + due + '</td><td style="white-space:nowrap">' + act + '</td><td><button class="mini" data-a="deldeu" data-id="' + x.id + '">×</button></td></tr>';
     });
     const t = {S:0, D:0}; b.debts.forEach(x => t[x.u] += x.m);
     h += '</table></div><div class="lg-note">Total que debes: <b class="lg-neg">' + M('S', t.S) + '</b>' + (t.D ? ' y <b class="lg-neg">' + M('D', t.D) + '</b>' : '') + '</div>';
     return h;
   }
+  function tabAud(){
+    const fmtD = ts => { const d = new Date(ts); return isNaN(d) ? '' : d.toLocaleString('es-PE', {day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'}); };
+    let h = '<div class="lg-note">Aquí queda anotado todo lo que vas poniendo, cambiando o borrando, con fecha y hora (se guardan los últimos 500 registros; empieza desde ahora).</div>';
+    h += '<div class="lg-sub">Registro (' + b.log.length + ') <button class="btn sm" data-a="csv">⬇ Descargar movimientos (CSV)</button></div>';
+    if(!b.log.length) return h + '<div class="lg-note">Todavía no hay nada registrado.</div>';
+    h += '<div class="lg-scroll"><table class="lg-t cards"><tr><th>Cuándo</th><th>Qué pasó</th></tr>';
+    b.log.slice().reverse().forEach(x => { h += '<tr><td data-l="Cuándo" style="white-space:nowrap">' + esc(fmtD(x.ts)) + '</td><td data-l="Qué pasó">' + esc(x.t) + '</td></tr>'; });
+    return h + '</table></div>';
+  }
+  function exportCsv(){
+    const q = v => '"' + String(v).replace(/"/g, '""') + '"';
+    const rows = [['Fecha', 'Concepto', 'Categoría', 'Tipo', 'Moneda', 'Monto']].concat(b.tx.slice().sort((x, y) => x.d.localeCompare(y.d)).map(x => [x.d, x.c, x.k, LG_T[x.t], x.u === 'D' ? 'USD' : 'PEN', x.m]));
+    const blob = new Blob(['\ufeff' + rows.map(r => r.map(q).join(',')).join('\n')], {type:'text/csv;charset=utf-8'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'movimientos-' + todayStr() + '.csv'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  }
   function render(){
     needs = false;
-    const tabs = [['res', '📊 Resumen'], ['mov', '🧾 Movimientos'], ['fij', '🔁 Fijos'], ['deu', '💳 Deudas']];
+    const tabs = [['res', '📊 Resumen'], ['mov', '🧾 Movimientos'], ['fij', '🔁 Fijos'], ['deu', '💳 Deudas'], ['aud', '🕑 Auditoría']];
     root.innerHTML =
       '<div class="lg-head"><div class="lg-mon"><button class="btn sm" data-a="prev">‹</button><b>' + monLabel(b.mon) + '</b><button class="btn sm" data-a="next">›</button><button class="btn sm" data-a="now">Hoy</button></div>' +
       '<div class="lg-rate">Cambio $ → S/ <input class="lg-in sm" inputmode="decimal" data-rate value="' + rate() + '"></div></div>' +
       '<div class="tabs">' + tabs.map(([k, l]) => '<button class="btn sm ' + (b.tab === k ? 'on' : '') + '" data-a="tab" data-id="' + k + '">' + l + '</button>').join('') + '</div>' +
       '<datalist id="lgc' + b.id + '">' + cats().map(c => '<option value="' + esc(c) + '">').join('') + '</datalist>' +
-      (b.tab === 'res' ? tabRes() : b.tab === 'mov' ? tabMov() : b.tab === 'fij' ? tabFij() : tabDeu());
+      (b.tab === 'res' ? tabRes() : b.tab === 'mov' ? tabMov() : b.tab === 'fij' ? tabFij() : b.tab === 'deu' ? tabDeu() : tabAud());
     if(abono){ const i = $('[data-ab]', root); if(i) i.focus(); }
   }
   const q = (attr, sel2) => { const o = {}; $$('[' + attr + ']', root).forEach(e => { o[e.getAttribute(attr)] = e.value; }); return o; };
   const amount = v => { const n = parseNum(v); return isNaN(n) ? 0 : Math.abs(n); };
-  function addTx(o){ b.tx.push({id:uid(), d:o.d, c:o.c, k:o.k, t:o.t, u:o.u, m:o.m, f:o.f || ''}); }
+  function addTx(o){ b.tx.push({id:uid(), d:o.d, c:o.c, k:o.k, t:o.t, u:o.u, m:o.m, f:o.f || ''}); logA('➕ ' + LG_T[o.t] + ': ' + o.c + ' · ' + M(o.u, o.m) + (o.k ? ' · ' + o.k : '') + ' (' + o.d.split('-').reverse().join('/') + ')'); }
   function loadFixed(){
     let n = 0;
     b.fixed.forEach(f => { if(!b.tx.some(x => x.f === f.id && monOf(x.d) === b.mon)){ addTx({d:b.mon + '-01', c:f.c || 'Gasto fijo', k:f.k, t:'g', u:f.u, m:f.m, f:f.id}); n++; } });
@@ -2131,18 +2257,20 @@ function ledgerView(d, b){
       if(monOf(o.d || '') && monOf(o.d) !== b.mon && /^\d{4}-\d{2}$/.test(monOf(o.d))) b.mon = monOf(o.d);
       save(); render(); const i = $('[data-q="c"]', root); if(i) i.focus(); return;
     }
-    else if(k === 'deltx') b.tx = b.tx.filter(x => x.id !== id);
+    else if(k === 'deltx'){ const x = b.tx.find(y => y.id === id); if(x) logA('🗑 Borró ' + LG_T[x.t].toLowerCase() + ': ' + x.c + ' · ' + M(x.u, x.m) + ' (' + x.d.split('-').reverse().join('/') + ')'); b.tx = b.tx.filter(y => y.id !== id); }
     else if(k === 'loadfix') loadFixed();
-    else if(k === 'addfix'){ const o = q('data-qf'), m = amount(o.m); if(!(o.c || '').trim() || !m){ toast('Escribe concepto y monto'); return; } b.fixed.push({id:uid(), c:o.c.trim(), k:(o.k || '').trim(), u:o.u, m}); }
-    else if(k === 'delfix') b.fixed = b.fixed.filter(x => x.id !== id);
-    else if(k === 'adddeu'){ const o = q('data-qd'), m = amount(o.m); if(!(o.n || '').trim() || !m){ toast('Escribe nombre y saldo'); return; } b.debts.push({id:uid(), n:o.n.trim(), kd:o.kd, u:o.u, m, due:o.due || ''}); }
-    else if(k === 'deldeu') b.debts = b.debts.filter(x => x.id !== id);
+    else if(k === 'csv'){ exportCsv(); return; }
+    else if(k === 'addfix'){ const o = q('data-qf'), m = amount(o.m); if(!(o.c || '').trim() || !m){ toast('Escribe concepto y monto'); return; } b.fixed.push({id:uid(), c:o.c.trim(), k:(o.k || '').trim(), u:o.u, m}); logA('🔁 Nuevo gasto fijo: ' + o.c.trim() + ' · ' + M(o.u, m)); }
+    else if(k === 'delfix'){ const x = b.fixed.find(y => y.id === id); if(x) logA('🗑 Quitó gasto fijo: ' + x.c + ' · ' + M(x.u, x.m)); b.fixed = b.fixed.filter(y => y.id !== id); }
+    else if(k === 'adddeu'){ const o = q('data-qd'), m = amount(o.m); if(!(o.n || '').trim() || !m){ toast('Escribe nombre y saldo'); return; } b.debts.push({id:uid(), n:o.n.trim(), kd:o.kd, u:o.u, m, due:o.due || ''}); logA('💳 Nueva deuda: ' + o.n.trim() + ' · ' + M(o.u, m)); }
+    else if(k === 'deldeu'){ const x = b.debts.find(y => y.id === id); if(x) logA('🗑 Quitó deuda: ' + x.n + ' · saldo ' + M(x.u, x.m)); b.debts = b.debts.filter(y => y.id !== id); }
     else if(k === 'ab') abono = id;
     else if(k === 'noab') abono = null;
     else if(k === 'okab'){
       const x = b.debts.find(y => y.id === id), m = amount(($('[data-ab]', root) || {}).value);
       if(!x || !m){ toast('Escribe cuánto abonas'); return; }
-      const pay = Math.min(m, x.m); x.m = Math.round((x.m - pay) * 100) / 100;
+      const pay = Math.min(m, x.m), before = x.m; x.m = Math.round((x.m - pay) * 100) / 100;
+      logA('💳 Abono a ' + (x.n || 'deuda') + ': saldo ' + M(x.u, before) + ' → ' + M(x.u, x.m));
       addTx({d:todayStr(), c:'Pago: ' + (x.n || 'deuda'), k:'Tarjetas y deudas', t:'g', u:x.u, m:pay});
       abono = null; toast(x.m <= 0 ? '¡Deuda saldada! 🎉' : 'Abono anotado');
     }
@@ -2150,13 +2278,19 @@ function ledgerView(d, b){
   });
   root.addEventListener('change', e => {
     const t = e.target;
-    if(t.matches('[data-rate]')){ const n = parseNum(t.value); if(n > 0){ b.rate = n; needs = true; save(); } return; }
-    if(t.dataset.bud !== undefined){ const n = amount(t.value); if(t.dataset.bud === 'tot') b.bud.tot = n; else if(n) b.bud.cats[t.dataset.bud] = n; else delete b.bud.cats[t.dataset.bud]; needs = true; save(); return; }
+    if(t.matches('[data-rate]')){ const n = parseNum(t.value); if(n > 0){ logA('💱 Cambio $→S/: ' + b.rate + ' → ' + n); b.rate = n; needs = true; save(); } return; }
+    if(t.dataset.bud !== undefined){ const n = amount(t.value); const nm = t.dataset.bud === 'tot' ? 'del mes' : t.dataset.bud; const old = t.dataset.bud === 'tot' ? b.bud.tot : (b.bud.cats[t.dataset.bud] || 0); if(t.dataset.bud === 'tot') b.bud.tot = n; else if(n) b.bud.cats[t.dataset.bud] = n; else delete b.bud.cats[t.dataset.bud]; if(old !== n) logA('🎯 Presupuesto ' + nm + ': ' + (old || '—') + ' → ' + (n || '—')); needs = true; save(); return; }
     const key = t.dataset.k; if(!key) return;
     const pick = (list, id) => list.find(x => x.id === id);
     const o = t.dataset.tx ? pick(b.tx, t.dataset.tx) : t.dataset.fx ? pick(b.fixed, t.dataset.fx) : t.dataset.db ? pick(b.debts, t.dataset.db) : null;
     if(!o) return;
-    o[key] = key === 'm' ? amount(t.value) : (key === 'd' ? (t.value || o.d) : t.value.trim ? t.value.trim() : t.value);
+    const old = o[key], nv = key === 'm' ? amount(t.value) : (key === 'd' ? (t.value || o.d) : t.value.trim());
+    o[key] = nv;
+    if(old !== nv){
+      const L = {d:'fecha', c:'concepto', k:'categoría', t:'tipo', u:'moneda', m:'monto', n:'nombre'}[key] || key, V = v => key === 't' ? LG_T[v] : key === 'u' ? (v === 'D' ? '$' : 'S/') : key === 'd' ? String(v).split('-').reverse().join('/') : v;
+      const who = t.dataset.tx ? 'movimiento' : t.dataset.fx ? 'gasto fijo' : 'deuda';
+      logA('✏️ Editó ' + who + ' "' + (o.c || o.n || '') + '": ' + L + ' ' + (V(old) === '' ? '—' : V(old)) + ' → ' + (V(nv) === '' ? '—' : V(nv)));
+    }
     needs = true; save();
   });
   root.addEventListener('focusout', e => { if(needs && !e.relatedTarget) setTimeout(() => { if(needs) render(); }, 0); });
@@ -2170,6 +2304,208 @@ function ledgerView(d, b){
     else if(t.matches('input')){ e.preventDefault(); t.blur(); }
   });
   render();
+}
+
+/* =====================================================================
+   OBJETIVOS SEMANALES (lunes a domingo) + ánimo de los chanchitos
+   ===================================================================== */
+let worldMood = 'neutral';
+const HAPPY_PH = ['¡lo estás logrando!','♡','¡qué orgullo!','¡abrazo!','¡vamos tú!','oink de felicidad','¡bailamos! 💃','¡eres lo máximo!','♡ ♡ ♡'];
+const SLEEPY_PH = ['zzz…','un pasito pequeño','tú puedes, sin prisa','¿hacemos algo chiquito?','estoy aquí contigo','mañana es otro día','zzz… ♡'];
+function pickPhrase(){ const a = worldMood === 'happy' ? HAPPY_PH : worldMood === 'sleepy' ? SLEEPY_PH : PHRASES; return a[(Math.random()*a.length)|0]; }
+function nextTarget(p, r){
+  if(worldMood === 'happy' && state.pigs.length > 1 && Math.random() < .7){
+    const others = state.pigs.filter(q => q.id !== p.id && rt[q.id]); const o = others[(Math.random()*others.length)|0];
+    if(o){ const q = rt[o.id], x = q.x + (Math.random() < .5 ? -13 : 13), y = q.y + (Math.random()*4 - 2); if(walkOK(x, y) && x > 14 && x < 386) return {x, y, pair:true}; }
+  }
+  return randTarget();
+}
+function hugs(dt){
+  const ps = state.pigs.map(p => rt[p.id]).filter(Boolean);
+  for(let i = 0; i < ps.length; i++){
+    ps[i].hugT = Math.max(0, (ps[i].hugT || 0) - dt);
+    for(let j = i + 1; j < ps.length; j++){
+      const a = ps[i], b = ps[j];
+      if(Math.hypot(a.x - b.x, (a.y - b.y)*1.5) < 20 && a.hugT <= 0 && b.hugT <= 0){
+        a.hugT = b.hugT = 2.4; a.hop = b.hop = .5; a.wait = b.wait = Math.max(a.wait, 1.4);
+        if(a.x !== b.x){ a.face = a.x < b.x ? -1 : 1; b.face = -a.face; }
+        const mx = (a.x + b.x)/2, my = Math.min(a.y, b.y);
+        for(let k = 0; k < 4; k++) parts.push({x:mx - 8 + k*5, y:my - 38 - k*3, life:1.3 + k*.15, ph:k*2});
+      }
+    }
+  }
+}
+
+const DAYN = ['L','M','M','J','V','S','D'], DAYL = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+const GMES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const dkey = d => d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+const dparse = k => { const [y,m,d] = k.split('-').map(Number); return new Date(y, m-1, d); };
+const addDays = (k, n) => { const d = dparse(k); d.setDate(d.getDate() + n); return dkey(d); };
+const mondayOf = d => { const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return dkey(x); };
+const thisWeek = () => mondayOf(new Date());
+const todayK = () => dkey(new Date());
+const fmtD = k => { const d = dparse(k); return d.getDate() + ' ' + GMES[d.getMonth()]; };
+const wkRange = wk => fmtD(wk) + ' – ' + fmtD(addDays(wk, 6));
+
+const goalItems = wk => (state.goals.weeks[wk] && state.goals.weeks[wk].items) || [];
+function goalTotal(wk, id){ let t = 0; for(let i = 0; i < 7; i++){ const l = state.goals.log[addDays(wk, i)]; if(l && l[id]) t += l[id]; } return t; }
+/* avance 0..1 y "ritmo" 0..1 (di = día de la semana en curso, 0=lunes) */
+function goalProg(g, total){ return g.kind === 'max' ? (total <= g.target ? 1 : 0) : Math.min(1, total / g.target); }
+function goalPace(g, total, di){
+  if(g.kind === 'max') return total <= g.target ? 1 : 0;
+  const exp = Math.floor(g.target * di / 7);
+  return exp <= 0 ? 1 : Math.min(1, total / exp);
+}
+function weekStats(wk, di){
+  const its = goalItems(wk); if(!its.length) return {n:0, prog:0, pace:1, done:0};
+  let prog = 0, pace = 0, done = 0;
+  its.forEach(g => { const t = goalTotal(wk, g.id); prog += goalProg(g, t); pace += goalPace(g, t, di); if(g.kind !== 'max' && t >= g.target) done++; });
+  return {n:its.length, prog:prog/its.length, pace:pace/its.length, done};
+}
+const curDI = () => (new Date().getDay() + 6) % 7;
+function moodOf(){
+  const s = weekStats(thisWeek(), curDI());
+  if(!s.n) return 'neutral';
+  if(s.pace >= .8) return 'happy';
+  if(s.pace < .5) return 'sleepy';
+  return 'neutral';
+}
+function refreshMood(){ worldMood = moodOf(); }
+function renderGoalsMini(){
+  const b = $('#goalsMini'); if(!b) return;
+  const s = weekStats(thisWeek(), curDI());
+  const m = worldMood;
+  b.innerHTML = '<span class="ci">🎯</span><span><b>Objetivos de la semana</b><br><small style="color:var(--muted)">' + (s.n ? Math.round(s.prog*100) + '% · ' + (m === 'happy' ? 'vas con buen ritmo ✨' : m === 'sleepy' ? 'un pasito chiquito hoy 💤' : 'vas bien, sigue 🌷') : 'Pon tus objetivos de esta semana') + '</small></span>';
+  b.onclick = () => go('goals');
+}
+
+let gView = {wk:null, day:null, tab:'week', draft:{icon:'🎯', kind:'times'}};
+const kindLabel = {once:'Una vez en la semana', times:'Varias veces', qty:'Cantidad', avoid:'No hacer (máx. recaídas)'};
+
+function logAdd(day, id, delta){
+  const l = state.goals.log[day] || (state.goals.log[day] = {});
+  const n = Math.max(0, (l[id] || 0) + delta);
+  if(n) l[id] = n; else delete l[id];
+  if(!Object.keys(l).length) delete state.goals.log[day];
+  save(); refreshMood(); renderGoals(); renderGoalsMini();
+  if(delta > 0 && worldMood === 'happy' && weekStats(gView.wk, 6).done === goalItems(gView.wk).filter(g => g.kind !== 'max').length) toast('¡Completaste todo! 🎉');
+}
+function ensureWeek(wk){ return state.goals.weeks[wk] || (state.goals.weeks[wk] = {items:[]}); }
+function prevWeekWithItems(wk){
+  const ks = Object.keys(state.goals.weeks).filter(k => k < wk && state.goals.weeks[k].items.length).sort();
+  return ks.length ? ks[ks.length - 1] : null;
+}
+function copyFrom(src, wk){
+  const w = ensureWeek(wk);
+  goalItems(src).forEach(g => w.items.push({...g, id:uid()}));
+  save(); refreshMood(); renderGoals(); renderGoalsMini();
+}
+
+function renderGoals(){
+  const box = $('#goalsWrap'); if(!box) return;
+  const tw = thisWeek(), td = todayK();
+  if(!gView.wk) gView.wk = tw;
+  const wk = gView.wk, isCur = wk === tw;
+  if(!gView.day || gView.day < wk || gView.day > addDays(wk, 6)) gView.day = isCur ? td : addDays(wk, 6);
+  if(isCur && gView.day > td) gView.day = td;
+  let h = '<h1 style="margin:6px 0">🎯 Objetivos</h1>';
+  h += '<div class="gl-top"><div class="gl-wk"><button class="btn sm" data-a="prev">‹</button><b>' + (isCur ? 'Esta semana' : 'Semana') + '</b> <span>' + wkRange(wk) + '</span><button class="btn sm" data-a="next"' + (isCur ? ' disabled style="opacity:.4"' : '') + '>›</button></div>';
+  h += '<div class="row-btns"><button class="btn sm" data-a="tab" data-v="week"' + (gView.tab === 'week' ? ' style="background:var(--hl)"' : '') + '>Semana</button> <button class="btn sm" data-a="tab" data-v="hist"' + (gView.tab === 'hist' ? ' style="background:var(--hl)"' : '') + '>📜 Historial</button></div></div>';
+  if(gView.tab === 'hist'){ box.innerHTML = h + histHTML(); bindGoals(box); return; }
+
+  const its = goalItems(wk);
+  const di = isCur ? curDI() : 6;
+  const s = weekStats(wk, di);
+  const mood = isCur ? worldMood : (s.prog >= .8 ? 'happy' : 'neutral');
+  if(its.length){
+    const msg = !isCur ? 'Esa semana lograste ' + Math.round(s.prog*100) + '%'
+      : mood === 'happy' ? '¡Vas con muy buen ritmo! Los chanchitos están felices 💕' : mood === 'sleepy' ? 'Esta semana va lenta… un pasito chiquito hoy y ya cuenta 💤' : 'Vas bien, sigue a tu ritmo 🌷';
+    h += '<div class="gl-mood"><canvas id="glPig" width="32" height="36"></canvas><div class="gm"><b>' + Math.round(s.prog*100) + '% de la semana</b> <small style="color:var(--muted)">(' + s.done + ' de ' + its.filter(g => g.kind !== 'max').length + ' metas cumplidas)</small><div>' + msg + '</div><div class="gl-bar"><i class="' + (s.prog >= 1 ? 'ok' : '') + '" style="width:' + Math.round(s.prog*100) + '%"></i></div></div></div>';
+    h += '<div class="gl-days">';
+    for(let i = 0; i < 7; i++){ const k = addDays(wk, i), fut = isCur && k > td; h += '<button class="btn sm" data-a="day" data-v="' + k + '"' + (fut ? ' disabled style="opacity:.4"' : '') + (k === gView.day ? ' style="background:var(--accent);color:var(--on-accent)"' : '') + ' title="' + DAYL[i] + '">' + DAYN[i] + ' ' + dparse(k).getDate() + '</button>'; }
+    h += '<small>Registrando: ' + DAYL[(dparse(gView.day).getDay()+6)%7].toLowerCase() + (gView.day === td ? ' (hoy)' : '') + '</small></div>';
+  }
+  its.forEach(g => {
+    const t = goalTotal(wk, g.id), dayN = (state.goals.log[gView.day] || {})[g.id] || 0, ok = g.kind === 'max' ? t <= g.target : t >= g.target;
+    const unit = g.unit ? ' ' + esc(g.unit) : '';
+    let sub, dots = '';
+    if(g.kind === 'max'){
+      sub = (ok ? 'Aguantando ✓ ' : 'Se pasó ') + '· ' + t + ' recaída' + (t === 1 ? '' : 's') + ' (máx. ' + g.target + ')';
+    } else {
+      sub = t + ' / ' + g.target + unit + (g.target === 1 ? ' · una vez' : '');
+      if(g.target <= 12){ dots = '<div class="gl-dots">'; for(let i = 0; i < g.target; i++) dots += '<i class="' + (i < t ? 'on' : '') + '">' + (i < t ? '✓' : '') + '</i>'; dots += '</div>'; }
+      else dots = '<div class="gl-bar"><i class="' + (ok ? 'ok' : '') + '" style="width:' + Math.round(Math.min(1, t/g.target)*100) + '%"></i></div>';
+    }
+    h += '<div class="gl-card' + (ok && g.kind !== 'max' ? ' done' : '') + '" data-g="' + g.id + '"><div class="gl-ic">' + iconHTML(g.icon) + '</div><div class="gl-main"><div class="gl-name">' + esc(g.name || 'Sin nombre') + (ok && g.kind !== 'max' ? ' ✅' : '') + '</div><div class="gl-sub">' + sub + '</div>' + dots + '</div>';
+    h += '<div class="gl-ctl"><div class="row-btns"><button class="btn sm" data-a="dec" data-g="' + g.id + '"' + (dayN ? '' : ' disabled style="opacity:.4"') + '>−</button> <button class="btn sm" data-a="inc" data-g="' + g.id + '">' + (g.kind === 'max' ? '+ recaída' : (g.kind === 'times' || g.target === 1) && g.kind !== 'qty' ? '✓ hecho' : '+1') + '</button> <button class="btn sm more" data-a="more" data-g="' + g.id + '">⋯</button></div><small>ese día: ' + dayN + '</small></div></div>';
+  });
+  if(!its.length){
+    const src = prevWeekWithItems(wk);
+    h += '<p style="color:var(--muted)">Aún no hay objetivos para esta semana. Agrega algunos aquí abajo' + (src ? ' o copia los de la semana anterior.' : '.') + '</p>';
+    if(src) h += '<button class="btn" data-a="copy" data-v="' + src + '">📋 Copiar objetivos de la semana del ' + fmtD(src) + '</button>';
+  }
+  const d = gView.draft;
+  h += '<h3 style="margin:18px 0 4px">➕ Agregar objetivo</h3><div class="gl-add"><button class="btn" id="glIcon" title="Ícono">' + iconHTML(d.icon) + '</button><input type="text" id="glName" placeholder="Ej: paquetes de sentadillas" maxlength="80" class="lg-in" style="width:100%">';
+  h += '<select id="glKind" class="lg-in">' + Object.keys(kindLabel).map(k => '<option value="' + k + '"' + (d.kind === k ? ' selected' : '') + '>' + kindLabel[k] + '</option>').join('') + '</select>';
+  h += '<input type="number" id="glTarget" min="' + (d.kind === 'avoid' ? 0 : 1) + '" value="' + (d.kind === 'once' ? 1 : d.kind === 'avoid' ? 0 : (d.target || 3)) + '" class="lg-in"' + (d.kind === 'once' ? ' disabled' : '') + ' title="' + (d.kind === 'avoid' ? 'Máx. recaídas' : 'Meta de la semana') + '">';
+  h += '<input type="text" id="glUnit" placeholder="unidad (opcional)" maxlength="20" class="lg-in" style="width:100%"' + (d.kind === 'qty' ? '' : ' disabled') + '><button class="btn" id="glAdd">Agregar</button></div>';
+  h += '<small style="color:var(--muted)">La semana va de lunes a domingo. Cada semana puedes cambiar tus objetivos; lo anterior se queda en el historial.</small>';
+  box.innerHTML = h;
+  const cv = $('#glPig'); if(cv && state.pigs[0]) paintTo(cv, state.pigs[0]);
+  bindGoals(box);
+}
+
+function histHTML(){
+  const tw = thisWeek(), ks = new Set(Object.keys(state.goals.weeks));
+  Object.keys(state.goals.log).forEach(d => ks.add(mondayOf(dparse(d))));
+  const list = [...ks].filter(k => goalItems(k).length || true).sort().reverse();
+  if(!list.length) return '<p style="color:var(--muted)">Todavía no hay semanas guardadas.</p>';
+  let h = '<div class="gl-hist">';
+  list.forEach(k => {
+    const its = goalItems(k), s = weekStats(k, 6);
+    h += '<button class="gl-wcard" data-a="open" data-v="' + k + '"><b>' + (k === tw ? 'Esta semana' : wkRange(k)) + '</b>' + (k === tw ? ' <small>' + wkRange(k) + '</small>' : '') + '<div>' + (its.length ? Math.round(s.prog*100) + '% · ' + s.done + '/' + its.filter(g => g.kind !== 'max').length + ' metas' : 'sin objetivos') + '</div>';
+    its.forEach(g => { const t = goalTotal(k, g.id), ok = g.kind === 'max' ? t <= g.target : t >= g.target; h += '<span class="gl-chip' + (ok ? ' ok' : '') + '">' + (ok ? '✓ ' : '') + esc(g.name) + ' ' + (g.kind === 'max' ? t + ' recaídas' : t + '/' + g.target) + '</span>'; });
+    h += '</button>';
+  });
+  return h + '</div>';
+}
+
+function bindGoals(box){
+  box.onclick = e => {
+    const b = e.target.closest('[data-a]'); if(!b || b.disabled) return;
+    const a = b.dataset.a, wk = gView.wk, gid = b.dataset.g;
+    if(a === 'prev'){ gView.wk = addDays(wk, -7); gView.day = null; renderGoals(); }
+    else if(a === 'next'){ gView.wk = addDays(wk, 7); gView.day = null; renderGoals(); }
+    else if(a === 'tab'){ gView.tab = b.dataset.v; renderGoals(); }
+    else if(a === 'open'){ gView.wk = b.dataset.v; gView.day = null; gView.tab = 'week'; renderGoals(); }
+    else if(a === 'day'){ gView.day = b.dataset.v; renderGoals(); }
+    else if(a === 'inc') logAdd(gView.day, gid, 1);
+    else if(a === 'dec') logAdd(gView.day, gid, -1);
+    else if(a === 'copy') copyFrom(b.dataset.v, wk);
+    else if(a === 'more'){
+      const r = b.getBoundingClientRect(), g = goalItems(wk).find(x => x.id === gid); if(!g) return;
+      showMenu([
+        ['✏️ Renombrar', () => { const c = b.closest('.gl-card').querySelector('.gl-name'); c.contentEditable = 'true'; c.focus(); const fin = () => { c.contentEditable = 'false'; g.name = c.textContent.trim().slice(0, 80); save(); renderGoals(); }; c.onblur = fin; c.onkeydown = ev => { if(ev.key === 'Enter'){ ev.preventDefault(); c.blur(); } }; }],
+        ['🎯 Cambiar meta', () => { const c = b.closest('.gl-card').querySelector('.gl-sub'); c.innerHTML = 'Meta: <input type="number" class="lg-in sm" min="' + (g.kind === 'max' ? 0 : 1) + '" value="' + g.target + '"> <button class="btn sm">OK</button>'; const i = c.querySelector('input'); i.focus(); const ok = () => { g.target = Math.max(g.kind === 'max' ? 0 : 1, Math.round(+i.value) || 0); save(); refreshMood(); renderGoals(); renderGoalsMini(); }; c.querySelector('button').onclick = ok; i.onkeydown = ev => { if(ev.key === 'Enter') ok(); }; }],
+        ['🎀 Cambiar ícono', () => openEmojiPicker(b, ic => { g.icon = ic; save(); renderGoals(); })],
+        ['🗑 Quitar de esta semana', async () => { if(await ask('¿Quitar objetivo?', '«' + g.name + '» se quita de esta semana (y su registro).', 'Quitar')){ state.goals.weeks[wk].items = goalItems(wk).filter(x => x.id !== gid); for(const k in state.goals.log){ delete state.goals.log[k][gid]; if(!Object.keys(state.goals.log[k]).length) delete state.goals.log[k]; } save(); refreshMood(); renderGoals(); renderGoalsMini(); } }, true]
+      ], r.left, r.bottom + 4);
+    }
+  };
+  const k = $('#glKind'); if(!k) return;
+  const d = gView.draft;
+  const keep = () => { d.name = $('#glName').value; d.unit = $('#glUnit').value; d.target = +$('#glTarget').value; };
+  k.onchange = () => { keep(); d.kind = k.value; d.target = d.kind === 'avoid' ? 0 : d.kind === 'once' ? 1 : (d.target > 1 ? d.target : 3); renderGoals(); $('#glName').value = d.name || ''; $('#glUnit').value = d.unit || ''; };
+  $('#glName').value = d.name || ''; $('#glUnit').value = d.unit || '';
+  $('#glIcon').onclick = ev => openEmojiPicker(ev.currentTarget, ic => { keep(); d.icon = ic; renderGoals(); $('#glName').value = d.name || ''; $('#glUnit').value = d.unit || ''; });
+  const add = () => {
+    const name = $('#glName').value.trim(); if(!name){ toast('Ponle un nombre al objetivo 🐷'); $('#glName').focus(); return; }
+    const kd = d.kind, kind = kd === 'avoid' ? 'max' : 'n';
+    const target = kd === 'once' ? 1 : Math.max(kind === 'max' ? 0 : 1, Math.round(+$('#glTarget').value) || (kind === 'max' ? 0 : 1));
+    ensureWeek(gView.wk).items.push({id:uid(), name, icon:d.icon || '🎯', kind, target, unit:kd === 'qty' ? $('#glUnit').value.trim().slice(0, 20) : ''});
+    gView.draft = {icon:'🎯', kind:kd}; save(); refreshMood(); renderGoals(); renderGoalsMini(); $('#glName').focus();
+  };
+  $('#glAdd').onclick = add; $('#glName').onkeydown = ev => { if(ev.key === 'Enter') add(); };
 }
 
 /* =====================================================================
@@ -2263,7 +2599,7 @@ function boardChanged(){ save(); clearTimeout(boardT); boardT = setTimeout(() =>
 function renderBoard(){ const box = $('#boardBox'); box.innerHTML = ''; box.append(tableEl(state.board, boardChanged)); }
 function renderHome(){
   $('#hello').textContent = state.name ? '¡Hola, ' + state.name + '! 🐷' : '¡Hola! 🐷';
-  renderCards(); renderBoard(); fillWheelSelects(); buildWheel();
+  renderCards(); renderBoard(); fillWheelSelects(); buildWheel(); refreshMood(); renderGoalsMini();
   paintTo($('#circusPig'), CIRCUS_PIG);
   $('#whHub').innerHTML = iconHTML('px:pig');
 }
@@ -2293,7 +2629,7 @@ $$('.modal').forEach(m => m.addEventListener('mousedown', e => { if(e.target ===
 document.addEventListener('keydown', e => { if(e.key === 'Escape'){ ['closet','settings'].forEach(i => $('#' + i).classList.add('hidden')); hideMenu(); closeEmoji(); slashClose(); } });
 $('#btnExport').addEventListener('click', () => {
   const blob = new Blob([JSON.stringify({app:'chiquero', v:2, state}, null, 2)], {type:'application/json'});
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'mi-chiquero-' + new Date().toISOString().slice(0,10) + '.json'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'mi-puerkeo-' + new Date().toISOString().slice(0,10) + '.json'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 });
 $('#btnImport').addEventListener('click', () => $('#fileImport').click());
 const boardHasContent = t => t && t.rows.slice(1).some(r => r.slice(1).some(c => String(c).trim()));
@@ -2304,6 +2640,7 @@ async function importData(obj){
   const roots = Array.isArray(src.root) ? src.root.filter(id => src.pages[id]) : Object.keys(src.pages).filter(id => !src.pages[id].parent);
   Object.entries(src.pages).forEach(([id, p]) => {
     const blocks = normBlocks(clone(p.blocks || [])); reId(blocks);
+    eachBlock(blocks, b => { if(b.t === 'sub') b.x = map[b.x] || ''; });
     state.pages[map[id]] = {id:map[id], title:p.title || '', icon:p.icon || '📄', open:false,
       parent:(p.parent && map[p.parent]) ? map[p.parent] : null,
       kids:(p.kids || []).filter(k => map[k]).map(k => map[k]), blocks};
